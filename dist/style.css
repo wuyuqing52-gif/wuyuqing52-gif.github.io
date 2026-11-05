@@ -53,3 +53,12 @@
 /* WIP overlay for featured work cards */
 .project::after{content:'作品整理中，敬请期待';position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:0 20px;text-align:center;background:rgba(10,12,10,.72);color:var(--text);font-size:14px;letter-spacing:.14em;line-height:2;opacity:0;pointer-events:none;transition:opacity .25s ease}
 .project:hover::after,.project:focus-visible::after{opacity:1}
+
+/* Resume contact & project list */
+.resume-contact{margin-top:4px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.resume-contact .text-link{font-size:13px}
+.resume-lead{font-weight:500;color:var(--text)}
+.resume-projects{margin:20px 0 0;padding-left:22px;display:grid;gap:14px}
+.resume-projects li{font-size:12.5px;line-height:2;color:var(--soft);padding-left:6px}
+.resume-projects strong{color:var(--text);font-weight:500}
+@media(max-width:600px){.resume-projects li{font-size:12px;line-height:1.9}}
