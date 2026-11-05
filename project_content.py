@@ -2,9 +2,11 @@
 from pathlib import Path
 from html import escape as e
 import json
+from review_visuals import render_visual
 
 def render_block(b):
  t=b['type']
+ if t=='visual':return render_visual(b['name'])
  if t=='paragraph':return '<p>'+e(b['text'])+'</p>'
  if t in ['list','steps']:
   tag='ol' if t=='steps' else 'ul'

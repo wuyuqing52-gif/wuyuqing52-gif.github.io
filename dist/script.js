@@ -89,3 +89,15 @@ if (caseChapters.length && 'IntersectionObserver' in window) {
   }, {rootMargin:'-110px 0px -65% 0px'});
   caseChapters.forEach(chapter => observer.observe(chapter));
 }
+// Re-drawn report illustration: reveal the correspondence between each issue
+// and its marked region without uploading or analysing visitor data.
+document.querySelectorAll('.rv-report').forEach(figure => {
+  figure.querySelectorAll('[data-issue-filter]').forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.issueFilter;
+      figure.querySelectorAll('[data-issue-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      figure.querySelectorAll('[data-visual-issue]').forEach(item => { item.hidden = filter !== 'all' && item.dataset.visualIssue !== filter; });
+      figure.querySelectorAll('[data-visual-mark]').forEach(item => { item.classList.toggle('rv-mark-muted', filter !== 'all' && item.dataset.visualMark !== filter); });
+    });
+  });
+});
