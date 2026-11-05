@@ -36,3 +36,20 @@ document.querySelectorAll('[data-copy]').forEach(button => {
   });
 });
 document.querySelectorAll('[data-print]').forEach(button => button.addEventListener('click', () => window.print()));
+
+// Fragment navigation can focus links without a keyboard action. Keep that
+// state visually neutral while preserving a visible ring for Tab navigation.
+let keyboardNavigation = false;
+function updateProjectFocus() {
+  document.querySelectorAll('.project').forEach(card => {
+    card.classList.toggle('keyboard-focus', keyboardNavigation && card === document.activeElement);
+  });
+}
+document.addEventListener('keydown', event => {
+  if (event.key === 'Tab' || event.key.startsWith('Arrow')) { keyboardNavigation = true; updateProjectFocus(); }
+}, true);
+document.addEventListener('pointerdown', () => { keyboardNavigation = false; updateProjectFocus(); }, true);
+document.addEventListener('focusin', updateProjectFocus);
+document.addEventListener('focusout', () => requestAnimationFrame(updateProjectFocus));
+window.addEventListener('pageshow', updateProjectFocus);
+window.addEventListener('hashchange', updateProjectFocus);
