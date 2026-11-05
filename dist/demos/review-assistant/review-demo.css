@@ -2,3 +2,37 @@
 @media(min-width:1450px){.rd-image{height:210px}.rd-chat{min-height:465px}}
 @media(max-width:900px){.review-demo{grid-template-columns:145px minmax(0,1fr);gap:18px;padding:23px}.rd-sidebar h2{font-size:17px}.rd-image{height:145px}.rd-inputs figcaption small,.rd-toolbar>span:last-child{display:none}.rd-web-footer>span{max-width:150px}.rd-report-grid{grid-template-columns:.8fr 1.2fr}}
 @media(max-width:650px){.review-demo{display:block;padding:17px;margin:30px 0 44px;border-radius:18px}.rd-sidebar{display:grid;grid-template-columns:1fr auto;gap:12px;padding:0 0 18px}.rd-eyebrow{display:none}.rd-sidebar h2{margin:0;font-size:17px}.rd-modes{grid-row:2;grid-column:1/-1;flex-direction:row;gap:8px}.rd-modes button{width:auto;flex:1;padding:9px 12px;font-size:12px}.rd-reset{grid-column:2;grid-row:1;font-size:11px}.rd-simulation{font-size:10px;grid-column:1}.rd-sidebar>a{margin:0;padding:0;font-size:10px;grid-row:3;grid-column:2}.rd-appbar{padding:11px}.rd-appbar strong{font-size:12px}.rd-appbar small{display:none}.rd-web-body{padding:10px}.rd-inputs{gap:7px}.rd-inputs figcaption{padding:7px;font-size:10px}.rd-image{height:140px;padding:8px}.rd-web-footer{align-items:flex-end;gap:7px}.rd-web-footer>span{max-width:135px;font-size:9px}.rd-run{padding:9px 13px;font-size:11px}.rd-toolbar{padding:9px;font-size:9px}.rd-chat{padding:12px;min-height:410px}.rd-welcome>span{font-size:14px}.rd-composer{padding:10px}.rd-attachments button{font-size:9px;padding:4px;gap:4px}.rd-attachments img{width:28px;height:28px}.rd-compose-footer small{max-width:180px;font-size:8px}.rd-composer textarea{font-size:11px}.rd-report-grid{display:block}.rd-annotated{width:170px;margin:0 auto 12px}.rd-issues{max-height:230px}.rd-report-header{align-items:flex-start;flex-direction:column;gap:5px}.rd-report-options{font-size:9px;gap:5px}.rd-csv{font-size:9px;padding:7px}.rd-dialog{padding:14px}.rd-dialog .rd-mini-table{font-size:10px}.rd-dialog-head{font-size:13px}.rd-bubble{max-width:100%}}
+/* Keep icon geometry independent from font baselines. */
+.rd-reset{display:inline-flex;align-items:center;gap:6px;line-height:20px}
+.rd-reset svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rd-agent-icon{display:flex;align-items:center;justify-content:center;flex:0 0 31px;line-height:1}
+.rd-agent-icon svg{display:block;width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round}
+.rd-compose-footer button{display:flex;align-items:center;justify-content:center;padding:0;line-height:1;flex:0 0 30px}
+.rd-compose-footer button svg{display:block;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rd-composer textarea{resize:none}
+.rd-composer.is-sent{display:flex;align-items:center;gap:12px;padding:9px 12px}
+.rd-composer.is-sent>.rd-attachments,.rd-composer.is-sent .rd-compose-footer small{display:none}
+.rd-composer.is-sent textarea{flex:1;min-width:0;min-height:24px;height:24px;line-height:24px;overflow:hidden;font-size:11px}
+.rd-composer.is-sent .rd-compose-footer{flex:none}
+.rd-bubble.user>.rd-attachments{margin:0 0 8px;white-space:normal}
+/* Every state shares one fixed shell; long output scrolls inside it. */
+.review-demo{height:510px;min-height:0}
+.rd-stage{align-self:stretch;height:100%;min-height:0}
+#rd-web{display:flex;flex-direction:column;height:100%;min-height:0}
+.rd-appbar{flex:none}
+.rd-web-body{flex:1;min-height:0;overflow:auto;scrollbar-width:thin}
+.rd-chat{height:100%;min-height:0}
+.rd-chat header,.rd-composer{flex:none}
+.rd-messages{min-height:0;max-height:none;flex:1;overscroll-behavior:contain}
+.rd-report .rd-issues{max-height:215px}
+.rd-view-table{display:none}
+@media(max-width:650px){
+ .review-demo{display:flex;flex-direction:column;height:720px;gap:0}
+ .rd-sidebar{flex:none}
+ .rd-stage{flex:1;min-height:0;height:auto;width:100%}
+ .rd-chat{min-height:0}
+ .rd-composer.is-sent{padding:8px;gap:7px}
+ .rd-composer.is-sent textarea{font-size:10px}
+ .rd-bubble.user .rd-attachments{flex-wrap:wrap}
+}
+#rd-skill{height:100%;min-height:0}
