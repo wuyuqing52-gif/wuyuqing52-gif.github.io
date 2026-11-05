@@ -53,3 +53,39 @@ document.addEventListener('focusin', updateProjectFocus);
 document.addEventListener('focusout', () => requestAnimationFrame(updateProjectFocus));
 window.addEventListener('pageshow', updateProjectFocus);
 window.addEventListener('hashchange', updateProjectFocus);
+
+// The top guide previews a stage; the complete case remains visible below.
+document.querySelectorAll('[data-project-guide]').forEach(guide => {
+  const tabs = [...guide.querySelectorAll('[role="tab"]')];
+  function selectTab(tab) {
+    tabs.forEach(item => {
+      const active = item === tab;
+      item.setAttribute('aria-selected', String(active));
+      item.tabIndex = active ? 0 : -1;
+      const panel = document.getElementById(item.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !active;
+    });
+  }
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', event => {
+      let next;
+      if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      if (next !== undefined) { event.preventDefault(); selectTab(tabs[next]); tabs[next].focus(); }
+    });
+  });
+});
+const caseChapters = document.querySelectorAll('[data-case-chapter]');
+if (caseChapters.length && 'IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => {
+    const active = entries.filter(entry => entry.isIntersecting).sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+    if (active) document.querySelectorAll('.case-contents a').forEach(link => {
+      if (link.hash === '#' + active.target.id) link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    });
+  }, {rootMargin:'-110px 0px -65% 0px'});
+  caseChapters.forEach(chapter => observer.observe(chapter));
+}
