@@ -1,0 +1,38 @@
+<section class="card-demo" id="card-effects" aria-labelledby="card-effects-title"><div class="demo-heading"><div><span class="eyebrow">PLAYABLE DEMO / VIBE CODING</span><h2 id="card-effects-title">卡牌特效预览</h2></div><p>切换特效等级，点击卡牌放大。<br>移动鼠标或拖动卡牌，体验立体效果。</p></div>      <nav class="level-tabs" aria-label="特效等级">
+        <button class="level-tab is-active" type="button" aria-pressed="true" data-level="base">基础</button>
+        <button class="level-tab" type="button" aria-pressed="false" data-level="lv2">Lv2</button>
+        <button class="level-tab" type="button" aria-pressed="false" data-level="lv3">Lv3</button>
+      </nav>
+      <section class="card-gallery" id="cardGallery" aria-label="基础卡牌列表"></section>
+
+      <template id="cardTemplate">
+        <button class="gallery-card" type="button" data-preview-card>
+          <span class="card-stack card-stack--static" aria-hidden="true">
+            <img class="card-layer card-layer--underlay" alt="" hidden />
+            <img class="card-layer card-layer--background" src="/demos/card-effects/assets/preview-card-background.webp" alt="" />
+            <img class="card-layer card-layer--character" src="/demos/card-effects/assets/preview-card-character.webp" alt="" />
+            <img class="card-layer card-layer--effect" alt="" hidden />
+            <img class="card-layer card-layer--ui" src="/demos/card-effects/assets/preview-card-ui.webp" alt="" />
+          </span>
+        </button>
+      </template>
+
+<p class="demo-caption">两组视觉方案 · 四种稀有度 · 三档特效等级</p>    <dialog class="card-viewer" id="cardViewer" aria-label="卡牌放大预览">
+      <button class="viewer-close" type="button" aria-label="关闭预览">×</button>
+      <p class="viewer-guide">移动鼠标查看立体效果</p>
+
+      <div class="viewer-stage">
+        <div class="motion-area" id="motionArea">
+          <article class="card-stack card-stack--interactive" id="interactiveCard" aria-label="卡牌放大预览">
+            <img class="card-layer card-layer--underlay" id="viewerUnderlay" alt="" hidden />
+            <img class="card-layer card-layer--background" id="viewerBackground" src="/demos/card-effects/assets/preview-card-background.webp" alt="" />
+            <img class="card-layer card-layer--character" id="viewerCharacter" src="/demos/card-effects/assets/preview-card-character.webp" alt="" />
+            <img class="card-layer card-layer--effect" id="viewerEffect" alt="" hidden />
+            <img class="card-layer card-layer--ui" id="viewerUi" src="/demos/card-effects/assets/preview-card-ui.webp" alt="卡牌" />
+            <span class="card-shine" aria-hidden="true"></span>
+          </article>
+        </div>
+      </div>
+    </dialog>
+
+</section>
