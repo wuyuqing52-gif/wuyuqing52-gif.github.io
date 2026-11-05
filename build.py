@@ -6,6 +6,7 @@ from project_content import render_review_full, render_project_guide
 D=json.loads((Path(__file__).parent/'content.json').read_text())
 P=D['projects'];intro=D['intro']
 card_demo=(Path(__file__).parent/'card-demo.html').read_text()
+review_demo=(Path(__file__).parent/'review-demo.html').read_text()
 def cover(p):
  kind=p['cover'];label={'cards':'AI DESIGN WORKFLOW','editor':'HUMAN + AI','live':'MULTI-PARTY EXPERIENCE','system':'ONE COHERENT SYSTEM','dual':'RETHINK THE EXPERIENCE','audit':'AI REVIEW TOOL','worldbook':'IP WORLDBOOK'}[kind]
  if kind=='audit':inside='<div class="review-cover-flow"><div class="review-inputs"><span>设计图</span><span>开发图</span></div><b>↘</b><strong>AI 走查</strong><div class="review-outputs"><span>标注与报告</span><span>截图与填表</span><span>UI 代码修改</span></div></div>'
@@ -32,12 +33,14 @@ for i,p in enumerate(P):
  nxt=P[(i+1)%len(P)]
  pending=p.get('pending',False)
  case_body=('<section class="case-assets"><span>＋</span><p>项目背景、功能说明、设计过程与演示资料，后续补充。</p></section>' if pending else f'<section class="case-question"><span class="eyebrow">THE DESIGN QUESTION</span><h2>设计命题</h2><p>{p["question"]}</p></section><section class="case-process"><div class="experience-header"><h2>关键设计思考</h2><span>DESIGN APPROACH</span></div>{sections}</section><section class="case-takeaway"><span class="eyebrow">REFLECTION</span><h2>方法沉淀</h2><p>{p["takeaway"]}</p></section><section class="case-assets"><span>＋</span><p>设计原稿、过程截图与演示素材正在整理，后续将补充到本页。</p></section>')
- project_visual=card_demo if p['slug']=='ai-game' else render_project_guide(p)
+ project_visual=card_demo if p['slug']=='ai-game' else review_demo if p['slug']=='ai-review' else render_project_guide(p)
  full_intro=render_review_full() if p['slug']=='ai-review' else f'<div class="detail-overview" id="project-intro"><h2>项目概述</h2><p>{p["overview"]}</p></div>{case_body}'
  page=head(p['title']+' · Yuki Design',p['summary'],'/work/'+p['slug']+'.html')+nav+f'''<main class="wrap detail" id="main"><a class="back-link" href="/#project-{p['slug']}">← 返回精选作品</a><div class="detail-top"><span class="eyebrow">{p['type']}</span><span class="case-status">{"详情待补充" if pending else ("完整案例" if p.get("full_case") else "项目概览")}</span></div><h1>{p['title']}<span class="lime">.</span></h1><p class="detail-meta">{' · '.join(p['tags'])}</p><p class="case-lead">{p['summary']}</p>{project_visual}{full_intro}<a class="next-project" href="/work/{nxt['slug']}.html"><span>继续浏览 / NEXT PROJECT</span><strong>{nxt['title']} <span>↗</span></strong></a></main><div class="wrap">'''+footer+'</div></body></html>'
  if p['slug']=='ai-game':
   page=page.replace(f'<p class="case-lead">{p["summary"]}</p>', '')
   page=page.replace('</head>', '<link rel="stylesheet" href="/demos/card-effects/card-preview.css"></head>').replace('</body>', '<script src="/demos/card-effects/card-preview.js" defer></script></body>')
+ if p['slug']=='ai-review':
+  page=page.replace('</head>', '<link rel="stylesheet" href="/demos/review-assistant/review-demo.css"></head>').replace('</body>', '<script src="/demos/review-assistant/review-demo.js" defer></script></body>')
  (root/'work'/f'{p["slug"]}.html').write_text(page)
 for retired in ['live-link','game-capabilities']:
  path=root/'work'/f'{retired}.html'
