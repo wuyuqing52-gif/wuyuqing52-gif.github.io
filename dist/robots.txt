@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yuki-design.yuki3316950442.chatgpt.site/sitemap.xml
