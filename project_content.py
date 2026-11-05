@@ -7,6 +7,7 @@ from review_visuals import render_visual
 def render_block(b):
  t=b['type']
  if t=='visual':return render_visual(b['name'])
+ if t=='heading':return '<h3 class="review-stage-heading">'+e(b['text'])+'</h3>'
  if t=='paragraph':return '<p>'+e(b['text'])+'</p>'
  if t in ['list','steps']:
   tag='ol' if t=='steps' else 'ul'
@@ -19,7 +20,7 @@ def render_block(b):
 
 def render_review_full():
  data=json.loads((Path(__file__).parent/'review-full.json').read_text())
- toc='<nav class="case-contents" aria-label="项目介绍目录"><span class="eyebrow">完整项目介绍 / CONTENTS</span><ol>'+''.join(f'<li><a href="#review-{i:02}"><span>{i:02}</span>{e(s["title"])}</a></li>' for i,s in enumerate(data['sections'],1))+'</ol></nav>'
+ toc='<nav class="case-contents" aria-label="项目介绍目录"><span class="eyebrow">项目介绍 / CONTENTS</span><ol>'+''.join(f'<li><a href="#review-{i:02}"><span>{i:02}</span>{e(s["title"])}</a></li>' for i,s in enumerate(data['sections'],1))+'</ol></nav>'
  chapters=''.join(f'<section class="case-chapter" id="review-{i:02}" data-case-chapter><div class="chapter-heading"><span>{i:02}</span><h2>{e(s["title"])}</h2></div>'+''.join(render_block(b) for b in s['blocks'])+'</section>' for i,s in enumerate(data['sections'],1))
  return '<div class="case-reading">'+toc+'<article class="case-full-intro" aria-label="AI 走查助手完整项目介绍">'+chapters+'</article></div>'
 

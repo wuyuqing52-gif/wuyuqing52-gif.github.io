@@ -36,3 +36,27 @@
  .rd-bubble.user .rd-attachments{flex-wrap:wrap}
 }
 #rd-skill{height:100%;min-height:0}
+/* Fit the complete default state inside the fixed shell. */
+.rd-web-body{display:flex;flex-direction:column;overflow:hidden}
+.rd-group,.rd-web-footer,.rd-progress{flex:none}
+.rd-inputs{flex:1;min-height:0}
+.rd-inputs figure{display:flex;flex-direction:column;min-height:0}
+.rd-inputs figcaption{flex:none}
+.rd-image{flex:1;height:auto;min-height:0}
+.rd-web-footer{padding-top:8px}
+.rd-report{display:flex;flex-direction:column;flex:1;min-height:0}
+.rd-report-header,.rd-report-options{flex:none}
+.rd-report-grid{flex:1;min-height:0;align-items:start;overflow:hidden}
+.rd-image-column{display:flex;justify-content:center;min-width:0;height:100%;min-height:0}
+.rd-report .rd-annotated{width:var(--rd-result-width,100%);height:var(--rd-result-height,auto);flex:none;margin:0;align-self:start}
+.rd-report .rd-annotated img{width:100%;height:100%}
+.rd-report .rd-issues{height:var(--rd-result-height,100%);max-height:none;min-height:0;overscroll-behavior:contain}
+.rd-issue{flex:none}
+@media(max-width:650px){
+ .rd-report-grid{display:flex;flex-direction:column;gap:10px}
+ .rd-image-column{width:100%;height:var(--rd-result-height,149px);flex:none}
+ .rd-report .rd-issues{flex:1;height:auto;width:100%;min-height:0}
+ .rd-report-header{margin-bottom:9px}
+ .rd-report-options{margin-top:9px}
+}
+.rd-web-footer{justify-content:flex-end}

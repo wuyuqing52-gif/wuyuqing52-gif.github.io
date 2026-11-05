@@ -47,3 +47,5 @@
 .rv-marked-area.rv-mark-muted{border-color:transparent;background:transparent}.rv-mark-muted .rv-marker{visibility:hidden}
 
 .review-visual{scroll-margin-top:115px}@media(max-width:600px){.review-visual{scroll-margin-top:94px}}
+.review-stage-heading{font-size:clamp(19px,2vw,25px);margin:40px 0 12px;letter-spacing:-.02em}
+.case-chapter .primary-button+.primary-button{margin-top:14px}
