@@ -745,7 +745,18 @@ viewer.addEventListener("close", () => {
   document.body.classList.remove("has-open-viewer");
 });
 
-renderCards("base");
+document.querySelectorAll('[data-solution]').forEach(button => {
+  if (button.tagName !== 'BUTTON') return;
+  button.addEventListener('click', () => {
+    gallery.dataset.solution = button.dataset.solution;
+    document.querySelectorAll('.solution-tabs button').forEach(item => {
+      const active = item === button;
+      item.classList.toggle('is-active', active);
+      item.setAttribute('aria-pressed', String(active));
+    });
+  });
+});
+renderCards("lv3");
 requestAnimationFrame(animateFrameSequences);
 
 })();
