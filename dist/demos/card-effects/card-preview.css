@@ -485,3 +485,6 @@ body.has-open-viewer{overflow:hidden}
 @media(max-width:640px){.card-demo{padding:22px 12px;margin-top:28px}.demo-heading{display:block;padding:0 8px}.demo-heading h2{font-size:21px}.demo-heading p{margin-top:10px}.card-demo .rarity-guide{display:none}.card-demo .solution-row{display:block}.card-demo .solution-label{margin:16px 8px 0}.card-demo .solution-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card-demo .solution-divider{margin:20px 8px}.card-demo .level-tabs{margin-left:8px}.card-demo .level-tab{padding:7px 19px}.demo-caption{margin:15px 8px 0}.card-demo .motion-area{width:min(94vw,67.5dvh)}.card-demo .viewer-close{top:18px;right:18px;width:42px;height:42px}.card-demo .viewer-guide{font-size:11px}}
 
 #card-effects{scroll-margin-top:115px}@media(max-width:600px){#card-effects{scroll-margin-top:94px}}
+
+/* Green introduction fades completely to black before the card artwork. */
+.card-demo{background:#000;background-image:linear-gradient(180deg,#10251b 0px,#091710 90px,#020604 160px,#000 210px);border-color:#2b3d30}.card-demo .card-viewer,.card-demo .card-viewer::backdrop{background:#000}.card-demo .solution-divider{background:#1d2720}.card-demo .demo-caption{border-color:#1d2720}
