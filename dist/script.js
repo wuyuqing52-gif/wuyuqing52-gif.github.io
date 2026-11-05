@@ -101,3 +101,24 @@ document.querySelectorAll('.rv-report').forEach(figure => {
     });
   });
 });
+
+// WIP: featured work cards are being reorganized — show feedback instead of navigating.
+function showWipNotice() {
+  let notice = document.querySelector('.wip-notice');
+  if (!notice) {
+    notice = document.createElement('div');
+    notice.className = 'wip-notice';
+    notice.setAttribute('role', 'status');
+    document.body.appendChild(notice);
+  }
+  notice.textContent = '作品整理中，敬请期待';
+  notice.classList.add('show');
+  clearTimeout(showWipNotice.timer);
+  showWipNotice.timer = setTimeout(() => notice.classList.remove('show'), 2200);
+}
+projectCards.forEach(card => {
+  card.addEventListener('click', event => {
+    event.preventDefault();
+    showWipNotice();
+  });
+});

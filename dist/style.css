@@ -49,3 +49,7 @@
 .review-visual{scroll-margin-top:115px}@media(max-width:600px){.review-visual{scroll-margin-top:94px}}
 .review-stage-heading{font-size:clamp(19px,2vw,25px);margin:40px 0 12px;letter-spacing:-.02em}
 .case-chapter .primary-button+.primary-button{margin-top:14px}
+
+/* WIP notice for featured work cards */
+.wip-notice{position:fixed;left:50%;bottom:34px;transform:translate(-50%,12px);z-index:90;background:var(--panel,#20251d);border:1px solid var(--line,#46503e);color:var(--text,#d7e4c8);font-size:12px;letter-spacing:.08em;padding:10px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;box-shadow:0 8px 24px rgba(0,0,0,.35);white-space:nowrap}
+.wip-notice.show{opacity:1;transform:translate(-50%,0)}
