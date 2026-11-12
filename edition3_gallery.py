@@ -33,7 +33,29 @@ def image_preview():
     <div class="art-lightbox-scroll"><img alt=""></div></dialog>'''
 
 
-def project_gallery(project, boards):
+def event_gallery(project, assets):
+    groups = {}
+    for asset in assets:
+        if asset["project"] == "game-events":
+            groups.setdefault(asset["label"], []).append(asset)
+    sections = []
+    for label, images in groups.items():
+        kind = "score" if label == "选手评分" else "tournament"
+        phones = []
+        desktops = []
+        for asset in images:
+            shape = "desktop" if asset["width"] > asset["height"] else "phone"
+            caption = f'{project["title"]} · {label}'
+            screen = f'<a class="study-screen study-screen--{shape}" href="{asset["src"]}" data-image-preview data-image-title="{escape(caption)}" aria-label="放大{escape(caption)}"><img src="{asset["src"]}" alt="{escape(caption)}" width="{asset["width"]}" height="{asset["height"]}" loading="lazy" decoding="async"></a>'
+            (desktops if shape == "desktop" else phones).append(screen)
+        desktop_stack = '<div class="study-desktops">' + ''.join(desktops) + '</div>' if desktops else ''
+        sections.append(f'<section class="art-gallery-group"><h2>{escape(label)}</h2><div class="event-study event-study--{kind}">{desktop_stack}{"".join(phones)}</div></section>')
+    return '<div class="art-gallery">' + ''.join(sections) + '</div>'
+
+
+def project_gallery(project, boards, assets):
+    if project["slug"] == "game-events":
+        return event_gallery(project, assets)
     sections = []
     for board in boards:
         if board["project"] != project["slug"]:

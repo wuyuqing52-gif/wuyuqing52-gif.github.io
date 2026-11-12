@@ -174,7 +174,7 @@ def build_edition3():
         page = head(project["title"] + ' · Yuki Design', project["summary"], '/work/' + slug + '.html').replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
         page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>')
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
-        page += navigation + f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, boards)}</main>' + footer + image_preview() + '</body></html>'
+        page += navigation + f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, boards, assets)}</main>' + footer + image_preview() + '</body></html>'
         (DIST / 'work' / f'{slug}.html').write_text(page)
 
     for index, slug in enumerate(PROJECT_ORDER):
@@ -183,7 +183,7 @@ def build_edition3():
         if slug == "ai-game":
             start = page.index('<div class="case-reading card-case-reading">')
             end = page.index('<a class="next-project"', start)
-            page = page[:start] + project_gallery(projects[slug], boards) + page[end:]
+            page = page[:start] + project_gallery(projects[slug], boards, assets) + page[end:]
         elif slug == "ai-review":
             start = page.index('<div class="case-reading">')
             end = page.index('<a class="next-project"', start)
@@ -192,7 +192,7 @@ def build_edition3():
         elif slug == "dual-screen":
             start = page.index('<section class="project-guide"')
             end = page.index('<a class="next-project"', start)
-            page = page[:start] + project_gallery(projects[slug], boards) + page[end:]
+            page = page[:start] + project_gallery(projects[slug], boards, assets) + page[end:]
             page = re.sub(r'<p class="case-lead">.*?</p>', '', page, flags=re.S)
         page = re.sub(r'<section class="case-assets">.*?</section>', '', page, flags=re.S)
         next_slug = PROJECT_ORDER[(index + 1) % len(PROJECT_ORDER)]
