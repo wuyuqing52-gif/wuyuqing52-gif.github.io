@@ -1,0 +1,128 @@
+[
+  {
+    "project": "ai-game",
+    "label": "抽卡",
+    "src": "/assets/edition3-projects/boards/ai-game-01.webp",
+    "width": 2200,
+    "height": 1320,
+    "sources": [
+      "ai-game-01",
+      "ai-game-02"
+    ]
+  },
+  {
+    "project": "ai-game",
+    "label": "抖音分享图",
+    "src": "/assets/edition3-projects/boards/ai-game-02.webp",
+    "width": 2200,
+    "height": 1320,
+    "sources": [
+      "ai-game-03",
+      "ai-game-04"
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "label": "年度榜单",
+    "src": "/assets/edition3-projects/boards/spring-gala-01.webp",
+    "width": 3600,
+    "height": 1195,
+    "sources": [
+      "spring-gala-01",
+      "spring-gala-02"
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "label": "打投阶段",
+    "src": "/assets/edition3-projects/boards/spring-gala-02.webp",
+    "width": 3600,
+    "height": 1032,
+    "sources": [
+      "spring-gala-03",
+      "spring-gala-04",
+      "spring-gala-05"
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "label": "许愿文字模板",
+    "src": "/assets/edition3-projects/boards/spring-gala-03.webp",
+    "width": 2400,
+    "height": 1400,
+    "sources": [
+      "spring-gala-06"
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "label": "春晚阶段-直播中",
+    "src": "/assets/edition3-projects/boards/spring-gala-04.webp",
+    "width": 3233,
+    "height": 1320,
+    "sources": [
+      "spring-gala-07"
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "label": "春晚阶段-榜单",
+    "src": "/assets/edition3-projects/boards/spring-gala-05.webp",
+    "width": 3071,
+    "height": 1320,
+    "sources": [
+      "spring-gala-08"
+    ]
+  },
+  {
+    "project": "game-events",
+    "label": "选手评分",
+    "src": "/assets/edition3-projects/boards/game-events-01.webp",
+    "width": 2200,
+    "height": 1320,
+    "sources": [
+      "game-events-01",
+      "game-events-02",
+      "game-events-03"
+    ]
+  },
+  {
+    "project": "game-events",
+    "label": "自建赛",
+    "src": "/assets/edition3-projects/boards/game-events-02.webp",
+    "width": 3200,
+    "height": 1600,
+    "sources": [
+      "game-events-04",
+      "game-events-05",
+      "game-events-06",
+      "game-events-07"
+    ]
+  },
+  {
+    "project": "dual-screen",
+    "label": "界面设计",
+    "src": "/assets/edition3-projects/boards/dual-screen-01.webp",
+    "width": 3200,
+    "height": 1600,
+    "sources": [
+      "dual-screen-01",
+      "dual-screen-02",
+      "dual-screen-03"
+    ]
+  },
+  {
+    "project": "game-link",
+    "label": "界面设计",
+    "src": "/assets/edition3-projects/boards/game-link-01.webp",
+    "width": 3200,
+    "height": 1600,
+    "sources": [
+      "game-link-01",
+      "game-link-02",
+      "game-link-03",
+      "game-link-04",
+      "game-link-05"
+    ]
+  }
+]

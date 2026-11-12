@@ -33,24 +33,11 @@ def image_preview():
     <div class="art-lightbox-scroll"><img alt=""></div></dialog>'''
 
 
-def project_gallery(project, assets):
-    groups = {}
-    for asset in assets:
-        if asset["project"] == project["slug"]:
-            groups.setdefault(asset["label"] or "界面设计", []).append(asset)
+def project_gallery(project, boards):
     sections = []
-    for label, images in groups.items():
-        pieces = []
-        for asset in images:
-            for index, image in enumerate(asset["parts"] or [asset]):
-                shape = "wide" if image["width"] > image["height"] else "portrait"
-                caption = f'{project["title"]} · {label}'
-                alt = caption + (f' · 分段 {index + 1}' if asset["parts"] else "")
-                transparency = " has-alpha" if asset.get("transparent") else ""
-                pieces.append((shape, f'''<a class="art-piece is-{shape}{transparency}" href="{asset['src']}" data-image-preview data-image-title="{escape(caption)}" aria-label="放大{escape(alt)}"><img src="{image['src']}" alt="{escape(alt)}" width="{image['width']}" height="{image['height']}" loading="lazy" decoding="async"></a>'''))
-        shapes = {shape for shape, _ in pieces}
-        kind = "mixed" if len(shapes) == 2 else "boards" if "wide" in shapes else "phones"
-        count = min(3, len(pieces)) if kind == "phones" else 2
-        markup = ''.join(piece for _, piece in sorted(pieces, key=lambda item: item[0] != "wide"))
-        sections.append(f'<section class="art-gallery-group"><h2>{escape(label)}</h2><div class="art-stage art-stage--{kind}" style="--art-columns:{count}">{markup}</div></section>')
+    for board in boards:
+        if board["project"] != project["slug"]:
+            continue
+        caption = f'{project["title"]} · {board["label"]}'
+        sections.append(f'''<section class="art-gallery-group"><h2>{escape(board["label"])}</h2><a class="art-board" href="{board['src']}" data-image-preview data-image-title="{escape(caption)}" aria-label="放大{escape(caption)}"><img src="{board['src']}" alt="{escape(caption)} · 多页面组合展示" width="{board['width']}" height="{board['height']}" loading="lazy" decoding="async"></a></section>''')
     return '<div class="art-gallery">' + ''.join(sections) + '</div>' if sections else ""

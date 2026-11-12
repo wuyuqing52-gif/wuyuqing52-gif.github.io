@@ -45,6 +45,7 @@
   if (artworkDialog) {
     const image = artworkDialog.querySelector('img');
     const title = artworkDialog.querySelector('#art-lightbox-title');
+    const viewport = artworkDialog.querySelector('.art-lightbox-scroll');
     document.addEventListener('click', event => {
       const link = event.target.closest('[data-image-preview]');
       if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
@@ -53,7 +54,8 @@
       image.alt = link.dataset.imageTitle;
       title.textContent = link.dataset.imageTitle;
       artworkDialog.showModal();
-      artworkDialog.querySelector('.art-lightbox-scroll').scrollTop = 0;
+      viewport.scrollTop = 0;
+      viewport.scrollLeft = 0;
       document.body.classList.add('has-open-artwork');
     });
     artworkDialog.querySelector('[data-close-artwork]').addEventListener('click', () => artworkDialog.close());
