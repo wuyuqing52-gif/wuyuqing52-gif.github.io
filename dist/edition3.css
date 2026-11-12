@@ -555,13 +555,13 @@ h1,h2,h3,p {
 }
 .card-bloom {
   position:absolute;
-  width:150%;
+  width:200%;
   aspect-ratio:1;
-  left:-25%;
-  bottom:-85%;
+  left:-50%;
+  top:calc(100% - 90px);
   transform:translate(-35%,35%) scale(.03) rotate(-35deg);
   transform-origin:center;
-  transition:transform .55s var(--e3-spring),bottom .55s var(--e3-spring);
+  transition:transform .55s var(--e3-spring);
   z-index:1;
   pointer-events:none
 }
@@ -571,8 +571,7 @@ h1,h2,h3,p {
   height:100%
 }
 .e3-project:hover .card-bloom,.e3-project:focus-visible .card-bloom {
-  transform:translate(0,0) scale(1.2) rotate(-6deg);
-  bottom:-38%
+  transform:translate(0,-50%) rotate(-6deg)
 }
 .e3-project:hover .project-collage,.e3-project:focus-visible .project-collage {
   opacity:0;
@@ -892,50 +891,20 @@ body.e3-case{--bg:var(--paper);--panel:#efefe7;--panel2:#e9ecdf;--text:var(--ink
   font-weight:400;
   margin-bottom:22px
 }
-.art-stage {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:24px;
-  border-radius:28px
-}
-.art-stage--phones {
-  grid-template-columns:repeat(var(--art-columns),minmax(0,1fr));
-  align-items:stretch
-}
-.art-piece {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  padding:24px;
-  border:0;
+.art-board {
+  display:block;
   border-radius:28px;
   background:#eeede6;
   overflow:hidden;
   cursor:zoom-in;
   transition:transform .4s var(--e3-ease)
 }
-.art-piece img {
-  width:100%;
-  height:auto;
+.art-board img {
   display:block;
-  border-radius:18px
+  width:100%;
+  height:auto
 }
-.art-piece.is-portrait img {
-  max-height:650px;
-  object-fit:contain
-}
-.art-piece.is-wide {
-  grid-column:1 / -1
-}
-.art-piece.has-alpha {
-  padding:20px;
-  background:#e9e8e1
-}
-.art-piece.has-alpha img {
-  border-radius:0
-}
-.art-piece:hover,.art-piece:focus-visible {
+.art-board:hover,.art-board:focus-visible {
   transform:translateY(-4px)
 }
 body.has-open-artwork {
@@ -985,7 +954,9 @@ body.has-open-artwork {
   padding:20px
 }
 .art-lightbox-scroll img {
-  width:100%;
+  width:auto;
+  min-width:100%;
+  max-width:none;
   height:auto;
   display:block;
   border-radius:16px
@@ -995,11 +966,7 @@ body.has-open-artwork {
   .art-gallery{margin-block:36px}
   .art-gallery-group+.art-gallery-group{margin-top:38px}
   .art-gallery-group>h2{font-size:20px}
-  .art-stage{gap:14px}
-  .art-stage--phones{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .art-piece{padding:14px;border-radius:22px}
-  .art-piece.has-alpha{padding:10px}
-  .art-piece img{border-radius:12px}
+  .art-board{border-radius:22px}
   .art-lightbox header{padding:12px 14px}
   .art-lightbox header p{font-size:12px}
   .art-lightbox-scroll{padding:12px}
