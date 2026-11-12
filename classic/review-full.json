@@ -1,0 +1,107 @@
+{
+  "title": "AI 走查助手｜项目介绍",
+  "sections": [
+    {
+      "title": "项目是什么",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "AI走查助手是我围绕 UI 还原持续开发的项目。它最初是25年底，vibecoding刚兴起时我尝试做的一个对比设计图与开发图的网站，目标是通过AI视觉识别能力解决设计师反复人工对比，标注，整理问题表格，耗费大量工作时间的问题。"
+        }
+      ]
+    },
+    {
+      "title": "项目发展历程",
+      "blocks": [
+        {
+          "type": "visual",
+          "name": "evolution"
+        },
+        {
+          "type": "heading",
+          "text": "阶段一"
+        },
+        {
+          "type": "paragraph",
+          "text": "我用 Coze 搭建了第一版网页工具，让设计师上传设计稿和开发截图、批量比对差异，再将复核后的问题导出成表格。"
+        },
+        {
+          "type": "visual",
+          "name": "web-flow"
+        },
+        {
+          "type": "heading",
+          "text": "阶段二"
+        },
+        {
+          "type": "paragraph",
+          "text": "为减少错报漏报，我开始打磨PE，将AI识别经常出现的问题沉淀为规则，提升识别准确度。"
+        },
+        {
+          "type": "visual",
+          "name": "pe"
+        },
+        {
+          "type": "heading",
+          "text": "阶段三"
+        },
+        {
+          "type": "paragraph",
+          "text": "移动端、figma插件：通过开发ios、安卓移动端及figma插件补齐能力缺口。移动端测试环境截图后使用配套app一键批量上传图片至走查网站和figma插件；在figma插件则可直接导入选中的设计稿截图。"
+        },
+        {
+          "type": "visual",
+          "name": "sync"
+        },
+        {
+          "type": "heading",
+          "text": "阶段四"
+        },
+        {
+          "type": "paragraph",
+          "text": "能力skill化：随着AI能力发展，我逐渐将走查能力做成可复用的 Skill。设计师可以直接给 AI 发送设计图与开发图，不必再逐项操作网站，AI 会识别问题、截取问题区域，并填入飞书走查表格。"
+        },
+        {
+          "type": "image",
+          "src": "/assets/review/agent-conversation.png",
+          "caption": "与Agent对话发图"
+        },
+        {
+          "type": "image",
+          "src": "/assets/review/review-table.png",
+          "caption": "AI将问题描述、截图、优先级等录入表格"
+        },
+        {
+          "type": "heading",
+          "text": "阶段五"
+        },
+        {
+          "type": "paragraph",
+          "text": "设计师交付代码：与研发深度合作，接入代码仓库，自行开发页面前端，修复 UI 问题后提交代码。"
+        },
+        {
+          "type": "visual",
+          "name": "repository"
+        }
+      ]
+    },
+    {
+      "title": "体验入口",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "首次使用需要注册账号，多端使用时登录同一账号。"
+        },
+        {
+          "type": "link",
+          "label": "体验 AI 走查助手",
+          "url": "https://ykqtbvy3wr.coze.site/"
+        },
+        {
+          "type": "paragraph",
+          "text": "Figma 插件已发布至字节组织内部。Android 安装包与 iOS 线下安装方式，可联系我了解。"
+        }
+      ]
+    }
+  ]
+}

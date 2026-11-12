@@ -1,23 +1,19 @@
-# Yuki Design
+# Yuki Studio
 
-吴雨晴的中文个人作品集。纯静态 HTML、CSS、JavaScript，Sites 托管。
+- `dist/` 是年轻版作品集的静态源码，包含首页、简历、AI 走查助手案例及互动演示。
+- `classic/` 是深色版完整源码及构建产物，包含年轻版作品列表引用的其他案例。
+- `design/studio-hero-concept.png` 是最新手绘风格的首屏静态设计稿。
 
-## 内容与维护
+年轻版本地预览
 
-- `content.json`：个人介绍、字节经历及五个项目概览的文案。
-- `build.py` / `site_base.py`：生成静态页面与公共结构。
-- `dist/index.html`：首页、作品分类、历史作品、个人介绍、横向工作时间轴与联系。
-- `dist/work/`：AI 游戏、AI 编辑器、连屏、游戏能力整合、双屏，以及理财通历史项目。
-- `dist/resume.html`：可打印、保存为 PDF 的简历，保持纵向履历便于打印。
-- `dist/style.css`：响应式视觉、桌面横向时间轴、手机纵向时间轴与打印样式。
-- `dist/script.js`：作品筛选、邮箱复制、简历打印。
+```sh
+python3 -m http.server 4173 --bind 127.0.0.1 --directory dist
+```
 
-修改文案后执行 `python3 build.py`。预览：`python3 -m http.server 4173 --directory dist --bind 127.0.0.1`。
+深色版本地预览
 
-## 内容边界
+```sh
+python3 -m http.server 4174 --bind 127.0.0.1 --directory classic/dist
+```
 
-履历来自用户提供的简历截图。项目概览由用户指定的个人项目整理文档提取并改写；区分已完成的设计实践、规划中的素材及未经确认的结果，不直接公开内部业务指标或内链。封面为标注清楚的主题示意，未冒充真实项目截图。后续需要补充设计原稿、过程截图与演示素材。
-
-旧项目占位 URL 仍保留，并提供前往新案例的入口。公开联系方式只展示邮箱。
-
-卡牌可交互演示：`card-demo.html` 为项目页片段，`dist/demos/card-effects/` 保存独立样式、交互脚本与实际引用素材；原始 Demo 目录未修改。静态 PNG、GIF 与序列帧已转为 WebP，较大动画已按网页展示尺寸压缩。仅集换式卡牌项目页加载相关脚本和样式。
+深色版构建说明见 [classic/README.md](classic/README.md)。`studio-preview` 用于保存与预览，两个已发布分支各自维护。
