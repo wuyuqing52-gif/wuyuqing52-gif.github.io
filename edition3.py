@@ -44,7 +44,6 @@ def build_edition3():
         "ai-editor": ("/assets/portfolio/desk-editor.png", "AI 游戏编辑器主题示意"),
         "dual-screen": ("/assets/portfolio/desk-livestream.png", "直播双屏主题示意"),
     }
-    notes = {"ai-game": "AI 工作流 / 游戏设计", "ai-review": "个人项目 / Vibe Coding", "ip-worldbook": "复杂产品 / AI 原型", "ai-editor": "AI 产品 / 人机协作", "dual-screen": "游戏直播 / 体验探索"}
     navigation = '''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">yuki<span>.</span></a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
     footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/">yuki<span>.</span></a><p>© 2026 吴雨晴</p><div class="edition-links" aria-label="其他作品集版本"><a href="https://yuki-design.yuki3316950442.chatgpt.site/">深色版</a><a href="https://yuki-design-studio.yuki3316950442.chatgpt.site/">年轻版</a><a href="#top">回到顶部</a></div></footer>'''
     secondary = {
@@ -73,7 +72,7 @@ def build_edition3():
           <a class="e3-project" href="/work/{slug}.html" aria-describedby="summary-{slug}">
             <span class="card-bloom" aria-hidden="true">{flower_shape("blue", bloom, bloom)}</span>
             <div class="project-collage" aria-hidden="true"><div class="collage-main"><img src="{src}" alt="{alt}" loading="lazy" decoding="async"></div><div class="collage-small"><img src="{small_src}" alt="{small_alt}" loading="lazy" decoding="async"></div>{illustration}</div>
-            <div class="project-copy"><div class="project-caption"><h3>{escape(project['title'])}</h3><p>{notes[slug]}</p></div><p class="project-description" id="summary-{slug}">{escape(project['summary'])}</p><span class="case-action" aria-hidden="true">查看案例</span></div>
+            <div class="project-copy"><div class="project-caption"><h3>{escape(project['title'])}</h3><p>{escape(project['headline'])}</p></div><p class="project-description" id="summary-{slug}">{escape(project['summary'])}</p><span class="case-action" aria-hidden="true">查看案例</span></div>
           </a>
           <div class="project-side"><a class="flower-tile" href="/work/{slug}.html" data-flower data-start="-9" style="background:{tile}" aria-label="查看{escape(project['title'])}"><span class="flower-art">{flower_shape("blue", petal, center)}</span></a><a class="project-wordmark" href="/work/{slug}.html" aria-label="查看{escape(project['title'])}">{marks[slug]}</a></div>
         </article>''')
@@ -87,16 +86,15 @@ def build_edition3():
     html = f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7f5ef"><title>Yuki · 吴雨晴｜体验与 AI 设计师</title>
-<meta name="description" content="吴雨晴的第三版作品集。扎根交互，探索更多可能。浏览 AI 卡牌游戏、走查助手、IP 世界书与游戏直播的设计实践。">
+<meta name="description" content="设计是我的起点，不是我的边界。吴雨晴的抖音 IP、游戏直播、AI 产品与设计工作流作品集。">
 <meta property="og:title" content="Yuki · 吴雨晴｜体验与 AI 设计师"><meta property="og:type" content="website"><meta property="og:url" content="{origin}/"><meta property="og:image" content="{origin}/assets/ai-card-cover.png">
 <link rel="canonical" href="{origin}/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>
 <body class="edition-three" id="top"><a class="e3-skip" href="#main">跳到主要内容</a>{navigation}
 <main id="main"><section class="e3-hero" aria-labelledby="hero-title">
 {flower('blue')}{flower('red')}
-<div class="hero-copy"><p class="hero-intro">你好，我是吴雨晴 <span>Yuki</span></p>
-<h1 id="hero-title">扎根交互，<br>探索<span class="hero-word">更多可能<i aria-hidden="true"></i></span>。</h1>
-<p class="hero-role">资深体验设计师 <span aria-hidden="true">·</span> AI 设计师</p>
-<p class="hero-summary">从复杂流程到人机协作，从设计稿到可运行的体验。<br>让想法落地，也让好奇心继续生长。</p>
+<div class="hero-copy"><p class="hero-intro">你好，我是 Yuki / 吴雨晴。</p>
+<h1 id="hero-title">设计是我的起点，<br>不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></h1>
+<p class="hero-summary">一名以设计为起点、不设边界的设计师。既打磨复杂流程、系统框架与协作体验，也探索代码、视觉、与动态表达。</p>
 <div class="hero-actions"><a class="e3-button" href="#work"><span>看看我的作品</span><span class="button-bloom" aria-hidden="true">{flower_shape("blue", "#0636ce", "#ffffff")}</span></a><a class="e3-text-link" href="/resume.html">我的简历</a></div></div>
 <p class="flower-status visually-hidden" role="status" aria-live="polite"></p>
 </section>{gallery}
