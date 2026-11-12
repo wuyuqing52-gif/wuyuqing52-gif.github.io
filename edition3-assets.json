@@ -1,0 +1,397 @@
+[
+  {
+    "project": "ai-game",
+    "name": "ai-game-01",
+    "label": "抽卡",
+    "carousel": true,
+    "width": 1125,
+    "height": 2436,
+    "src": "/assets/edition3-projects/ai-game-01.webp",
+    "parts": []
+  },
+  {
+    "project": "ai-game",
+    "name": "ai-game-02",
+    "label": "抽卡",
+    "carousel": true,
+    "width": 1125,
+    "height": 2436,
+    "src": "/assets/edition3-projects/ai-game-02.webp",
+    "parts": []
+  },
+  {
+    "project": "ai-game",
+    "name": "ai-game-03",
+    "label": "抖音分享图",
+    "carousel": true,
+    "width": 2250,
+    "height": 4870,
+    "src": "/assets/edition3-projects/ai-game-03.webp",
+    "parts": []
+  },
+  {
+    "project": "ai-game",
+    "name": "ai-game-04",
+    "label": "抖音分享图",
+    "carousel": false,
+    "width": 2250,
+    "height": 4870,
+    "src": "/assets/edition3-projects/ai-game-04.webp",
+    "parts": []
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-01",
+    "label": "年度榜单",
+    "carousel": false,
+    "width": 1200,
+    "height": 8522,
+    "src": "/assets/edition3-projects/spring-gala-01.webp",
+    "parts": [
+      {
+        "src": "/assets/edition3-projects/spring-gala-01-part-01.webp",
+        "width": 1200,
+        "height": 2841
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-01-part-02.webp",
+        "width": 1200,
+        "height": 2840
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-01-part-03.webp",
+        "width": 1200,
+        "height": 2841
+      }
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-02",
+    "label": "年度榜单",
+    "carousel": true,
+    "width": 750,
+    "height": 6490,
+    "src": "/assets/edition3-projects/spring-gala-02.webp",
+    "parts": [
+      {
+        "src": "/assets/edition3-projects/spring-gala-02-part-01.webp",
+        "width": 750,
+        "height": 1622
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-02-part-02.webp",
+        "width": 750,
+        "height": 1623
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-02-part-03.webp",
+        "width": 750,
+        "height": 1623
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-02-part-04.webp",
+        "width": 750,
+        "height": 1622
+      }
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-03",
+    "label": "打投阶段",
+    "carousel": false,
+    "width": 1125,
+    "height": 14817,
+    "src": "/assets/edition3-projects/spring-gala-03.webp",
+    "parts": [
+      {
+        "src": "/assets/edition3-projects/spring-gala-03-part-01.webp",
+        "width": 1125,
+        "height": 2470
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-03-part-02.webp",
+        "width": 1125,
+        "height": 2469
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-03-part-03.webp",
+        "width": 1125,
+        "height": 2469
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-03-part-04.webp",
+        "width": 1125,
+        "height": 2470
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-03-part-05.webp",
+        "width": 1125,
+        "height": 2470
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-03-part-06.webp",
+        "width": 1125,
+        "height": 2469
+      }
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-04",
+    "label": "打投阶段",
+    "carousel": false,
+    "width": 1125,
+    "height": 2436,
+    "src": "/assets/edition3-projects/spring-gala-04.webp",
+    "parts": []
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-05",
+    "label": "打投阶段",
+    "carousel": false,
+    "width": 1125,
+    "height": 2436,
+    "src": "/assets/edition3-projects/spring-gala-05.webp",
+    "parts": []
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-06",
+    "label": "许愿文字模板",
+    "carousel": true,
+    "width": 6056,
+    "height": 4150,
+    "src": "/assets/edition3-projects/spring-gala-06.webp",
+    "parts": []
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-07",
+    "label": "春晚阶段-直播中",
+    "carousel": false,
+    "width": 750,
+    "height": 10826,
+    "src": "/assets/edition3-projects/spring-gala-07.webp",
+    "parts": [
+      {
+        "src": "/assets/edition3-projects/spring-gala-07-part-01.webp",
+        "width": 750,
+        "height": 1804
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-07-part-02.webp",
+        "width": 750,
+        "height": 1805
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-07-part-03.webp",
+        "width": 750,
+        "height": 1804
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-07-part-04.webp",
+        "width": 750,
+        "height": 1804
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-07-part-05.webp",
+        "width": 750,
+        "height": 1805
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-07-part-06.webp",
+        "width": 750,
+        "height": 1804
+      }
+    ]
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-gala-08",
+    "label": "春晚阶段-榜单",
+    "carousel": true,
+    "width": 750,
+    "height": 7860,
+    "src": "/assets/edition3-projects/spring-gala-08.webp",
+    "parts": [
+      {
+        "src": "/assets/edition3-projects/spring-gala-08-part-01.webp",
+        "width": 750,
+        "height": 1572
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-08-part-02.webp",
+        "width": 750,
+        "height": 1572
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-08-part-03.webp",
+        "width": 750,
+        "height": 1572
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-08-part-04.webp",
+        "width": 750,
+        "height": 1572
+      },
+      {
+        "src": "/assets/edition3-projects/spring-gala-08-part-05.webp",
+        "width": 750,
+        "height": 1572
+      }
+    ]
+  },
+  {
+    "project": "game-events",
+    "name": "game-events-01",
+    "label": "选手评分",
+    "carousel": true,
+    "width": 375,
+    "height": 812,
+    "src": "/assets/edition3-projects/game-events-01.webp",
+    "parts": []
+  },
+  {
+    "project": "game-events",
+    "name": "game-events-02",
+    "label": "选手评分",
+    "carousel": false,
+    "width": 750,
+    "height": 1606,
+    "src": "/assets/edition3-projects/game-events-02.webp",
+    "parts": []
+  },
+  {
+    "project": "game-events",
+    "name": "game-events-03",
+    "label": "选手评分",
+    "carousel": false,
+    "width": 750,
+    "height": 2116,
+    "src": "/assets/edition3-projects/game-events-03.webp",
+    "parts": []
+  },
+  {
+    "project": "game-events",
+    "name": "game-events-04",
+    "label": "自建赛",
+    "carousel": false,
+    "width": 572,
+    "height": 1620,
+    "src": "/assets/edition3-projects/game-events-04.webp",
+    "parts": []
+  },
+  {
+    "project": "game-events",
+    "name": "game-events-05",
+    "label": "自建赛",
+    "carousel": true,
+    "width": 572,
+    "height": 1620,
+    "src": "/assets/edition3-projects/game-events-05.webp",
+    "parts": []
+  },
+  {
+    "project": "game-events",
+    "name": "game-events-06",
+    "label": "自建赛",
+    "carousel": false,
+    "width": 3152,
+    "height": 1892,
+    "src": "/assets/edition3-projects/game-events-06.webp",
+    "parts": []
+  },
+  {
+    "project": "game-events",
+    "name": "game-events-07",
+    "label": "自建赛",
+    "carousel": false,
+    "width": 3152,
+    "height": 1892,
+    "src": "/assets/edition3-projects/game-events-07.webp",
+    "parts": []
+  },
+  {
+    "project": "dual-screen",
+    "name": "dual-screen-01",
+    "label": "",
+    "carousel": false,
+    "width": 1080,
+    "height": 2341,
+    "src": "/assets/edition3-projects/dual-screen-01.webp",
+    "parts": []
+  },
+  {
+    "project": "dual-screen",
+    "name": "dual-screen-02",
+    "label": "",
+    "carousel": false,
+    "width": 3152,
+    "height": 1892,
+    "src": "/assets/edition3-projects/dual-screen-02.webp",
+    "parts": []
+  },
+  {
+    "project": "dual-screen",
+    "name": "dual-screen-03",
+    "label": "",
+    "carousel": false,
+    "width": 3152,
+    "height": 1892,
+    "src": "/assets/edition3-projects/dual-screen-03.webp",
+    "parts": []
+  },
+  {
+    "project": "game-link",
+    "name": "game-link-01",
+    "label": "",
+    "carousel": false,
+    "width": 750,
+    "height": 1624,
+    "src": "/assets/edition3-projects/game-link-01.webp",
+    "parts": []
+  },
+  {
+    "project": "game-link",
+    "name": "game-link-02",
+    "label": "",
+    "carousel": false,
+    "width": 750,
+    "height": 1624,
+    "src": "/assets/edition3-projects/game-link-02.webp",
+    "parts": []
+  },
+  {
+    "project": "game-link",
+    "name": "game-link-03",
+    "label": "",
+    "carousel": false,
+    "width": 750,
+    "height": 2080,
+    "src": "/assets/edition3-projects/game-link-03.webp",
+    "parts": []
+  },
+  {
+    "project": "game-link",
+    "name": "game-link-04",
+    "label": "",
+    "carousel": false,
+    "width": 750,
+    "height": 2024,
+    "src": "/assets/edition3-projects/game-link-04.webp",
+    "parts": []
+  },
+  {
+    "project": "game-link",
+    "name": "game-link-05",
+    "label": "",
+    "carousel": false,
+    "width": 3139,
+    "height": 1892,
+    "src": "/assets/edition3-projects/game-link-05.webp",
+    "parts": []
+  }
+]

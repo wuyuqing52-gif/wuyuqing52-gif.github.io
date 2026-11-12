@@ -801,6 +801,234 @@ h1,h2,h3,p {
 }
 /* Existing case readers and demos share the third edition's navigation and palette. */
 body.e3-case{--bg:var(--paper);--panel:#efefe7;--panel2:#e9ecdf;--text:var(--ink);--muted:#78806b;--lime:var(--red);--line:var(--rule);--soft:#666e5c}.e3-case .detail,.e3-case .resume-page{padding-top:40px}.e3-case .detail>h1,.e3-case .resume-page>h1{font-family:"Songti SC","STSong",serif;font-weight:400}.e3-case .e3-header{border-bottom:1px solid var(--rule)}.e3-case .case-status{color:var(--red);border-color:#d8c7b9}.e3-case .case-assets,.e3-case .case-takeaway,.e3-case .case-question,.e3-case .project-guide,.e3-case .resume-tools{background:transparent}.e3-case .case-guide-step,.e3-case .card-case-callout{background:#e9eddd}.e3-case .case-guide-step.is-active{background:#e1e8d1}.e3-case .primary-button{background:#111;color:white}.e3-case .case-contents{background:var(--paper)}.e3-case .e3-footer{width:100%;margin-top:50px}.e3-case .detail .next-project{border-color:var(--rule)}.e3-case .brand-light{color:#777}.e3-case .card-case-turn.is-ai{background:#ecede5}.e3-case .card-case-turn.is-me{background:#e5ebd9}.e3-case .resume-contact{margin-top:16px}.e3-case .detail .portfolio-icon{filter:none}
+.peek-group {
+  align-items:center
+}
+.peek-slide.is-portrait {
+  width:190px;
+  height:284px
+}
+.peek-slide img {
+  object-position:top
+}
+.review-card-art {
+  height:100%;
+  display:grid;
+  place-items:center
+}
+.review-card-art svg {
+  width:42%;
+  transform:rotate(-12deg)
+}
+.e3-project-row:is(.project-ai-game,.project-spring-gala) .collage-main {
+  width:25%;
+  height:auto;
+  aspect-ratio:1125 / 2436;
+  top:8%;
+  left:23%;
+  right:auto;
+  transform:rotate(-7deg)
+}
+.e3-project-row:is(.project-ai-game,.project-spring-gala) .collage-small {
+  width:24%;
+  height:auto;
+  aspect-ratio:1125 / 2436;
+  top:auto;
+  bottom:17%;
+  right:19%;
+  left:auto;
+  transform:rotate(7deg)
+}
+.e3-project-row:is(.project-dual-screen,.project-game-link,.project-game-events) .collage-main {
+  width:73%;
+  height:56%;
+  left:6%;
+  right:auto;
+  top:13%;
+  transform:rotate(-5deg)
+}
+.e3-project-row:is(.project-dual-screen,.project-game-link,.project-game-events) .collage-small {
+  width:22%;
+  height:auto;
+  aspect-ratio:750 / 1624;
+  right:7%;
+  left:auto;
+  top:auto;
+  bottom:14%;
+  transform:rotate(6deg)
+}
+.e3-project-row .collage-main img,.e3-project-row .collage-small img {
+  object-fit:cover;
+  object-position:top;
+  padding:0
+}
+.e3-project-row:is(.project-dual-screen,.project-game-link,.project-game-events) .collage-main img {
+  object-fit:contain
+}
+.art-gallery {
+  margin:64px 0
+}
+.art-gallery-group + .art-gallery-group {
+  margin-top:62px
+}
+.art-gallery-group>h2 {
+  font-size:24px;
+  font-weight:400;
+  margin-bottom:22px
+}
+.art-stage {
+  padding:48px 36px;
+  border-radius:36px;
+  background:#e9e8e1;
+  overflow:hidden
+}
+.art-stage--phones {
+  display:grid;
+  grid-template-columns:repeat(var(--art-columns),minmax(0,1fr));
+  gap:24px;
+  align-items:start
+}
+.art-column {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+  transform:rotate(-3deg)
+}
+.art-column:nth-child(even) {
+  padding-top:52px;
+  transform:rotate(3deg)
+}
+.art-column:nth-child(3) {
+  padding-top:20px
+}
+.art-piece {
+  display:block;
+  position:relative;
+  border:6px solid #fffefa;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 12px 28px #302a1510;
+  cursor:zoom-in;
+  transition:transform .5s var(--e3-spring),box-shadow .5s
+}
+.art-piece img {
+  width:100%;
+  height:auto;
+  display:block
+}
+.art-stage--phones .art-piece {
+  max-width:260px;
+  width:100%
+}
+.art-piece:hover,.art-piece:focus-visible {
+  transform:translateY(-8px) rotate(2deg);
+  box-shadow:0 20px 34px #302a1520;
+  z-index:3
+}
+.art-stage--mixed,.art-stage--boards {
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:32px 3%
+}
+.art-stage--mixed .is-wide:first-child,.art-stage--boards .is-wide {
+  width:92%;
+  transform:rotate(-3deg)
+}
+.art-stage--mixed .is-wide:not(:first-child) {
+  width:65%;
+  margin-top:-60px;
+  transform:rotate(4deg)
+}
+.art-stage--mixed .is-portrait {
+  width:22%;
+  margin-top:-85px;
+  transform:rotate(4deg)
+}
+.art-stage--mixed .is-portrait:nth-child(even) {
+  margin-top:-40px;
+  transform:rotate(-4deg)
+}
+.art-stage--boards .is-wide:nth-child(even) {
+  width:85%;
+  margin-top:-70px;
+  transform:rotate(3deg)
+}
+.art-stage--mixed .art-piece:hover,.art-stage--boards .art-piece:hover {
+  transform:translateY(-8px) rotate(0)
+}
+body.has-open-artwork {
+  overflow:hidden
+}
+.art-lightbox {
+  width:min(1120px,94vw);
+  max-width:94vw;
+  max-height:92dvh;
+  padding:0;
+  border:0;
+  border-radius:24px;
+  color:var(--ink);
+  background:var(--paper);
+  overflow:hidden
+}
+.art-lightbox::backdrop {
+  background:#141410b0;
+  backdrop-filter:blur(8px)
+}
+.art-lightbox header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:15px 22px;
+  border-bottom:1px solid var(--rule)
+}
+.art-lightbox header p {
+  font-size:14px
+}
+.art-lightbox header button {
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  color:var(--paper);
+  background:var(--ink);
+  font-size:25px;
+  cursor:pointer;
+  flex:none
+}
+.art-lightbox-scroll {
+  overflow:auto;
+  max-height:calc(92dvh - 70px);
+  overscroll-behavior:contain;
+  padding:20px
+}
+.art-lightbox-scroll img {
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:16px
+}
+@media(max-width:700px) {
+  .peek-slide.is-portrait{width:160px;height:238px}
+  .art-gallery{margin-block:36px}
+  .art-gallery-group+.art-gallery-group{margin-top:38px}
+  .art-gallery-group>h2{font-size:20px}
+  .art-stage{padding:28px 18px;border-radius:26px}
+  .art-stage--phones{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .art-column{gap:16px}
+  .art-column:nth-child(even){padding-top:28px}
+  .art-piece{border-width:4px;border-radius:16px}
+  .art-stage--mixed .is-portrait{width:44%;margin-top:-28px}
+  .art-stage--mixed .is-portrait:nth-child(even){margin-top:0}
+  .art-stage--mixed .is-wide:not(:first-child){width:92%;margin-top:-24px}
+  .art-stage--boards .is-wide:nth-child(even){margin-top:-20px}
+  .art-lightbox header{padding:12px 14px}
+  .art-lightbox header p{font-size:12px}
+  .art-lightbox-scroll{padding:12px}
+}
 /* Interactive cases define their own colors inside the light page shell. */
 .e3-case .card-demo {
   --panel:#171d1b;
