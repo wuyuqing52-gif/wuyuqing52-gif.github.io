@@ -1,0 +1,37 @@
+<section class="card-demo" id="card-effects" aria-labelledby="card-effects-title"><div class="demo-sidebar"><span class="eyebrow">PLAYABLE DEMO / VIBE CODING</span><h2 id="card-effects-title">卡牌特效预览</h2><p class="demo-description">从卡面到动态特效，<br>探索不同稀有度的视觉表达。</p><div class="demo-controls"><span class="demo-control-label">特效等级</span><nav class="level-tabs" aria-label="特效等级">
+        <button class="level-tab" type="button" aria-pressed="false" data-level="base">基础</button>
+        <button class="level-tab" type="button" aria-pressed="false" data-level="lv2">Lv2</button>
+        <button class="level-tab is-active" type="button" aria-pressed="true" data-level="lv3">Lv3</button>
+      </nav><span class="demo-control-label">视觉方案</span><div class="solution-tabs" role="group" aria-label="视觉方案"><button type="button" class="is-active" data-solution="1" aria-pressed="true">方案一</button><button type="button" data-solution="2" aria-pressed="false">方案二</button></div></div><p class="demo-hint"><span class="demo-hover-hint">在卡牌上移动鼠标，体验立体效果<br></span>点击卡牌放大预览 <span>↗</span></p></div>      <section class="card-gallery" id="cardGallery" data-solution="1" aria-label="Lv3 卡牌列表"></section>
+
+      <template id="cardTemplate">
+        <button class="gallery-card" type="button" data-preview-card>
+          <span class="card-stack card-stack--static" aria-hidden="true">
+            <img class="card-layer card-layer--underlay" alt="" hidden />
+            <img class="card-layer card-layer--background" src="/demos/card-effects/assets/preview-card-background.webp" alt="" />
+            <img class="card-layer card-layer--character" src="/demos/card-effects/assets/preview-card-character.webp" alt="" />
+            <img class="card-layer card-layer--effect" alt="" hidden />
+            <img class="card-layer card-layer--ui" src="/demos/card-effects/assets/preview-card-ui.webp" alt="" />
+          </span>
+        </button>
+      </template>
+
+    <dialog class="card-viewer" id="cardViewer" aria-label="卡牌放大预览">
+      <button class="viewer-close" type="button" aria-label="关闭预览">×</button>
+      <p class="viewer-guide">移动鼠标查看立体效果</p>
+
+      <div class="viewer-stage">
+        <div class="motion-area" id="motionArea">
+          <article class="card-stack card-stack--interactive" id="interactiveCard" aria-label="卡牌放大预览">
+            <img class="card-layer card-layer--underlay" id="viewerUnderlay" alt="" hidden />
+            <img class="card-layer card-layer--background" id="viewerBackground" src="/demos/card-effects/assets/preview-card-background.webp" alt="" />
+            <img class="card-layer card-layer--character" id="viewerCharacter" src="/demos/card-effects/assets/preview-card-character.webp" alt="" />
+            <img class="card-layer card-layer--effect" id="viewerEffect" alt="" hidden />
+            <img class="card-layer card-layer--ui" id="viewerUi" src="/demos/card-effects/assets/preview-card-ui.webp" alt="卡牌" />
+            <span class="card-shine" aria-hidden="true"></span>
+          </article>
+        </div>
+      </div>
+    </dialog>
+
+</section>
