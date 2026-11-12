@@ -40,4 +40,29 @@
       copyButton.textContent = '复制邮箱';
     }
   });
+
+  const artworkDialog = document.querySelector('#art-lightbox');
+  if (artworkDialog) {
+    const image = artworkDialog.querySelector('img');
+    const title = artworkDialog.querySelector('#art-lightbox-title');
+    document.addEventListener('click', event => {
+      const link = event.target.closest('[data-image-preview]');
+      if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      image.src = link.href;
+      image.alt = link.dataset.imageTitle;
+      title.textContent = link.dataset.imageTitle;
+      artworkDialog.showModal();
+      artworkDialog.querySelector('.art-lightbox-scroll').scrollTop = 0;
+      document.body.classList.add('has-open-artwork');
+    });
+    artworkDialog.querySelector('[data-close-artwork]').addEventListener('click', () => artworkDialog.close());
+    artworkDialog.addEventListener('click', event => {
+      if (event.target === artworkDialog) artworkDialog.close();
+    });
+    artworkDialog.addEventListener('close', () => {
+      document.body.classList.remove('has-open-artwork');
+      image.removeAttribute('src');
+    });
+  }
 })();

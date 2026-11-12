@@ -3,6 +3,7 @@ from html import escape
 import json
 from pathlib import Path
 import re
+from edition3_gallery import PROJECT_ORDER, selected_projects, project_gallery, image_preview
 
 
 ROOT = Path(__file__).parent
@@ -77,50 +78,56 @@ def flower(kind):
 def build_edition3():
     content = json.loads((ROOT / "content.json").read_text())
     origin = json.loads((ROOT / ".openai/hosting.json").read_text()).get("site_url", "https://yuki-edition-3.yuki3316950442.chatgpt.site")
-    projects = {project["slug"]: project for project in content["projects"]}
+    projects = selected_projects(content)
+    assets = json.loads((ROOT / "edition3-assets.json").read_text())
     covers = {
-        "ai-game": ("/assets/ai-card-cover.png", "卡牌游戏的抽卡与卡牌详情界面"),
-        "ai-review": ("/assets/portfolio/review-cover.png", "AI 走查助手的网页工具与 Figma 插件"),
-        "ip-worldbook": ("/assets/portfolio/worldbook-preview.webp", "IP 世界书的产品界面"),
-        "ai-editor": ("/assets/portfolio/desk-editor.png", "AI 游戏编辑器主题示意"),
-        "dual-screen": ("/assets/portfolio/desk-livestream.png", "直播双屏主题示意"),
+        "ai-game": ("ai-game-01", "ai-game-02"),
+        "dual-screen": ("dual-screen-02", "dual-screen-01"),
+        "spring-gala": ("spring-gala-03", "spring-gala-05"),
+        "game-link": ("game-link-05", "game-link-02"),
+        "game-events": ("game-events-06", "game-events-01"),
     }
+    by_name = {asset["name"]: asset for asset in assets}
     navigation = '''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">yuki<span>.</span></a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
     footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/">yuki<span>.</span></a><p>© 2026 吴雨晴</p><div class="edition-links" aria-label="其他作品集版本"><a href="https://yuki-design.yuki3316950442.chatgpt.site/">深色版</a><a href="https://yuki-design-studio.yuki3316950442.chatgpt.site/">年轻版</a><a href="#top">回到顶部</a></div></footer>'''
-    secondary = {
-        "ai-game": ("/assets/card-case/figure-16.webp", "卡牌稀有度与视觉效果"),
-        "ai-review": ("/demos/review-assistant/design.png", "AI 走查助手的手机设计稿"),
-        "ip-worldbook": ("/assets/card-case/figure-01.webp", "IP 世界书产品界面"),
-        "ai-editor": ("/assets/portfolio/desk-code.png", "游戏编辑器主题示意"),
-        "dual-screen": ("/assets/portfolio/desk-game.png", "游戏直播主题示意"),
-    }
     palettes = [
         ("#0636ce", "#ffd23c", "#f32312", "#ffcf4c"),
         ("#ff8fca", "#0636ce", "#ffffff", "#ff8fca"),
         ("#ffcf4c", "#f32312", "#ffffff", "#84def9"),
         ("#84def9", "#0636ce", "#ffffff", "#ffcf4c"),
         ("#f32312", "#ffcf4c", "#0636ce", "#ff8fca"),
+        ("#ffcf4c", "#0636ce", "#ffffff", "#84def9"),
     ]
-    marks = {"ai-game": "卡牌游戏", "ai-review": "AI 走查", "ip-worldbook": "IP 世界书", "ai-editor": "游戏编辑器", "dual-screen": "直播双屏"}
+    marks = {slug: project["title"] for slug, project in projects.items()}
+    marks["ai-game"] = "卡牌游戏"
+    marks["ai-review"] = "AI 走查"
     cards = []
-    for index, slug in enumerate(("ai-game", "ai-review", "ip-worldbook", "ai-editor", "dual-screen")):
+    for index, slug in enumerate(PROJECT_ORDER):
         project = projects[slug]
-        src, alt = covers[slug]
-        small_src, small_alt = secondary[slug]
         tile, petal, center, bloom = palettes[index]
-        illustration = '<span class="image-note">主题示意</span>' if slug in {"ai-editor", "dual-screen"} else ""
+        if slug == "ai-review":
+            collage = '<div class="review-card-art">' + flower_shape("blue", "#0636ce", "#ff8fca") + '</div>'
+        else:
+            main, small = [by_name[name] for name in covers[slug]]
+            src = main["parts"][0]["src"] if main["parts"] else main["src"]
+            collage = f'<div class="collage-main"><img src="{src}" alt="{project["title"]}" loading="lazy" decoding="async"></div><div class="collage-small"><img src="{small["src"]}" alt="{project["title"]}" loading="lazy" decoding="async"></div>'
         cards.append(f'''<article class="e3-project-row project-{slug}" id="project-{slug}">
           <a class="e3-project" href="/work/{slug}.html" aria-describedby="summary-{slug}">
             <span class="card-bloom" aria-hidden="true">{flower_shape("blue", bloom, bloom)}</span>
-            <div class="project-collage" aria-hidden="true"><div class="collage-main"><img src="{src}" alt="{alt}" loading="lazy" decoding="async"></div><div class="collage-small"><img src="{small_src}" alt="{small_alt}" loading="lazy" decoding="async"></div>{illustration}</div>
+            <div class="project-collage" aria-hidden="true">{collage}</div>
             <div class="project-copy"><div class="project-caption"><h3>{escape(project['title'])}</h3><p>{escape(project['headline'])}</p></div><p class="project-description" id="summary-{slug}">{escape(project['summary'])}</p><span class="case-action" aria-hidden="true">查看案例</span></div>
           </a>
           <div class="project-side"><a class="flower-tile" href="/work/{slug}.html" data-flower data-start="-9" style="background:{tile}" aria-label="查看{escape(project['title'])}"><span class="flower-art">{flower_shape("blue", petal, center)}</span></a><a class="project-wordmark" href="/work/{slug}.html" aria-label="查看{escape(project['title'])}">{marks[slug]}</a></div>
         </article>''')
     slides = []
-    for slug in ("ai-game", "ai-review", "ip-worldbook", "ai-editor"):
-        src, alt = covers[slug]
-        slides.append(f'<a class="peek-slide peek-{slug}" href="/work/{slug}.html" aria-label="查看{projects[slug]["title"]}"><img src="{src}" alt="{alt}" loading="lazy"></a>')
+    for asset in assets:
+        if not asset["carousel"]:
+            continue
+        project = projects[asset["project"]]
+        title = f'{project["title"]} · {asset["label"]}'
+        shape = " is-portrait" if asset["height"] > asset["width"] else ""
+        src = asset["parts"][0]["src"] if asset["parts"] else asset["src"]
+        slides.append(f'<a class="peek-slide{shape}" href="{asset["src"]}" data-image-preview data-image-title="{escape(title)}" aria-label="放大{escape(title)}"><img src="{src}" alt="{escape(title)}" loading="lazy"></a>')
     slide_markup = "".join(slides)
     clone_markup = slide_markup.replace('<a ', '<a tabindex="-1" ')
     gallery = f'<div class="peek-gallery" aria-label="项目速览，悬停或聚焦时暂停"><div class="peek-track"><div class="peek-group">{slide_markup}</div><div class="peek-group" aria-hidden="true" inert>{clone_markup}</div></div></div>'
@@ -143,7 +150,7 @@ def build_edition3():
 </section>
 <section class="e3-about e3-wrap" id="about" aria-labelledby="about-title"><div class="about-heading"><p class="section-kicker">A LITTLE ABOUT ME</p><h2 id="about-title">设计之外，<br>还有<span class="serif-accent">好奇心。</span></h2><a class="e3-text-link" href="/resume.html">查看完整简历</a></div><div class="about-copy"><p class="about-lead">我喜欢把复杂的事情理清楚，<br>再把它做成可以体验的东西。</p><p>{escape(content['intro'])}</p><div class="expertise" aria-label="设计方向"><a href="/work/dual-screen.html">交互体验</a><a href="/work/ai-review.html">AI 工作流</a><a href="/work/ai-game.html">视觉与动态</a></div><ol class="about-career"><li><time>2021.04 — 至今</time><div><strong>字节跳动</strong><span>抖音 IP 与游戏 · 体验 / AI 设计</span></div></li><li><time>2020.12 — 2021.04</time><div><strong>拼多多</strong><span>用户增长 · 交互设计</span></div></li><li><time>2019.11 — 2020.12</time><div><strong>腾讯</strong><span>理财通 · 交互设计</span></div></li></ol></div></section>
 <section class="e3-contact" id="contact" aria-labelledby="contact-title"><div class="contact-flower" aria-hidden="true">{flower_shape("blue", "#84def9", "#ffffff")}</div><p>关于体验、AI，或是一个有趣的想法</p><h2 id="contact-title"><a href="mailto:435456341@qq.com">一起聊聊</a></h2><div class="contact-email"><a href="mailto:435456341@qq.com">435456341@qq.com</a><button type="button" class="copy-email" data-copy-email aria-label="复制邮箱地址">复制邮箱</button><span data-copy-status role="status" aria-live="polite"></span></div></section>
-</main>{footer}</body></html>'''
+</main>{footer}{image_preview()}</body></html>'''
     (DIST / "index.html").write_text(html)
     # Case demos keep their original scripts and receive the third-edition shell.
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
@@ -157,8 +164,40 @@ def build_edition3():
         # Keep edition switchers pointed at the original published sites.
         page = page.replace(f'<a href="{origin}/">深色版</a>', '<a href="https://yuki-design.yuki3316950442.chatgpt.site/">深色版</a>')
         (path).write_text(page)
+    from site_base import head
+    for slug in ("spring-gala", "game-link", "game-events"):
+        project = projects[slug]
+        page = head(project["title"] + ' · Yuki Design', project["summary"], '/work/' + slug + '.html').replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
+        page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>')
+        page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
+        page += navigation + f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, assets)}</main>' + footer + image_preview() + '</body></html>'
+        (DIST / 'work' / f'{slug}.html').write_text(page)
+
+    for index, slug in enumerate(PROJECT_ORDER):
+        path = DIST / 'work' / f'{slug}.html'
+        page = path.read_text()
+        if slug == "ai-game":
+            page = re.sub(r'<div class="card-case-media"[^>]*>.*?</div>', '', page, flags=re.S)
+            page = page.replace('<div class="case-reading card-case-reading">', project_gallery(projects[slug], assets) + '<div class="case-reading card-case-reading">', 1)
+        elif slug == "ai-review":
+            page = re.sub(r'<figure class="review-source-image">.*?</figure>', '', page, flags=re.S)
+        elif slug == "dual-screen":
+            start = page.index('<section class="project-guide"')
+            end = page.index('<div class="detail-overview"', start)
+            page = page[:start] + project_gallery(projects[slug], assets) + page[end:]
+        page = re.sub(r'<section class="case-assets">.*?</section>', '', page, flags=re.S)
+        next_slug = PROJECT_ORDER[(index + 1) % len(PROJECT_ORDER)]
+        next_link = f'<a class="next-project" href="/work/{next_slug}.html"><span>继续浏览</span><strong>{escape(projects[next_slug]["title"])}</strong></a>'
+        if 'class="next-project"' in page:
+            page = re.sub(r'<a class="next-project".*?</a>', next_link, page, flags=re.S)
+        else:
+            page = page.replace('</main>', next_link + '</main>')
+        if 'id="art-lightbox"' not in page:
+            page = page.replace('</body>', image_preview() + '</body>')
+        path.write_text(page)
     sitemap = DIST / "sitemap.xml"
-    sitemap.write_text(sitemap.read_text().replace('https://yuki-design.yuki3316950442.chatgpt.site', origin))
+    routes = ['/', '/resume.html'] + [f'/work/{slug}.html' for slug in PROJECT_ORDER]
+    sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{origin}{route}</loc></url>' for route in routes) + '</urlset>')
     (DIST / "robots.txt").write_text(f'User-agent: *\nAllow: /\nSitemap: {origin}/sitemap.xml\n')
     print('Built Edition 3 homepage, case navigation and site metadata.')
 
