@@ -164,8 +164,9 @@
     "carousel": true,
     "width": 6056,
     "height": 4150,
-    "src": "/assets/edition3-projects/spring-gala-06.webp",
-    "parts": []
+    "src": "/assets/edition3-projects/spring-gala-06.png",
+    "parts": [],
+    "transparent": true
   },
   {
     "project": "spring-gala",
@@ -301,8 +302,9 @@
     "carousel": false,
     "width": 3152,
     "height": 1892,
-    "src": "/assets/edition3-projects/game-events-06.webp",
-    "parts": []
+    "src": "/assets/edition3-projects/game-events-06.png",
+    "parts": [],
+    "transparent": true
   },
   {
     "project": "game-events",
@@ -311,8 +313,9 @@
     "carousel": false,
     "width": 3152,
     "height": 1892,
-    "src": "/assets/edition3-projects/game-events-07.webp",
-    "parts": []
+    "src": "/assets/edition3-projects/game-events-07.png",
+    "parts": [],
+    "transparent": true
   },
   {
     "project": "dual-screen",
@@ -331,8 +334,9 @@
     "carousel": false,
     "width": 3152,
     "height": 1892,
-    "src": "/assets/edition3-projects/dual-screen-02.webp",
-    "parts": []
+    "src": "/assets/edition3-projects/dual-screen-02.png",
+    "parts": [],
+    "transparent": true
   },
   {
     "project": "dual-screen",
@@ -341,8 +345,9 @@
     "carousel": false,
     "width": 3152,
     "height": 1892,
-    "src": "/assets/edition3-projects/dual-screen-03.webp",
-    "parts": []
+    "src": "/assets/edition3-projects/dual-screen-03.png",
+    "parts": [],
+    "transparent": true
   },
   {
     "project": "game-link",
@@ -391,7 +396,8 @@
     "carousel": false,
     "width": 3139,
     "height": 1892,
-    "src": "/assets/edition3-projects/game-link-05.webp",
-    "parts": []
+    "src": "/assets/edition3-projects/game-link-05.png",
+    "parts": [],
+    "transparent": true
   }
 ]

@@ -81,7 +81,6 @@ def build_edition3():
     projects = selected_projects(content)
     assets = json.loads((ROOT / "edition3-assets.json").read_text())
     covers = {
-        "ai-game": ("ai-game-01", "ai-game-02"),
         "dual-screen": ("dual-screen-02", "dual-screen-01"),
         "spring-gala": ("spring-gala-03", "spring-gala-05"),
         "game-link": ("game-link-05", "game-link-02"),
@@ -105,12 +104,15 @@ def build_edition3():
     for index, slug in enumerate(PROJECT_ORDER):
         project = projects[slug]
         tile, petal, center, bloom = palettes[index]
-        if slug == "ai-review":
-            collage = '<div class="review-card-art">' + flower_shape("blue", "#0636ce", "#ff8fca") + '</div>'
+        if slug == "ai-game":
+            collage = '<div class="collage-main original-cover"><img src="/assets/ai-card-cover.png" alt="集换式卡牌游戏" loading="lazy"></div><div class="collage-small original-detail"><img src="/assets/card-case/figure-16.webp" alt="卡牌稀有度与视觉效果" loading="lazy"></div>'
+        elif slug == "ai-review":
+            collage = '<div class="collage-main original-cover"><img src="/assets/portfolio/review-cover.png" alt="AI 走查助手" loading="lazy"></div><div class="collage-small original-detail"><img src="/demos/review-assistant/design.png" alt="走查工具设计稿" loading="lazy"></div>'
         else:
             main, small = [by_name[name] for name in covers[slug]]
             src = main["parts"][0]["src"] if main["parts"] else main["src"]
-            collage = f'<div class="collage-main"><img src="{src}" alt="{project["title"]}" loading="lazy" decoding="async"></div><div class="collage-small"><img src="{small["src"]}" alt="{project["title"]}" loading="lazy" decoding="async"></div>'
+            transparency = " has-alpha" if main.get("transparent") else ""
+            collage = f'<div class="collage-main{transparency}"><img src="{src}" alt="{project["title"]}" loading="lazy" decoding="async"></div><div class="collage-small"><img src="{small["src"]}" alt="{project["title"]}" loading="lazy" decoding="async"></div>'
         cards.append(f'''<article class="e3-project-row project-{slug}" id="project-{slug}">
           <a class="e3-project" href="/work/{slug}.html" aria-describedby="summary-{slug}">
             <span class="card-bloom" aria-hidden="true">{flower_shape("blue", bloom, bloom)}</span>
@@ -177,10 +179,14 @@ def build_edition3():
         path = DIST / 'work' / f'{slug}.html'
         page = path.read_text()
         if slug == "ai-game":
-            page = re.sub(r'<div class="card-case-media"[^>]*>.*?</div>', '', page, flags=re.S)
-            page = page.replace('<div class="case-reading card-case-reading">', project_gallery(projects[slug], assets) + '<div class="case-reading card-case-reading">', 1)
+            start = page.index('<div class="case-reading card-case-reading">')
+            end = page.index('<a class="next-project"', start)
+            page = page[:start] + project_gallery(projects[slug], assets) + page[end:]
         elif slug == "ai-review":
-            page = re.sub(r'<figure class="review-source-image">.*?</figure>', '', page, flags=re.S)
+            start = page.index('<div class="case-reading">')
+            end = page.index('<a class="next-project"', start)
+            page = page[:start] + page[end:]
+            page = re.sub(r'<p class="case-lead">.*?</p>', '', page, flags=re.S)
         elif slug == "dual-screen":
             start = page.index('<section class="project-guide"')
             end = page.index('<div class="detail-overview"', start)
