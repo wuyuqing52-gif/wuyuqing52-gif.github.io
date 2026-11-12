@@ -24,8 +24,8 @@
     "name": "ai-game-03",
     "label": "抖音分享图",
     "carousel": true,
-    "width": 2250,
-    "height": 4870,
+    "width": 1600,
+    "height": 3463,
     "src": "/assets/edition3-projects/ai-game-03.webp",
     "parts": []
   },
@@ -34,8 +34,8 @@
     "name": "ai-game-04",
     "label": "抖音分享图",
     "carousel": false,
-    "width": 2250,
-    "height": 4870,
+    "width": 1600,
+    "height": 3463,
     "src": "/assets/edition3-projects/ai-game-04.webp",
     "parts": []
   },
@@ -162,9 +162,9 @@
     "name": "spring-gala-06",
     "label": "许愿文字模板",
     "carousel": true,
-    "width": 6056,
-    "height": 4150,
-    "src": "/assets/edition3-projects/spring-gala-06.png",
+    "width": 4096,
+    "height": 2620,
+    "src": "/assets/edition3-projects/wishing-template.png",
     "parts": [],
     "transparent": true
   },
@@ -300,22 +300,34 @@
     "name": "game-events-06",
     "label": "自建赛",
     "carousel": false,
-    "width": 3152,
-    "height": 1892,
+    "width": 1600,
+    "height": 960,
     "src": "/assets/edition3-projects/game-events-06.png",
     "parts": [],
-    "transparent": true
+    "transparent": true,
+    "display_bounds": [
+      70,
+      48,
+      1460,
+      821
+    ]
   },
   {
     "project": "game-events",
     "name": "game-events-07",
     "label": "自建赛",
     "carousel": false,
-    "width": 3152,
-    "height": 1892,
+    "width": 1600,
+    "height": 960,
     "src": "/assets/edition3-projects/game-events-07.png",
     "parts": [],
-    "transparent": true
+    "transparent": true,
+    "display_bounds": [
+      70,
+      48,
+      1460,
+      821
+    ]
   },
   {
     "project": "dual-screen",
@@ -332,22 +344,34 @@
     "name": "dual-screen-02",
     "label": "",
     "carousel": false,
-    "width": 3152,
-    "height": 1892,
+    "width": 1600,
+    "height": 960,
     "src": "/assets/edition3-projects/dual-screen-02.png",
     "parts": [],
-    "transparent": true
+    "transparent": true,
+    "display_bounds": [
+      70,
+      48,
+      1460,
+      821
+    ]
   },
   {
     "project": "dual-screen",
     "name": "dual-screen-03",
     "label": "",
     "carousel": false,
-    "width": 3152,
-    "height": 1892,
+    "width": 1600,
+    "height": 960,
     "src": "/assets/edition3-projects/dual-screen-03.png",
     "parts": [],
-    "transparent": true
+    "transparent": true,
+    "display_bounds": [
+      70,
+      48,
+      1460,
+      821
+    ]
   },
   {
     "project": "game-link",
@@ -394,10 +418,16 @@
     "name": "game-link-05",
     "label": "",
     "carousel": false,
-    "width": 3139,
-    "height": 1892,
+    "width": 1600,
+    "height": 964,
     "src": "/assets/edition3-projects/game-link-05.png",
     "parts": [],
-    "transparent": true
+    "transparent": true,
+    "display_bounds": [
+      70,
+      48,
+      1460,
+      825
+    ]
   }
 ]

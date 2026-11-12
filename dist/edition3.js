@@ -44,15 +44,17 @@
   const artworkDialog = document.querySelector('#art-lightbox');
   if (artworkDialog) {
     const image = artworkDialog.querySelector('img');
-    const title = artworkDialog.querySelector('#art-lightbox-title');
     const viewport = artworkDialog.querySelector('.art-lightbox-scroll');
+    image.addEventListener('load', () => {
+      image.classList.toggle('is-long', image.naturalHeight > image.naturalWidth * 3.3);
+    });
     document.addEventListener('click', event => {
       const link = event.target.closest('[data-image-preview]');
       if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
+      image.classList.remove('is-long');
       image.src = link.href;
       image.alt = link.dataset.imageTitle;
-      title.textContent = link.dataset.imageTitle;
       artworkDialog.showModal();
       viewport.scrollTop = 0;
       viewport.scrollLeft = 0;
@@ -60,7 +62,7 @@
     });
     artworkDialog.querySelector('[data-close-artwork]').addEventListener('click', () => artworkDialog.close());
     artworkDialog.addEventListener('click', event => {
-      if (event.target === artworkDialog) artworkDialog.close();
+      if (event.target === artworkDialog || event.target === viewport) artworkDialog.close();
     });
     artworkDialog.addEventListener('close', () => {
       document.body.classList.remove('has-open-artwork');
