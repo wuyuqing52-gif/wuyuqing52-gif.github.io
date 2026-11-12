@@ -1,0 +1,1438 @@
+[
+  {
+    "id": "project-intro",
+    "title": "项目背景",
+    "kicker": "PROJECT CONTEXT",
+    "blocks": [
+      {
+        "type": "prose",
+        "paragraphs": [
+          "一款基于 IP 知识库的 AI 卡牌游戏，从 0 到 1。借这个项目，聊聊 AI 时代设计师的工作方式。"
+        ]
+      },
+      {
+        "type": "facts",
+        "items": [
+          {
+            "title": "我的角色 / ROLE",
+            "body": "产品体验设计 → 策划 · 美术 · 开发"
+          },
+          {
+            "title": "团队 / TEAM",
+            "body": "4 人 · 3 视觉 + 我"
+          },
+          {
+            "title": "时间 / TIME",
+            "body": "2026.08-至今"
+          }
+        ]
+      },
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "AI 时代，设计师的工作方式应该是怎么样的？"
+            },
+            {
+              "type": "diagram",
+              "style": "formula",
+              "items": [
+                {
+                  "title": "设计师的判断力",
+                  "label": "01"
+                },
+                {
+                  "title": "AI 的能力",
+                  "label": "02"
+                },
+                {
+                  "title": "设计师能力边界拓展",
+                  "label": "结果"
+                }
+              ]
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "这次我的职能从体验设计延伸到了游戏美术、策划、开发；下次可能是产品、运营，或任何方向。"
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "基于 IP 世界书的 AI 卡牌游戏"
+            },
+            {
+              "type": "split",
+              "columns": [
+                [
+                  {
+                    "type": "diagram",
+                    "style": "overview",
+                    "items": [
+                      {
+                        "title": "IP 角色",
+                        "label": "输入"
+                      },
+                      {
+                        "title": "不同稀有度、技能与属性的卡牌",
+                        "label": "AI 转化"
+                      },
+                      {
+                        "title": "收藏与对战",
+                        "label": "用途"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "type": "media",
+                    "columns": 1,
+                    "items": [
+                      {
+                        "src": "/assets/card-case/figure-01.webp",
+                        "caption": "IP 世界书 · 产品界面",
+                        "width": 939,
+                        "height": 504
+                      }
+                    ]
+                  }
+                ]
+              ],
+              "layout": "overview"
+            },
+            {
+              "type": "details",
+              "label": "查看产品与团队背景",
+              "blocks": [
+                {
+                  "type": "prose",
+                  "paragraphs": [
+                    "包含IP角色设定和故事和百科网站",
+                    "▸ AI 自动化把 IP 角色转成不同稀有度、技能及属性的卡牌\n▸ 卡牌用于收藏，也用于对战\n▸ 玩法、美术、UI、动效、开发，全部从 0 搭建",
+                    "3 位视觉设计师，加上交互出身，转型UX设计的我。"
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "项目挑战"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "四重压力同时压下来"
+              ]
+            },
+            {
+              "type": "cards",
+              "items": [
+                {
+                  "title": "01  零游戏经验",
+                  "body": "从体验设计跨步到游戏的全新领域"
+                },
+                {
+                  "title": "时间极紧  02",
+                  "body": "一周内产出完整游戏美术设定方案"
+                },
+                {
+                  "title": "03  老板高度重视",
+                  "body": "容错率极低"
+                },
+                {
+                  "title": "全新的产品团队  04",
+                  "body": "如何与游戏产品、策划协作？"
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "破局思路 / THE PLAN",
+              "text": "每一重压力，拆成一场能打的仗。接下来的攻坚 01 / 02 / 03 / 04，一个一个来。"
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "design-01",
+    "title": "攻坚一 · 世界观与美术风格设定",
+    "kicker": "CASE 01 / WORLDVIEW & ART DIRECTION",
+    "blocks": [
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "背景：一道从 0 到 1 的难题"
+            },
+            {
+              "type": "diagram",
+              "style": "facts",
+              "items": [
+                {
+                  "title": "一周内完成设定",
+                  "label": "汇报要求"
+                },
+                {
+                  "title": "任务和分工待定",
+                  "label": "团队状态"
+                },
+                {
+                  "title": "设定游戏美术风格",
+                  "label": "我的任务"
+                }
+              ]
+            },
+            {
+              "type": "details",
+              "label": "查看四项交付与具体难题",
+              "blocks": [
+                {
+                  "type": "cards",
+                  "items": [
+                    {
+                      "title": "突然的汇报要求",
+                      "body": "一周内要从 0 到 1 一次交出：\n01  世界观\n02  美术风格\n03  卡框梯度设计\n04  核心页面 UI"
+                    },
+                    {
+                      "title": "无领导小组状态",
+                      "body": "人人都知道紧急，但没人拍板：\n?  做哪些事\n?  什么顺序\n?  怎么分工"
+                    },
+                    {
+                      "title": "我的任务",
+                      "body": "「游戏美术风格设定」:\n用什么风格？\n什么配色？\n哪些概念元素？\n全是我不熟的领域"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "我的判断：先定世界观，再谈美术"
+            },
+            {
+              "type": "diagram",
+              "style": "flow",
+              "items": [
+                {
+                  "title": "世界观",
+                  "label": "01"
+                },
+                {
+                  "title": "风格参考与情绪板",
+                  "label": "02"
+                },
+                {
+                  "title": "基调与色系",
+                  "label": "03"
+                },
+                {
+                  "title": "卡框梯度",
+                  "label": "04"
+                },
+                {
+                  "title": "主页面 UI",
+                  "label": "05"
+                }
+              ]
+            },
+            {
+              "type": "details",
+              "label": "查看判断过程与完整任务顺序",
+              "blocks": [
+                {
+                  "type": "prose",
+                  "paragraphs": [
+                    "先退一步，找根问题",
+                    "卡住的时候，我用自己体验设计养成的思维判断：与其漫无目的地发散，不如先有一个明确的定位：",
+                    "应该先明确游戏世界观，知道是什么样的游戏之后，再根据游戏背景故事推导美术风格、视觉元素。",
+                    "于是，我成了团队中带头明确任务方向的那一个。"
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "定下的任务顺序 / THE ORDER"
+                },
+                {
+                  "type": "steps",
+                  "items": [
+                    {
+                      "title": "01  世界观　—— 一切的起点",
+                      "body": ""
+                    },
+                    {
+                      "title": "02  风格参考、情绪板建立",
+                      "body": ""
+                    },
+                    {
+                      "title": "03  风格基调、色系",
+                      "body": ""
+                    },
+                    {
+                      "title": "04  卡牌卡框梯度",
+                      "body": ""
+                    },
+                    {
+                      "title": "05  主页面 UI",
+                      "body": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "callout",
+                  "title": "",
+                  "text": "NOTE · 顺序即判断：先锁最上游，后面才有依据"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "HOW TO 制作游戏世界观？"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "AI 给选项，我做判断。三轮来回，每一轮「为什么选它」都比「选了多少」更重要。"
+              ]
+            },
+            {
+              "type": "rounds",
+              "items": [
+                {
+                  "round": "ROUND 1 · 定方向",
+                  "turns": [
+                    {
+                      "speaker": "me",
+                      "label": "01 · 我的输入",
+                      "title": "输入业务背景",
+                      "body": "基于 IP 知识库的 AI 卡牌游戏 · 类「维基百科」网站，已有的全部信息。",
+                      "choices": []
+                    },
+                    {
+                      "speaker": "ai",
+                      "label": "02 · AI 输出 · 3 个方向",
+                      "title": "产出世界观方向",
+                      "body": "",
+                      "choices": [
+                        "万象图书馆 / 百科宇宙 ★ 推荐",
+                        "时空乱流 / 次元裂缝",
+                        "梦境剧场 / 集体意识"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "round": "ROUND 2 · 补故事",
+                  "turns": [
+                    {
+                      "speaker": "me",
+                      "label": "03 · 我的决策",
+                      "title": "确定方向 · 逻辑修正",
+                      "body": "选定「档案馆」，和「维基百科」主业务天然契合；但「馆员让词条互相战斗」说不通，得补一个非打不可的理由。",
+                      "choices": []
+                    },
+                    {
+                      "speaker": "ai",
+                      "label": "04 · AI 输出 · 3 个方向",
+                      "title": "完善故事背景、任务目标",
+                      "body": "",
+                      "choices": [
+                        "词条褪色危机 ★ 推荐",
+                        "词条叛乱",
+                        "词条许愿"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "round": "ROUND 3 · 立规则",
+                  "turns": [
+                    {
+                      "speaker": "me",
+                      "label": "05 · 我的决策",
+                      "title": "反复修正 · 定核心规则",
+                      "body": "明确「记忆」与「褪色」：被遗忘就会消散。让用户记住角色、传播角色，本来就是平台的愿景。",
+                      "choices": []
+                    },
+                    {
+                      "speaker": "ai",
+                      "label": "06 · 完整世界观",
+                      "title": "「赛博档案馆」成型",
+                      "body": "角色是被遗忘就会消散的数字实体。",
+                      "choices": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "",
+              "text": "NOTE · 方向与规则由我把关，AI 只做展开与补全。判断在我，执行在 AI。"
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "AI 辅助，产出贴合业务的世界观"
+            },
+            {
+              "type": "split",
+              "columns": [
+                [
+                  {
+                    "type": "callout",
+                    "title": "赛博档案馆",
+                    "text": "每个 IP 角色都是档案馆里的数字实体，要被人记住才能维持形态；被遗忘，就会消散。"
+                  },
+                  {
+                    "type": "prose",
+                    "paragraphs": [
+                      "从「维基百科」的项目背景出发，与 AI 反复碰撞、逐轮修正后得出。"
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "type": "media",
+                    "columns": 1,
+                    "items": [
+                      {
+                        "src": "/assets/card-case/figure-02.webp",
+                        "caption": "赛博档案馆 · 世界观设定文档",
+                        "width": 1920,
+                        "height": 1453
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "cards",
+              "items": [
+                {
+                  "title": "贴合业务",
+                  "body": "平台的愿景是让角色被记住。"
+                },
+                {
+                  "title": "逻辑自洽",
+                  "body": "战斗有了明确的动机。"
+                },
+                {
+                  "title": "自带情感张力",
+                  "body": "被遗忘的角色会消散。"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "title": "我的判断",
+        "text": "AI 把我送进策划这个陌生领域；但「概念对不对」的判断，始终是我自己在做。"
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "从世界观，推导美术风格"
+            },
+            {
+              "type": "steps",
+              "items": [
+                {
+                  "title": "世界观 · WORLDVIEW",
+                  "body": "赛博档案馆"
+                },
+                {
+                  "title": "风格方向 · DIRECTION",
+                  "body": "都市潮流 × 赛博朋克"
+                },
+                {
+                  "title": "视觉语言 · VISUAL LANGUAGE",
+                  "body": "深色打底 · 霓虹点缀 · 扁平现代"
+                }
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-03.webp",
+                  "caption": "美术风格参考与情绪板",
+                  "width": 1920,
+                  "height": 765
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "如何从0制作游戏GUI？"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "这个问题，AI无法直接给答案",
+                "直接让AI根据背景设定生成主页面，即使给定了风格约束、给定参考图，效果依然很不理想："
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 3,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-04.webp",
+                  "caption": "AI 直出探索 01",
+                  "width": 941,
+                  "height": 1672
+                },
+                {
+                  "src": "/assets/card-case/figure-05.webp",
+                  "caption": "AI 直出探索 02",
+                  "width": 941,
+                  "height": 1672
+                },
+                {
+                  "src": "/assets/card-case/figure-06.webp",
+                  "caption": "AI 直出探索 03",
+                  "width": 941,
+                  "height": 1672
+                },
+                {
+                  "src": "/assets/card-case/figure-07.webp",
+                  "caption": "AI 直出探索 04",
+                  "width": 941,
+                  "height": 1672
+                },
+                {
+                  "src": "/assets/card-case/figure-08.webp",
+                  "caption": "AI 直出探索 05",
+                  "width": 941,
+                  "height": 1672
+                },
+                {
+                  "src": "/assets/card-case/figure-09.webp",
+                  "caption": "AI 直出探索 06",
+                  "width": 941,
+                  "height": 1672
+                }
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 2,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-10.webp",
+                  "caption": "风格约束与设定参考 01",
+                  "width": 1816,
+                  "height": 1218
+                },
+                {
+                  "src": "/assets/card-case/figure-11.webp",
+                  "caption": "风格约束与设定参考 02",
+                  "width": 1614,
+                  "height": 1134
+                },
+                {
+                  "src": "/assets/card-case/figure-12.webp",
+                  "caption": "风格约束与设定参考 03",
+                  "width": 1786,
+                  "height": 1166
+                },
+                {
+                  "src": "/assets/card-case/figure-13.webp",
+                  "caption": "风格约束与设定参考 04",
+                  "width": 1794,
+                  "height": 1464
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "「双轨约束」驯服 AI 生成GUI"
+            },
+            {
+              "type": "steps",
+              "items": [
+                {
+                  "title": "轨道 A · 锁调性",
+                  "body": "STEP 1  海量找参考\n找到最贴近目标的参考图，把调性锁死。"
+                },
+                {
+                  "title": "轨道 B · 锁布局",
+                  "body": "STEP 2  Figma 画粗原型\n自己先画粗糙原型，把布局与交互锁死。"
+                },
+                {
+                  "title": "STEP 3  AI 生图",
+                  "body": "原型锁布局 + 参考锁调性，双轨输入，再细化调优。"
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "结果：出图可控",
+              "text": "出图从「碰运气」变成「可控」。"
+            },
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-14.webp",
+                  "caption": "「双轨约束」的 GUI 生成过程",
+                  "width": 1920,
+                  "height": 953
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "结果：风格定型，战斗场景定版"
+            },
+            {
+              "type": "diagram",
+              "style": "facts",
+              "items": [
+                {
+                  "title": "深色打底",
+                  "label": "层级"
+                },
+                {
+                  "title": "亮色点缀",
+                  "label": "关键信息"
+                },
+                {
+                  "title": "现代工业风",
+                  "label": "视觉语言"
+                }
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-15.webp",
+                  "caption": "主界面与战斗场景定版",
+                  "width": 1051,
+                  "height": 1497
+                }
+              ]
+            },
+            {
+              "type": "diagram",
+              "style": "flow",
+              "items": [
+                {
+                  "title": "新配色风格",
+                  "label": "输入"
+                },
+                {
+                  "title": "原场景立体风格",
+                  "label": "复用"
+                },
+                {
+                  "title": "新版场景界面",
+                  "label": "输出"
+                }
+              ]
+            },
+            {
+              "type": "details",
+              "label": "查看战斗场景定版与工作流复用",
+              "blocks": [
+                {
+                  "type": "cards",
+                  "items": [
+                    {
+                      "title": "深色打底",
+                      "body": "深底稳住画面，层级靠明度拉开"
+                    },
+                    {
+                      "title": "亮色点缀",
+                      "body": "亮色只留给关键信息与状态"
+                    },
+                    {
+                      "title": "现代工业风",
+                      "body": "硬朗几何、功能主义，和「档案馆」对得上"
+                    }
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "战斗场景 / BATTLE SCENE"
+                },
+                {
+                  "type": "prose",
+                  "paragraphs": [
+                    "战斗场景用的是我定的「轻立体 · 轻简约 3D」：有纵深、有质感，但不抢卡牌的戏。"
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "同一套 AI 工作流复用 / SAME PIPELINE"
+                },
+                {
+                  "type": "steps",
+                  "items": [
+                    {
+                      "title": "新配色风格",
+                      "body": ""
+                    },
+                    {
+                      "title": "原场景立体风格",
+                      "body": ""
+                    },
+                    {
+                      "title": "新版场景界面",
+                      "body": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "prose",
+                  "paragraphs": [
+                    "REUSED WORKFLOW · 只替换风格参数，快速出新版"
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "callout",
+              "title": "阶段收获",
+              "text": "AI 把我的能力边界，从「交互」一路推到了策划和美术。我不必先成为专家，只要守住判断力这个上游，AI 就能带我在陌生领域站住脚。"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "交互设计  →  游戏策划  →  美术风格  →  下一个陌生领域",
+                "领域可以换，这套「先守住上游判断」的做法能复用。"
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "design-02",
+    "title": "攻坚二 · 卡牌动态立体 Demo",
+    "kicker": "CASE 02 / DYNAMIC CARD DEMO",
+    "blocks": [
+      {
+        "type": "split",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "卡牌品质感"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "要搭卡牌稀有度体系、激发收藏欲，就得给不同等级的卡牌\n做出不同的视觉效果。"
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                {
+                  "title": "✓ 3D立体效果",
+                  "body": ""
+                },
+                {
+                  "title": "✓ 质感纹理",
+                  "body": ""
+                },
+                {
+                  "title": "✓ 动画特效",
+                  "body": ""
+                }
+              ]
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "这些效果，得做成动态 demo 才看得出来。"
+              ]
+            }
+          ],
+          [
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-16.webp",
+                  "caption": "卡牌稀有度与视觉效果",
+                  "width": 1902,
+                  "height": 1482
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "怎么做：用 Vibe Coding 直接开发真 Demo"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "把卡牌拆成背景、人物、特效和 UI 等透明图层，各层设置不同的空间深度。鼠标驱动卡牌倾斜、各层差异位移，配合透视和阴影，做出有前后层次的伪 3D 效果。",
+                "问题是：AI 生成的卡框特效视频抠不了图，\n特效没法叠到不同的卡牌上。"
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-17.webp",
+                  "caption": "卡牌透明图层拆解",
+                  "width": 1920,
+                  "height": 1311
+                }
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 2,
+              "items": [
+                {
+                  "src": "/assets/card-case/motion-01.webp",
+                  "caption": "卡牌立体交互示例",
+                  "width": 555,
+                  "height": 760
+                },
+                {
+                  "src": "/assets/card-case/motion-02.webp",
+                  "caption": "卡框动画叠加示例",
+                  "width": 587,
+                  "height": 760
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "解开死结的类比"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "设计软件里能设「通道效果」，开发里是不是也能？顺着这个类比让 Codex 试，问题还真解开了。"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "通道叠加 · 三层结构"
+            },
+            {
+              "type": "steps",
+              "items": [
+                {
+                  "title": "上层 · 卡面流光特效",
+                  "body": "通道叠在上层，特效边缘自然漏出"
+                },
+                {
+                  "title": "中层 · 真实卡面",
+                  "body": "不需要特效的部分，正好被卡面遮住"
+                },
+                {
+                  "title": "底层 · 卡框发光 · 焰火",
+                  "body": "发光与焰火叠在最底层，自然托底"
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "",
+              "text": "特效不用抠图，靠层叠顺序与通道混合就位。卡面在哪一层，哪里就被遮住。"
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "成果：一张「会呼吸」的立体卡牌"
+            },
+            {
+              "type": "facts",
+              "items": [
+                {
+                  "title": "2",
+                  "body": "套卡牌"
+                },
+                {
+                  "title": "4",
+                  "body": "个稀有度"
+                },
+                {
+                  "title": "3",
+                  "body": "款强化等级"
+                }
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/motion-03.webp",
+                  "caption": "两套卡牌的动态效果总览",
+                  "width": 980,
+                  "height": 643
+                }
+              ]
+            },
+            {
+              "type": "jump",
+              "href": "#card-effects",
+              "label": "回到卡牌特效预览"
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "callout",
+              "title": "阶段收获",
+              "text": "AI 改变了设计到开发的流程。以前交完静态稿就等开发；现在更早就能把真实可交互的方案跑出来。"
+            },
+            {
+              "type": "cards",
+              "items": [
+                {
+                  "title": "BEFORE · 旧",
+                  "body": "额外做一套「假」动画 Demo\n做完就扔，流不进后续开发"
+                },
+                {
+                  "title": "AFTER · 新",
+                  "body": "更早跑出能交互的真方案，部分成果直接流进开发"
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "design-03",
+    "title": "攻坚三 · 抽卡链路",
+    "kicker": "CASE 03 / UI DESIGN · GACHA FLOW",
+    "blocks": [
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "prose",
+              "paragraphs": [
+                "前两轮攻坚定下了世界观、风格和卡框。进入界面设计，第一波需求是「卡牌获取 · 抽卡链路」。"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "创意推导 / IDEA DERIVATION"
+            },
+            {
+              "type": "diagram",
+              "items": [
+                {
+                  "title": "世界观 · 赛博档案馆",
+                  "body": "攻坚一已定 · 一切的起点",
+                  "label": "01"
+                },
+                {
+                  "title": "卡池 = 一本「档案册」",
+                  "body": "每个卡池，对应馆中一册档案",
+                  "label": "02"
+                },
+                {
+                  "title": "抽卡 = 从书册随机翻出卡牌",
+                  "body": "仪式感来自世界观，不用额外造",
+                  "label": "03"
+                }
+              ],
+              "style": "derivation"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "GACHA = PART OF THE WORLDVIEW · 抽卡动作，从世界观里长出来"
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "AI 工作流：生成主页面 → 拆分 → 重组"
+            },
+            {
+              "type": "diagram",
+              "items": [
+                {
+                  "title": "生成主页面",
+                  "body": "把定好的风格和卡框喂给 AI，先出一版主页面",
+                  "label": "01",
+                  "output": "主页面初稿"
+                },
+                {
+                  "title": "元素拆分",
+                  "body": "把页面拆成独立元素：卡槽、按钮、背景、特效层",
+                  "label": "02",
+                  "output": "元素组件"
+                },
+                {
+                  "title": "重组",
+                  "body": "按设计意图重新组装，得到能持续迭代的结构",
+                  "label": "03",
+                  "output": "界面结构"
+                }
+              ],
+              "style": "production"
+            },
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-18.webp",
+                  "caption": "抽卡主页面 · 初稿、元素拆分与重组",
+                  "width": 1672,
+                  "height": 941
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "split",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "抽卡演出：从50分到90分"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "界面与链路都顺了，真正的难题在「演出」。",
+                "时间紧、资源有限，演出只能用「动画播放」来做；我又没有动画基础，只能靠 AI 生成。",
+                "AI很快产出了符合预期的demo，但问题明显："
+              ]
+            },
+            {
+              "type": "cards",
+              "items": [
+                {
+                  "title": "画面脏",
+                  "body": "ai反复生成后细节糊成一团"
+                },
+                {
+                  "title": "色调暗沉",
+                  "body": "抽卡场景过于暗黑"
+                },
+                {
+                  "title": "场景跳变",
+                  "body": "复古图书馆与「赛博档案馆」概念不匹配"
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/motion-04.webp",
+                  "caption": "初版动画 DEMO · FIRST CUT",
+                  "width": 427,
+                  "height": 760
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "同一视频的细节调整，AI产出不可控"
+            },
+            {
+              "type": "media",
+              "columns": 4,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-19.webp",
+                  "caption": "画面越改越脏",
+                  "width": 1241,
+                  "height": 2200
+                },
+                {
+                  "src": "/assets/card-case/figure-20.webp",
+                  "caption": "视角变化",
+                  "width": 1241,
+                  "height": 2200
+                },
+                {
+                  "src": "/assets/card-case/figure-21.webp",
+                  "caption": "光线过多",
+                  "width": 1241,
+                  "height": 2200
+                },
+                {
+                  "src": "/assets/card-case/figure-22.webp",
+                  "caption": "光线太少",
+                  "width": 1241,
+                  "height": 2200
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "重新设定场景，「分镜 +脚本」还原核心概念"
+            },
+            {
+              "type": "media",
+              "columns": 2,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-23.webp",
+                  "caption": "生成分镜",
+                  "width": 1920,
+                  "height": 1292
+                },
+                {
+                  "src": "/assets/card-case/figure-24.webp",
+                  "caption": "细化脚本",
+                  "width": 1920,
+                  "height": 1092
+                },
+                {
+                  "src": "/assets/card-case/figure-25.webp",
+                  "caption": "典藏卡方案",
+                  "width": 1016,
+                  "height": 2200
+                },
+                {
+                  "src": "/assets/card-case/figure-26.webp",
+                  "caption": "延展方案",
+                  "width": 1016,
+                  "height": 2200
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "callout",
+              "title": "阶段收获",
+              "text": "AI 让我的能力边界，延伸到了「导演动态内容」。关键不在模型多强，在我能不能给它结构化的输入。"
+            },
+            {
+              "type": "heading",
+              "text": "这套驾驭方式的三个关键词"
+            },
+            {
+              "type": "cards",
+              "items": [
+                {
+                  "title": "可控",
+                  "body": "不再赌单次运气"
+                },
+                {
+                  "title": "可迭代",
+                  "body": "每一环都能单独调整"
+                },
+                {
+                  "title": "可复现",
+                  "body": "换个场景照样成立"
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "design-04",
+    "title": "攻坚四 · 用 AI 重构 UI 验收流程",
+    "kicker": "CASE 04 / UI REVIEW WORKFLOW",
+    "blocks": [
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "背景：60+ 问题，串行验收改不完"
+            },
+            {
+              "type": "facts",
+              "items": [
+                {
+                  "title": "60+",
+                  "body": "UI 还原度问题 / 一次性提出"
+                }
+              ]
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "项目后期卡在 UI 还原度上，我一口气提了 60 多个问题。\n时间紧、开发根本改不过来，按老流程只能干等。"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "传统验收 · 一环卡一环的串行等待"
+            },
+            {
+              "type": "steps",
+              "items": [
+                {
+                  "title": "设计提问题",
+                  "body": ""
+                },
+                {
+                  "title": "等开发改",
+                  "body": ""
+                },
+                {
+                  "title": "再验收",
+                  "body": ""
+                },
+                {
+                  "title": "不行，再等下一轮",
+                  "body": ""
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "",
+              "text": "NOTE · 瓶颈不是谁改得慢，是流程本身就是串行的"
+            }
+          ]
+        ]
+      },
+      {
+        "type": "group",
+        "columns": [
+          [
+            {
+              "type": "heading",
+              "text": "怎么做：自己下场，把串行改成并行"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "直接把开发的代码仓库下载下来，用 Codex 和 Kimi 两个 AI 同时上手修；改完自己 push 代码，给开发合码。"
+              ]
+            },
+            {
+              "type": "media",
+              "columns": 1,
+              "items": [
+                {
+                  "src": "/assets/card-case/figure-27.webp",
+                  "caption": "双 AI 并行修复 UI",
+                  "width": 1672,
+                  "height": 941
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "",
+              "text": "设计师从「提问题的人」，变成「直接动手改的人」。"
+            }
+          ]
+        ]
+      },
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "callout",
+              "title": "阶段收获",
+              "text": "AI 改变了 UI 验收的流程。我从「提问题、然后等」，变成「直接下场解决」。"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "效率不再被职能分工的边界拖住",
+                "验收从一环卡一环的串行等待，压成设计和 AI 并行消化。设计能直接改代码，「谁负责哪一段」就不再拖住效率。"
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "card-takeaway",
+    "title": "被重新定义的能力边界与工作方式",
+    "kicker": "FINAL TAKEAWAY",
+    "blocks": [
+      {
+        "type": "feature",
+        "columns": [
+          [
+            {
+              "type": "callout",
+              "title": "",
+              "text": "工具会一直变，能力与流程也会一直变，唯有「判断力」，是常量。"
+            },
+            {
+              "type": "prose",
+              "paragraphs": [
+                "这个项目最想留下的，从来不是「我做过一个卡牌游戏」，而是一个更值得相信的判断。"
+              ]
+            },
+            {
+              "type": "cards",
+              "items": [
+                {
+                  "title": "能力边界",
+                  "body": "领域只是变量\n不由「我原本是什么职能」决定，可以一直往外拓。今天是策划、美术、动效，明天可以是任何还没踏进的地方。"
+                },
+                {
+                  "title": "工作方式",
+                  "body": "串行变成并行\n设计能直接跑通方案、直接下场改代码，串行协作就变成了并行，效率不再被「谁负责哪一段」框死。"
+                },
+                {
+                  "title": "核心竞争力",
+                  "body": "判断力是常量\n知道该在哪里用 AI、用它解决什么问题。握住这份判断力，就能带着 AI 走进任何一个陌生领域。"
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "",
+              "text": "握住判断力，带着 AI 走进下一个陌生领域。"
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

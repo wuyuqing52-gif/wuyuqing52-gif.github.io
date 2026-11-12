@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 292" font-family="system-ui, sans-serif">
+  <defs>
+    <linearGradient id="surface" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#28332b"/>
+      <stop offset="1" stop-color="#19221d"/>
+    </linearGradient>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M16 0H0v16" fill="none" stroke="#9db38b" stroke-opacity=".10"/>
+    </pattern>
+  </defs>
+  <rect x=".5" y=".5" width="359" height="291" rx="14" fill="url(#surface)" stroke="#485748"/>
+  <rect x="14" y="14" width="332" height="138" rx="9" fill="#161e19" stroke="#3d4d40"/>
+  <rect x="15" y="43" width="330" height="108" fill="url(#grid)"/>
+  <path d="M15 43h330" stroke="#3d4d40"/>
+  <text x="28" y="33" fill="#dce9d6" font-size="12">两层几何检查</text>
+  <text x="331" y="33" fill="#afca98" font-size="9" text-anchor="end" letter-spacing="1">MEASURE</text>
+  <rect x="31" y="59" width="111" height="66" rx="5" fill="#26352a" stroke="#647b60"/>
+  <rect x="176" y="59" width="153" height="66" rx="5" fill="#26352a" stroke="#647b60"/>
+  <rect x="46" y="73" width="81" height="37" rx="4" fill="#45594a"/>
+  <path d="M57 86h45m-45 10h31" stroke="#a5b9a0" stroke-width="2" stroke-linecap="round"/>
+  <rect x="197" y="73" width="111" height="37" rx="4" fill="#45594a"/>
+  <path d="M208 86h70m-70 10h47" stroke="#a5b9a0" stroke-width="2" stroke-linecap="round"/>
+  <g fill="none" stroke="#c3f36b">
+    <path d="M142 87v10m34-10v10m-34-5h34"/>
+    <path d="M176 108v8m21-8v8m-21-4h21"/>
+  </g>
+  <text x="159" y="80" text-anchor="middle" fill="#c3f36b" font-size="10">间距</text>
+  <text x="185" y="138" text-anchor="middle" fill="#c3f36b" font-size="10">内边距</text>
+  <rect x="14" y="164" width="332" height="114" rx="9" fill="#161e19" stroke="#3d4d40"/>
+  <text x="28" y="184" fill="#dce9d6" font-size="12">证据图对照</text>
+  <text x="331" y="184" fill="#afca98" font-size="9" text-anchor="end" letter-spacing="1">EVIDENCE</text>
+  <g font-size="10">
+    <text x="30" y="205" fill="#edb7a5">当前效果</text>
+    <text x="190" y="205" fill="#bfdb9f">预期设计</text>
+  </g>
+  <rect x="29" y="213" width="141" height="51" rx="5" fill="#242c29" stroke="#47584a"/>
+  <rect x="190" y="213" width="141" height="51" rx="5" fill="#242c29" stroke="#47584a"/>
+  <g fill="none" stroke="#8da193" stroke-width="2" stroke-linecap="round">
+    <path d="M40 224h50m-50 7h28m133-7h50m-50 7h28"/>
+  </g>
+  <rect x="47" y="241" width="78" height="13" rx="3" fill="#b29283"/>
+  <rect x="42" y="237" width="89" height="21" rx="3" fill="none" stroke="#f1a792" stroke-dasharray="3 2"/>
+  <rect x="204" y="239" width="112" height="15" rx="3" fill="#8cac73"/>
+  <rect x="200" y="235" width="120" height="23" rx="3" fill="none" stroke="#bce68e" stroke-dasharray="3 2"/>
+</svg>

@@ -7,6 +7,7 @@ from review_visuals import render_visual
 def render_block(b):
  t=b['type']
  if t=='visual':return render_visual(b['name'])
+ if t=='image':return '<figure class="review-source-image"><a href="'+e(b['src'])+'" target="_blank" rel="noopener" aria-label="查看原图：'+e(b['caption'])+'"><img src="'+e(b['src'])+'" alt="'+e(b['caption'])+'" loading="lazy"></a><figcaption>'+e(b['caption'])+'</figcaption></figure>'
  if t=='heading':return '<h3 class="review-stage-heading">'+e(b['text'])+'</h3>'
  if t=='paragraph':return '<p>'+e(b['text'])+'</p>'
  if t in ['list','steps']:

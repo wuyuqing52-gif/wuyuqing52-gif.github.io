@@ -1,9 +1,8 @@
-<section class="card-demo" id="card-effects" aria-labelledby="card-effects-title"><div class="demo-heading"><div><span class="eyebrow">PLAYABLE DEMO / VIBE CODING</span><h2 id="card-effects-title">卡牌特效预览</h2></div><p>切换特效等级，点击卡牌放大。<br>移动鼠标或拖动卡牌，体验立体效果。</p></div>      <nav class="level-tabs" aria-label="特效等级">
-        <button class="level-tab is-active" type="button" aria-pressed="true" data-level="base">基础</button>
+<section class="card-demo" id="card-effects" aria-labelledby="card-effects-title"><div class="demo-sidebar"><span class="eyebrow">PLAYABLE DEMO / VIBE CODING</span><h2 id="card-effects-title">卡牌特效预览</h2><p class="demo-description">从卡面到动态特效，<br>探索不同稀有度的视觉表达。</p><div class="demo-controls"><span class="demo-control-label">特效等级</span><nav class="level-tabs" aria-label="特效等级">
+        <button class="level-tab" type="button" aria-pressed="false" data-level="base">基础</button>
         <button class="level-tab" type="button" aria-pressed="false" data-level="lv2">Lv2</button>
-        <button class="level-tab" type="button" aria-pressed="false" data-level="lv3">Lv3</button>
-      </nav>
-      <section class="card-gallery" id="cardGallery" aria-label="基础卡牌列表"></section>
+        <button class="level-tab is-active" type="button" aria-pressed="true" data-level="lv3">Lv3</button>
+      </nav><span class="demo-control-label">视觉方案</span><div class="solution-tabs" role="group" aria-label="视觉方案"><button type="button" class="is-active" data-solution="1" aria-pressed="true">方案一</button><button type="button" data-solution="2" aria-pressed="false">方案二</button></div></div><p class="demo-hint"><span class="demo-hover-hint">在卡牌上移动鼠标，体验立体效果<br></span>点击卡牌放大预览 <span>↗</span></p></div>      <section class="card-gallery" id="cardGallery" data-solution="1" aria-label="Lv3 卡牌列表"></section>
 
       <template id="cardTemplate">
         <button class="gallery-card" type="button" data-preview-card>
@@ -17,7 +16,7 @@
         </button>
       </template>
 
-<p class="demo-caption">两组视觉方案 · 四种稀有度 · 三档特效等级</p>    <dialog class="card-viewer" id="cardViewer" aria-label="卡牌放大预览">
+    <dialog class="card-viewer" id="cardViewer" aria-label="卡牌放大预览">
       <button class="viewer-close" type="button" aria-label="关闭预览">×</button>
       <p class="viewer-guide">移动鼠标查看立体效果</p>
 

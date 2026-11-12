@@ -12,9 +12,6 @@ const viewerCharacter = document.querySelector("#viewerCharacter");
 const viewerEffect = document.querySelector("#viewerEffect");
 const viewerUi = document.querySelector("#viewerUi");
 
-let animationFrame = 0;
-let pointerX = 0;
-let pointerY = 0;
 let activeTrigger = null;
 let restoreVisibleFocus = false;
 
@@ -513,6 +510,9 @@ function renderCards(level) {
         trigger.querySelector(".card-layer--ui").src = lv3LegendAssets.ui;
       }
 
+      // The simpler cards have less visible parallax, so give them more tilt.
+      const hoverStrength = cardIndex <= 2 ? 0.8 : 0.55;
+      bindMotion(trigger, { hoverOnly: true, strength: hoverStrength });
       trigger.addEventListener("click", openViewer);
       cards.appendChild(cardFragment);
     }
@@ -533,60 +533,63 @@ function renderCards(level) {
   gallery.setAttribute("aria-label", `${levelNames[level]}卡牌列表`);
 }
 
-function resetMotion() {
-  motionArea.style.setProperty("--rotate-x", "0deg");
-  motionArea.style.setProperty("--rotate-y", "0deg");
-  motionArea.style.setProperty("--move-x", "0px");
-  motionArea.style.setProperty("--move-y", "0px");
-  motionArea.style.setProperty("--bg-x", "0px");
-  motionArea.style.setProperty("--bg-y", "0px");
-  motionArea.style.setProperty("--underlay-x", "0px");
-  motionArea.style.setProperty("--underlay-y", "0px");
-  motionArea.style.setProperty("--character-x", "0px");
-  motionArea.style.setProperty("--character-y", "0px");
-  motionArea.style.setProperty("--effect-x", "0px");
-  motionArea.style.setProperty("--effect-y", "0px");
-  motionArea.style.setProperty("--ui-x", "0px");
-  motionArea.style.setProperty("--ui-y", "0px");
-  motionArea.style.setProperty("--pointer-x", "50%");
-  motionArea.style.setProperty("--pointer-y", "50%");
-}
-
-function renderMotion() {
-  animationFrame = 0;
-  const rect = motionArea.getBoundingClientRect();
+function renderMotion(target, pointerX, pointerY, strength) {
+  const rect = target.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
   const x = Math.max(0, Math.min(1, (pointerX - rect.left) / rect.width));
   const y = Math.max(0, Math.min(1, (pointerY - rect.top) / rect.height));
   const shineX = Math.max(0, Math.min(1, (x - cardFace.left) / cardFace.width));
   const shineY = Math.max(0, Math.min(1, (y - cardFace.top) / cardFace.height));
-  const moveX = (x - 0.5) * 42;
-  const moveY = (y - 0.5) * 34;
+  const moveX = (x - 0.5) * 42 * strength;
+  const moveY = (y - 0.5) * 34 * strength;
 
-  motionArea.style.setProperty("--rotate-x", `${((0.5 - y) * 32).toFixed(2)}deg`);
-  motionArea.style.setProperty("--rotate-y", `${((x - 0.5) * 42).toFixed(2)}deg`);
-  motionArea.style.setProperty("--move-x", `${moveX.toFixed(1)}px`);
-  motionArea.style.setProperty("--move-y", `${moveY.toFixed(1)}px`);
-  motionArea.style.setProperty("--bg-x", `${(moveX * -0.16).toFixed(1)}px`);
-  motionArea.style.setProperty("--bg-y", `${(moveY * -0.12).toFixed(1)}px`);
-  motionArea.style.setProperty("--underlay-x", `${(moveX * -0.06).toFixed(1)}px`);
-  motionArea.style.setProperty("--underlay-y", `${(moveY * -0.045).toFixed(1)}px`);
-  motionArea.style.setProperty("--character-x", `${(moveX * 0.5).toFixed(1)}px`);
-  motionArea.style.setProperty("--character-y", `${(moveY * 0.4).toFixed(1)}px`);
-  motionArea.style.setProperty("--effect-x", `${(moveX * 0.28).toFixed(1)}px`);
-  motionArea.style.setProperty("--effect-y", `${(moveY * 0.22).toFixed(1)}px`);
-  motionArea.style.setProperty("--ui-x", `${(moveX * 0.13).toFixed(1)}px`);
-  motionArea.style.setProperty("--ui-y", `${(moveY * 0.1).toFixed(1)}px`);
-  motionArea.style.setProperty("--pointer-x", `${(shineX * 100).toFixed(1)}%`);
-  motionArea.style.setProperty("--pointer-y", `${(shineY * 100).toFixed(1)}%`);
+  target.style.setProperty("--rotate-x", `${((0.5 - y) * 32 * strength).toFixed(2)}deg`);
+  target.style.setProperty("--rotate-y", `${((x - 0.5) * 42 * strength).toFixed(2)}deg`);
+  target.style.setProperty("--move-x", `${moveX.toFixed(1)}px`);
+  target.style.setProperty("--move-y", `${moveY.toFixed(1)}px`);
+  target.style.setProperty("--bg-x", `${(moveX * -0.16).toFixed(1)}px`);
+  target.style.setProperty("--bg-y", `${(moveY * -0.12).toFixed(1)}px`);
+  target.style.setProperty("--underlay-x", `${(moveX * -0.06).toFixed(1)}px`);
+  target.style.setProperty("--underlay-y", `${(moveY * -0.045).toFixed(1)}px`);
+  target.style.setProperty("--character-x", `${(moveX * 0.5).toFixed(1)}px`);
+  target.style.setProperty("--character-y", `${(moveY * 0.4).toFixed(1)}px`);
+  target.style.setProperty("--effect-x", `${(moveX * 0.28).toFixed(1)}px`);
+  target.style.setProperty("--effect-y", `${(moveY * 0.22).toFixed(1)}px`);
+  target.style.setProperty("--ui-x", `${(moveX * 0.13).toFixed(1)}px`);
+  target.style.setProperty("--ui-y", `${(moveY * 0.1).toFixed(1)}px`);
+  target.style.setProperty("--pointer-x", `${(shineX * 100).toFixed(1)}%`);
+  target.style.setProperty("--pointer-y", `${(shineY * 100).toFixed(1)}%`);
 }
 
-function queueMotion(event) {
-  pointerX = event.clientX;
-  pointerY = event.clientY;
-  if (!animationFrame) {
-    animationFrame = requestAnimationFrame(renderMotion);
+function bindMotion(target, { hoverOnly = false, strength = 1 } = {}) {
+  let animationFrame = 0;
+  let pointerX = 0;
+  let pointerY = 0;
+
+  function reset() {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
+    // The inherited defaults on .card-demo center all layers.
+    target.removeAttribute("style");
   }
+
+  target.addEventListener("pointermove", (event) => {
+    if (hoverOnly && (event.pointerType !== "mouse" || matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    if (!animationFrame) {
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = 0;
+        renderMotion(target, pointerX, pointerY, strength);
+      });
+    }
+  });
+  target.addEventListener("pointerleave", reset);
+  target.addEventListener("pointercancel", reset);
+  return reset;
 }
+
+const resetViewerMotion = bindMotion(motionArea);
 
 function openViewer(event) {
   activeTrigger = event.currentTarget;
@@ -691,7 +694,7 @@ function openViewer(event) {
     }[cardType] || "卡牌放大预览"
   );
 
-  resetMotion();
+  resetViewerMotion();
   viewer.showModal();
   document.body.classList.add("has-open-viewer");
   closeButton.focus({ preventScroll: true });
@@ -699,11 +702,7 @@ function openViewer(event) {
 }
 
 function closeViewer() {
-  if (animationFrame) {
-    cancelAnimationFrame(animationFrame);
-    animationFrame = 0;
-  }
-  resetMotion();
+  resetViewerMotion();
   viewer.close();
   document.body.classList.remove("has-open-viewer");
   if (restoreVisibleFocus) {
@@ -726,10 +725,6 @@ levelTabs.forEach((tab) => {
   });
 });
 
-motionArea.addEventListener("pointermove", queueMotion);
-motionArea.addEventListener("pointerleave", resetMotion);
-motionArea.addEventListener("pointercancel", resetMotion);
-
 viewer.addEventListener("click", (event) => {
   if (event.target === viewer || event.target === document.querySelector(".viewer-stage")) {
     closeViewer();
@@ -745,7 +740,18 @@ viewer.addEventListener("close", () => {
   document.body.classList.remove("has-open-viewer");
 });
 
-renderCards("base");
+document.querySelectorAll('[data-solution]').forEach(button => {
+  if (button.tagName !== 'BUTTON') return;
+  button.addEventListener('click', () => {
+    gallery.dataset.solution = button.dataset.solution;
+    document.querySelectorAll('.solution-tabs button').forEach(item => {
+      const active = item === button;
+      item.classList.toggle('is-active', active);
+      item.setAttribute('aria-pressed', String(active));
+    });
+  });
+});
+renderCards("lv3");
 requestAnimationFrame(animateFrameSequences);
 
 })();

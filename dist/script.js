@@ -101,8 +101,3 @@ document.querySelectorAll('.rv-report').forEach(figure => {
     });
   });
 });
-
-// WIP: featured work cards are being reorganized — clicks do not navigate.
-projectCards.forEach(card => {
-  card.addEventListener('click', event => event.preventDefault());
-});
