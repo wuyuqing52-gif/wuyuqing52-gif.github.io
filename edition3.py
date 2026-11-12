@@ -87,8 +87,10 @@ def build_edition3():
         "game-events": ("game-events-06", "game-events-01"),
     }
     by_name = {asset["name"]: asset for asset in assets}
-    navigation = '''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">yuki<span>.</span></a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
-    footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/">yuki<span>.</span></a><p>© 2026 吴雨晴</p><div class="edition-links" aria-label="其他作品集版本"><a href="https://yuki-design.yuki3316950442.chatgpt.site/">深色版</a><a href="https://yuki-design-studio.yuki3316950442.chatgpt.site/">年轻版</a><a href="#top">回到顶部</a></div></footer>'''
+    wordmark = '<img src="/assets/yuki-wordmark.svg" alt="Yuki" width="124" height="62">'
+    navigation = f'''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">{wordmark}</a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
+    footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/" aria-label="Yuki 首页">{wordmark}</a><p>© 2026 吴雨晴</p><a class="footer-top" href="#top">回到顶部</a></footer>'''
+    (DIST / "favicon-flower.svg").write_text(flower_shape("blue", "#0636ce", "#ffd23c"))
     palettes = [
         ("#0636ce", "#ffd23c", "#f32312", "#ffcf4c"),
         ("#ff8fca", "#0636ce", "#ffffff", "#ff8fca"),
@@ -122,50 +124,37 @@ def build_edition3():
           </a>
           <div class="project-side"><a class="flower-tile" href="/work/{slug}.html" data-flower data-start="-9" style="background:{tile}" aria-label="查看{escape(project['title'])}"><span class="flower-art">{flower_shape("blue", petal, center)}</span></a><a class="project-wordmark" href="/work/{slug}.html" aria-label="查看{escape(project['title'])}">{marks[slug]}</a></div>
         </article>''')
-    slides = []
-    for asset in assets:
-        if not asset["carousel"]:
-            continue
-        project = projects[asset["project"]]
-        title = f'{project["title"]} · {asset["label"]}'
-        shape = " is-portrait" if asset["height"] > asset["width"] else ""
-        src = asset["parts"][0]["src"] if asset["parts"] else asset["src"]
-        slides.append(f'<a class="peek-slide{shape}" href="{asset["src"]}" data-image-preview data-image-title="{escape(title)}" aria-label="放大{escape(title)}"><img src="{src}" alt="{escape(title)}" loading="lazy"></a>')
-    slide_markup = "".join(slides)
-    clone_markup = slide_markup.replace('<a ', '<a tabindex="-1" ')
-    gallery = f'<div class="peek-gallery" aria-label="项目速览，悬停或聚焦时暂停"><div class="peek-track"><div class="peek-group">{slide_markup}</div><div class="peek-group" aria-hidden="true" inert>{clone_markup}</div></div></div>'
     html = f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7f5ef"><title>Yuki · 吴雨晴｜体验与 AI 设计师</title>
 <meta name="description" content="设计是我的起点，不是我的边界。吴雨晴的抖音 IP、游戏直播、AI 产品与设计工作流作品集。">
 <meta property="og:title" content="Yuki · 吴雨晴｜体验与 AI 设计师"><meta property="og:type" content="website"><meta property="og:url" content="{origin}/"><meta property="og:image" content="{origin}/assets/ai-card-cover.png">
-<link rel="canonical" href="{origin}/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>
+<link rel="canonical" href="{origin}/"><link rel="icon" href="/favicon-flower.svg" type="image/svg+xml"><link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>
 <body class="edition-three" id="top"><a class="e3-skip" href="#main">跳到主要内容</a>{navigation}
 <main id="main"><section class="e3-hero" aria-labelledby="hero-title">
 {flower('blue')}{flower('red')}
-<div class="hero-copy"><p class="hero-intro">你好，我是 Yuki / 吴雨晴。</p>
+<div class="hero-copy"><h1 id="hero-title"><span class="hero-line">设计是我的起点，</span><span class="hero-line">不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></span></h1>
+<p class="hero-intro">你好，我是 Yuki / 吴雨晴。</p>
 <p class="hero-summary">一名以设计为起点、不设边界的设计师。既打磨复杂流程、系统框架与协作体验，也探索代码、视觉、与动态表达。</p>
-<h1 id="hero-title">设计是我的起点，<br>不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></h1>
 <div class="hero-actions"><a class="e3-button" href="#work"><span>看看我的作品</span><span class="button-bloom" aria-hidden="true">{flower_shape("blue", "#0636ce", "#ffffff")}</span></a><a class="e3-text-link" href="/resume.html">我的简历</a></div></div>
 <p class="flower-status visually-hidden" role="status" aria-live="polite"></p>
-</section>{gallery}
-<section class="e3-work e3-wrap" id="work" aria-labelledby="work-title"><div class="section-intro"><h2 id="work-title">一些探索，一些认真。</h2><p>可阅读项目介绍并体验互动内容，设计素材持续补充。</p></div><div class="e3-project-grid">{''.join(cards)}</div>
+</section>
+<section class="e3-work e3-wrap" id="work" aria-labelledby="work-title"><div class="section-intro"><h2 id="work-title">一些探索，一些认真。</h2></div><div class="e3-project-grid">{''.join(cards)}</div>
 </section>
 <section class="e3-about e3-wrap" id="about" aria-labelledby="about-title"><div class="about-heading"><p class="section-kicker">A LITTLE ABOUT ME</p><h2 id="about-title">设计之外，<br>还有<span class="serif-accent">好奇心。</span></h2><a class="e3-text-link" href="/resume.html">查看完整简历</a></div><div class="about-copy"><p class="about-lead">我喜欢把复杂的事情理清楚，<br>再把它做成可以体验的东西。</p><p>{escape(content['intro'])}</p><div class="expertise" aria-label="设计方向"><a href="/work/dual-screen.html">交互体验</a><a href="/work/ai-review.html">AI 工作流</a><a href="/work/ai-game.html">视觉与动态</a></div><ol class="about-career"><li><time>2021.04 — 至今</time><div><strong>字节跳动</strong><span>抖音 IP 与游戏 · 体验 / AI 设计</span></div></li><li><time>2020.12 — 2021.04</time><div><strong>拼多多</strong><span>用户增长 · 交互设计</span></div></li><li><time>2019.11 — 2020.12</time><div><strong>腾讯</strong><span>理财通 · 交互设计</span></div></li></ol></div></section>
 <section class="e3-contact" id="contact" aria-labelledby="contact-title"><div class="contact-flower" aria-hidden="true">{flower_shape("blue", "#84def9", "#ffffff")}</div><p>关于体验、AI，或是一个有趣的想法</p><h2 id="contact-title"><a href="mailto:435456341@qq.com">一起聊聊</a></h2><div class="contact-email"><a href="mailto:435456341@qq.com">435456341@qq.com</a><button type="button" class="copy-email" data-copy-email aria-label="复制邮箱地址">复制邮箱</button><span data-copy-status role="status" aria-live="polite"></span></div></section>
-</main>{footer}{image_preview()}</body></html>'''
+</main>{footer}</body></html>'''
     (DIST / "index.html").write_text(html)
     # Case demos keep their original scripts and receive the third-edition shell.
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
         page = path.read_text().replace('content="#101210"', 'content="#f7f5ef"')
+        page = page.replace('href="/favicon.svg"', 'href="/favicon-flower.svg"')
         page = page.replace('<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script>', "")
         page = re.sub(r'<header class="(?:site-header|e3-header)">.*?</header>', navigation, page, flags=re.S)
         page = re.sub(r'<footer class="(?:footer|e3-footer e3-wrap)">.*?</footer>', footer, page, flags=re.S)
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
         page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>')
         page = page.replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
-        # Keep edition switchers pointed at the original published sites.
-        page = page.replace(f'<a href="{origin}/">深色版</a>', '<a href="https://yuki-design.yuki3316950442.chatgpt.site/">深色版</a>')
         (path).write_text(page)
     from site_base import head
     for slug in ("spring-gala", "game-link", "game-events"):
