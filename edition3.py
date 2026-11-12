@@ -134,13 +134,13 @@ def build_edition3():
 <main id="main"><section class="e3-hero" aria-labelledby="hero-title">
 {flower('blue')}{flower('red')}
 <div class="hero-copy"><p class="hero-intro">你好，我是 Yuki / 吴雨晴。</p>
-<h1 id="hero-title">设计是我的起点，<br>不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></h1>
 <p class="hero-summary">一名以设计为起点、不设边界的设计师。既打磨复杂流程、系统框架与协作体验，也探索代码、视觉、与动态表达。</p>
+<h1 id="hero-title">设计是我的起点，<br>不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></h1>
 <div class="hero-actions"><a class="e3-button" href="#work"><span>看看我的作品</span><span class="button-bloom" aria-hidden="true">{flower_shape("blue", "#0636ce", "#ffffff")}</span></a><a class="e3-text-link" href="/resume.html">我的简历</a></div></div>
 <p class="flower-status visually-hidden" role="status" aria-live="polite"></p>
 </section>{gallery}
-<section class="e3-work e3-wrap" id="work" aria-labelledby="work-title"><div class="section-intro"><h2 id="work-title">一些探索，一些认真。</h2><p>围绕真实的问题，寻找合适的设计。<br>这是我在体验、AI 与游戏之间的实践。</p></div><div class="e3-project-grid">{''.join(cards)}</div>
-<a class="earlier-project" id="project-licaitong" href="/work/licaitong.html"><span>更早的设计实践</span><strong>理财通产品体验设计</strong><span class="earlier-label">查看概览</span></a></section>
+<section class="e3-work e3-wrap" id="work" aria-labelledby="work-title"><div class="section-intro"><h2 id="work-title">一些探索，一些认真。</h2><p>可阅读项目介绍并体验互动内容，设计素材持续补充。</p></div><div class="e3-project-grid">{''.join(cards)}</div>
+</section>
 <section class="e3-about e3-wrap" id="about" aria-labelledby="about-title"><div class="about-heading"><p class="section-kicker">A LITTLE ABOUT ME</p><h2 id="about-title">设计之外，<br>还有<span class="serif-accent">好奇心。</span></h2><a class="e3-text-link" href="/resume.html">查看完整简历</a></div><div class="about-copy"><p class="about-lead">我喜欢把复杂的事情理清楚，<br>再把它做成可以体验的东西。</p><p>{escape(content['intro'])}</p><div class="expertise" aria-label="设计方向"><a href="/work/dual-screen.html">交互体验</a><a href="/work/ai-review.html">AI 工作流</a><a href="/work/ai-game.html">视觉与动态</a></div><ol class="about-career"><li><time>2021.04 — 至今</time><div><strong>字节跳动</strong><span>抖音 IP 与游戏 · 体验 / AI 设计</span></div></li><li><time>2020.12 — 2021.04</time><div><strong>拼多多</strong><span>用户增长 · 交互设计</span></div></li><li><time>2019.11 — 2020.12</time><div><strong>腾讯</strong><span>理财通 · 交互设计</span></div></li></ol></div></section>
 <section class="e3-contact" id="contact" aria-labelledby="contact-title"><div class="contact-flower" aria-hidden="true">{flower_shape("blue", "#84def9", "#ffffff")}</div><p>关于体验、AI，或是一个有趣的想法</p><h2 id="contact-title"><a href="mailto:435456341@qq.com">一起聊聊</a></h2><div class="contact-email"><a href="mailto:435456341@qq.com">435456341@qq.com</a><button type="button" class="copy-email" data-copy-email aria-label="复制邮箱地址">复制邮箱</button><span data-copy-status role="status" aria-live="polite"></span></div></section>
 </main>{footer}</body></html>'''
