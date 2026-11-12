@@ -46,15 +46,11 @@ def project_gallery(project, assets):
                 shape = "wide" if image["width"] > image["height"] else "portrait"
                 caption = f'{project["title"]} · {label}'
                 alt = caption + (f' · 分段 {index + 1}' if asset["parts"] else "")
-                pieces.append((shape, f'''<a class="art-piece is-{shape}" href="{asset['src']}" data-image-preview data-image-title="{escape(caption)}" aria-label="放大{escape(alt)}"><img src="{image['src']}" alt="{escape(alt)}" width="{image['width']}" height="{image['height']}" loading="lazy" decoding="async"></a>'''))
+                transparency = " has-alpha" if asset.get("transparent") else ""
+                pieces.append((shape, f'''<a class="art-piece is-{shape}{transparency}" href="{asset['src']}" data-image-preview data-image-title="{escape(caption)}" aria-label="放大{escape(alt)}"><img src="{image['src']}" alt="{escape(alt)}" width="{image['width']}" height="{image['height']}" loading="lazy" decoding="async"></a>'''))
         shapes = {shape for shape, _ in pieces}
         kind = "mixed" if len(shapes) == 2 else "boards" if "wide" in shapes else "phones"
-        if kind == "phones":
-            count = min(4, len(pieces))
-            columns = ['<div class="art-column">' + ''.join(piece for _, piece in pieces[i::count]) + '</div>' for i in range(count)]
-            markup = ''.join(columns)
-        else:
-            count = 4
-            markup = ''.join(piece for _, piece in sorted(pieces, key=lambda item: item[0] != "wide"))
+        count = min(3, len(pieces)) if kind == "phones" else 2
+        markup = ''.join(piece for _, piece in sorted(pieces, key=lambda item: item[0] != "wide"))
         sections.append(f'<section class="art-gallery-group"><h2>{escape(label)}</h2><div class="art-stage art-stage--{kind}" style="--art-columns:{count}">{markup}</div></section>')
     return '<div class="art-gallery">' + ''.join(sections) + '</div>' if sections else ""
