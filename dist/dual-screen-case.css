@@ -1,0 +1,196 @@
+.dual-screen-case {
+  --case-image-radius: 16px;
+}
+
+.dual-screen-case .detail {
+  width: min(1480px, 100%);
+  max-width: 1480px;
+  padding-inline: 56px;
+}
+
+.dual-screen-case .detail > h1 {
+  margin-block: 28px 64px;
+  font-size: clamp(36px, 4vw, 60px);
+  line-height: 1.3;
+}
+
+.doc-case {
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.doc-section + .doc-section {
+  margin-top: 64px;
+}
+
+.doc-case :is(h1, h2) {
+  margin-block: 0 24px;
+  color: var(--ink);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.doc-case p {
+  margin: 0 0 16px;
+  color: inherit;
+  max-width: none;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.doc-case p:empty {
+  min-height: 16px;
+}
+
+.doc-case :is(ul, ol) {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.doc-case li + li {
+  margin-top: 8px;
+}
+
+.doc-case li::marker {
+  color: var(--blue);
+}
+
+.doc-case blockquote {
+  margin: 24px 0;
+  padding-left: 20px;
+  border-left: 3px solid var(--rule);
+  color: #65665e;
+}
+
+.doc-case blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.doc-case .doc-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #ded8c0;
+  border-radius: 16px;
+  background: #f0ead6;
+}
+
+.doc-callout-icon {
+  flex: 0 0 auto;
+  font-size: 20px;
+}
+
+.doc-callout > div {
+  min-width: 0;
+}
+
+.doc-callout p:last-child {
+  margin: 0;
+}
+
+.doc-case .doc-highlight {
+  padding: 1px 3px;
+  border-radius: 4px;
+  background: #dce8c8;
+}
+
+.doc-case .doc-emphasis {
+  color: var(--red);
+}
+
+.doc-case .doc-citation {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.doc-table-scroll {
+  max-width: 100%;
+  margin-block: 24px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-color: #aaa99c #eeede5;
+  scrollbar-width: thin;
+}
+
+.doc-case .doc-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.doc-table :is(td, th) {
+  padding: 18px;
+  border: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.doc-table th,
+.doc-table .doc-cell-heading {
+  background: #eeede5;
+  font-weight: 600;
+}
+
+.doc-table :is(td, th) > :last-child {
+  margin-bottom: 0;
+}
+
+.doc-case .doc-align-center {
+  text-align: center;
+}
+
+.doc-image {
+  margin: 20px 0;
+}
+
+.doc-image--portrait-sample {
+  width: 234px;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.doc-image a {
+  display: block;
+  cursor: zoom-in;
+}
+
+.doc-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--case-image-radius);
+}
+
+.doc-image figcaption {
+  margin-top: 10px;
+  color: #65665e;
+  font-size: 13px;
+  text-align: center;
+}
+
+.dual-screen-case .art-lightbox-scroll img {
+  border-radius: var(--case-image-radius);
+}
+
+@media (max-width: 700px) {
+  .dual-screen-case .detail {
+    padding-inline: 20px;
+  }
+
+  .dual-screen-case .detail > h1 {
+    margin-block: 24px 40px;
+  }
+
+  .doc-section + .doc-section {
+    margin-top: 40px;
+  }
+
+  .doc-case :is(h1, h2) {
+    font-size: 25px;
+  }
+}
