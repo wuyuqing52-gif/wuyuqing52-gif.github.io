@@ -103,17 +103,22 @@ h1,h2,h3,p {
 .e3-brand {
   display:block;
   width:106px;
-  color:var(--red);
-  transition:transform .5s var(--e3-spring)
+  color:var(--red)
 }
-.e3-brand img {
+.e3-brand .yuki-wordmark {
   display:block;
   width:100%;
   height:auto
 }
-.e3-brand:hover {
-  transform:rotate(5deg) scale(1.08)
+.wordmark-letter {
+  transform-box:fill-box;
+  transform-origin:center;
+  transition:transform .45s var(--e3-spring)
 }
+.e3-brand:is(:hover,:focus-visible) .wordmark-y {transform:translate(-1px,-3px) rotate(-7deg)}
+.e3-brand:is(:hover,:focus-visible) .wordmark-u {transform:translateY(3px) rotate(5deg);transition-delay:35ms}
+.e3-brand:is(:hover,:focus-visible) .wordmark-k {transform:translateY(-2px) rotate(-4deg);transition-delay:65ms}
+.e3-brand:is(:hover,:focus-visible) .wordmark-i {transform:translate(2px,2px) rotate(8deg);transition-delay:95ms}
 .nav-link {
   border-radius:12px;
   padding:5px 13px;
@@ -129,11 +134,14 @@ h1,h2,h3,p {
   --hero-line-offset:clamp(24px,3vw,48px);
   --hero-header-height:101px;
   position:relative;
-  overflow:hidden;
+  overflow:visible;
   min-height:max(580px,calc(100svh - var(--hero-header-height)));
   display:grid;
   place-items:center;
   padding:60px 24px calc(60px + var(--hero-header-height))
+}
+.edition-three > main {
+  overflow-x:clip
 }
 .hero-copy {
   position:relative;
