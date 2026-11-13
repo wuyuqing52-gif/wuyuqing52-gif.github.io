@@ -87,7 +87,7 @@ def build_edition3():
         "game-events": ("game-events-06", "game-events-01"),
     }
     by_name = {asset["name"]: asset for asset in assets}
-    wordmark = '<img src="/assets/yuki-wordmark.svg" alt="Yuki" width="124" height="62">'
+    wordmark = (DIST / 'assets/yuki-wordmark.svg').read_text().replace('<svg ', '<svg class="yuki-wordmark" aria-hidden="true" focusable="false" ', 1)
     navigation = f'''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">{wordmark}</a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
     footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/" aria-label="Yuki 首页">{wordmark}</a><p>© 2026 吴雨晴</p><a class="footer-top" href="#top">回到顶部</a></footer>'''
     (DIST / "favicon-flower.svg").write_text(flower_shape("blue", "#0636ce", "#ffd23c"))
