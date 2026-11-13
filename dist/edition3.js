@@ -10,7 +10,7 @@
     if (reducedMotion.matches) return;
     const angle = rotations.get(flower) + amount;
     rotations.set(flower, angle);
-    flower.querySelector('.flower-art').style.transform = `rotate(${angle}deg)`;
+    (flower.querySelector('.flower-rotor') || flower.querySelector('.flower-art')).style.transform = `rotate(${angle}deg)`;
   }
 
   flowers.forEach(flower => {
@@ -23,10 +23,53 @@
       flower.addEventListener('click', () => {
         turnFlower(flower, 180);
         const status = document.querySelector('.flower-status');
-        if (status) status.textContent = '手绘花朵转起来了。';
+        if (status) status.textContent = '花心留在起点，花瓣向外展开。';
       });
     }
   });
+
+  const hero = document.querySelector('.e3-hero');
+  if (hero) {
+    const heroFlowers = [...hero.querySelectorAll('.flower')];
+    const boundary = hero.querySelector('.hero-word');
+    const triggers = [...heroFlowers, boundary];
+    const activeTriggers = new Set();
+    const focusedTriggers = new Set();
+
+    function updateExpansion() {
+      hero.classList.toggle('is-unbounded', activeTriggers.size > 0 || focusedTriggers.size > 0);
+    }
+
+    triggers.forEach(trigger => {
+      trigger.addEventListener('pointerenter', event => {
+        if (!finePointer.matches || event.pointerType !== 'mouse') return;
+        activeTriggers.add(trigger);
+        updateExpansion();
+      });
+      trigger.addEventListener('pointerleave', () => {
+        activeTriggers.delete(trigger);
+        updateExpansion();
+      });
+      trigger.addEventListener('focus', () => {
+        focusedTriggers.add(trigger);
+        updateExpansion();
+      });
+      trigger.addEventListener('blur', () => {
+        focusedTriggers.delete(trigger);
+        updateExpansion();
+      });
+    });
+
+    function openBoundary() {
+      heroFlowers.forEach((flower, index) => turnFlower(flower, index === 0 ? 280 : -280));
+    }
+
+    boundary.addEventListener('pointerenter', event => {
+      if (finePointer.matches && event.pointerType === 'mouse') openBoundary();
+    });
+    boundary.addEventListener('focus', openBoundary);
+    boundary.addEventListener('click', openBoundary);
+  }
 
   const copyButton = document.querySelector('[data-copy-email]');
   copyButton?.addEventListener('click', async () => {

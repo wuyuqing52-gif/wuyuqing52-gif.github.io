@@ -103,17 +103,22 @@ h1,h2,h3,p {
 .e3-brand {
   display:block;
   width:106px;
-  color:var(--red);
-  transition:transform .5s var(--e3-spring)
+  color:var(--red)
 }
-.e3-brand img {
+.e3-brand .yuki-wordmark {
   display:block;
   width:100%;
   height:auto
 }
-.e3-brand:hover {
-  transform:rotate(5deg) scale(1.08)
+.wordmark-letter {
+  transform-box:fill-box;
+  transform-origin:center;
+  transition:transform .45s var(--e3-spring)
 }
+.e3-brand:is(:hover,:focus-visible) .wordmark-y {transform:translate(-1px,-3px) rotate(-7deg)}
+.e3-brand:is(:hover,:focus-visible) .wordmark-u {transform:translateY(3px) rotate(5deg);transition-delay:35ms}
+.e3-brand:is(:hover,:focus-visible) .wordmark-k {transform:translateY(-2px) rotate(-4deg);transition-delay:65ms}
+.e3-brand:is(:hover,:focus-visible) .wordmark-i {transform:translate(2px,2px) rotate(8deg);transition-delay:95ms}
 .nav-link {
   border-radius:12px;
   padding:5px 13px;
@@ -129,11 +134,14 @@ h1,h2,h3,p {
   --hero-line-offset:clamp(24px,3vw,48px);
   --hero-header-height:101px;
   position:relative;
-  overflow:hidden;
+  overflow:visible;
   min-height:max(580px,calc(100svh - var(--hero-header-height)));
   display:grid;
   place-items:center;
   padding:60px 24px calc(60px + var(--hero-header-height))
+}
+.edition-three > main {
+  overflow-x:clip
 }
 .hero-copy {
   position:relative;
@@ -174,6 +182,14 @@ h1,h2,h3,p {
   transform:translateX(var(--hero-line-offset))
 }
 .hero-word {
+  border:0;
+  padding:0;
+  background:transparent;
+  font:inherit;
+  letter-spacing:inherit;
+  line-height:inherit;
+  color:inherit;
+  cursor:pointer;
   position:relative;
   white-space:nowrap;
   pointer-events:auto
@@ -183,14 +199,14 @@ h1,h2,h3,p {
   inset:2px -14px -4px;
   border:2px solid var(--red);
   border-radius:50%;
-  transform:rotate(-5deg) scaleX(.6);
-  opacity:0;
+  transform:rotate(-5deg) scaleX(1);
+  opacity:.55;
   transition:opacity .3s,transform .5s var(--e3-spring);
   pointer-events:none
 }
-.hero-word:hover i {
-  opacity:1;
-  transform:rotate(-5deg) scaleX(1)
+.e3-hero.is-unbounded .hero-word i {
+  opacity:0;
+  transform:rotate(-10deg) scale(1.65,1.2)
 }
 .hero-role {
   font-size:16px;
@@ -287,10 +303,10 @@ h1,h2,h3,p {
   outline-offset:-38px
 }
 .flower-blue {
-  left:calc(var(--hero-flower-size) * -.34)
+  left:calc(var(--hero-flower-size) * -.46)
 }
 .flower-red {
-  right:calc(var(--hero-flower-size) * -.34)
+  right:calc(var(--hero-flower-size) * -.46)
 }
 .flower-art {
   display:block;
@@ -299,10 +315,10 @@ h1,h2,h3,p {
   transition:transform 1.65s var(--e3-spring);
   will-change:transform
 }
-.flower-blue .flower-art {
+.flower-blue .flower-rotor {
   transform:rotate(-18deg)
 }
-.flower-red .flower-art {
+.flower-red .flower-rotor {
   transform:rotate(12deg)
 }
 .flower-art svg {
@@ -310,9 +326,15 @@ h1,h2,h3,p {
   width:100%;
   height:100%
 }
-.flower:active .flower-art {
-  scale:.97
+.flower > .flower-art {position:relative}
+.flower-rotor,.flower-core {
+  position:absolute;
+  inset:0;
+  transition:transform 1.65s var(--e3-spring),scale .65s var(--e3-spring)
 }
+.flower-core {pointer-events:none}
+.e3-hero.is-unbounded .flower-rotor {scale:1.06}
+.flower:active .flower-rotor {scale:1.06}
 .peek-gallery {
   padding:22px 0 65px;
   overflow:hidden
