@@ -67,12 +67,11 @@ def flower(kind):
     color, center = ("#84def9", "#0636ce") if kind == "blue" else ("#f32312", "#ffffff")
     return (
         f'<button class="flower flower-{kind}" data-flower data-start="{(-18 if kind == "blue" else 12)}" '
-        'type="button" aria-label="让花瓣从起点向外展开">'
-        '<span class="flower-art"><span class="flower-rotor"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" '
+        'type="button" aria-label="让手绘花朵转起来">'
+        '<span class="flower-art"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" '
         'aria-hidden="true" focusable="false">'
-        f'<path d="{HERO_FLOWER_PATHS[kind]}" fill="{color}" /></svg></span>'
-        '<span class="flower-core"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">'
-        f'<path d="{HERO_FLOWER_CENTERS[kind]}" fill="{center}" /></svg></span></span></button>'
+        f'<path d="{HERO_FLOWER_PATHS[kind]}" fill="{color}" />'
+        f'<path d="{HERO_FLOWER_CENTERS[kind]}" fill="{center}" /></svg></span></button>'
     )
 
 
@@ -88,7 +87,7 @@ def build_edition3():
         "game-events": ("game-events-06", "game-events-01"),
     }
     by_name = {asset["name"]: asset for asset in assets}
-    wordmark = (DIST / 'assets/yuki-wordmark.svg').read_text().replace('<svg ', '<svg class="yuki-wordmark" aria-hidden="true" focusable="false" ', 1)
+    wordmark = '<img src="/assets/yuki-wordmark.svg" alt="Yuki" width="124" height="62">'
     navigation = f'''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">{wordmark}</a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
     footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/" aria-label="Yuki 首页">{wordmark}</a><p>© 2026 吴雨晴</p><a class="footer-top" href="#top">回到顶部</a></footer>'''
     (DIST / "favicon-flower.svg").write_text(flower_shape("blue", "#0636ce", "#ffd23c"))
@@ -134,7 +133,7 @@ def build_edition3():
 <body class="edition-three" id="top"><a class="e3-skip" href="#main">跳到主要内容</a>{navigation}
 <main id="main"><section class="e3-hero" aria-labelledby="hero-title">
 {flower('blue')}{flower('red')}
-<div class="hero-copy"><h1 id="hero-title"><span class="hero-line">设计是我的起点，</span><span class="hero-line">不是我的<button class="hero-word" type="button">边界<i aria-hidden="true"></i></button></span></h1>
+<div class="hero-copy"><h1 id="hero-title"><span class="hero-line">设计是我的起点，</span><span class="hero-line">不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></span></h1>
 <p class="hero-intro">你好，我是 Yuki / 吴雨晴。</p>
 <p class="hero-summary">一名以设计为起点、不设边界的设计师。既打磨复杂流程、系统框架与协作体验，也探索代码、视觉、与动态表达。</p>
 <div class="hero-actions"><a class="e3-button" href="#work"><span>看看我的作品</span><span class="button-bloom" aria-hidden="true">{flower_shape("blue", "#0636ce", "#ffffff")}</span></a><a class="e3-text-link" href="/resume.html">我的简历</a></div></div>
