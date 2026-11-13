@@ -318,6 +318,28 @@ h1,h2,h3,p {
   width:100%;
   height:100%
 }
+.flower .flower-art {
+  position:relative
+}
+.flower-frame {
+  visibility:hidden;
+  position:absolute;
+  inset:0;
+  pointer-events:none
+}
+.flower-frame img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain
+}
+.flower:not([data-frame]) .flower-frame-ink,
+.flower[data-frame="ink"] .flower-frame-ink,
+.flower[data-frame="neon"] .flower-frame-neon,
+.flower[data-frame="crayon"] .flower-frame-crayon,
+.flower[data-frame="paint"] .flower-frame-paint {
+  visibility:visible
+}
 .flower:active .flower-art {
   scale:.97
 }
