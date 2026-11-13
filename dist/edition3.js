@@ -15,17 +15,51 @@
 
   flowers.forEach(flower => {
     rotations.set(flower, Number(flower.dataset.start || 0));
-    flower.addEventListener('pointerenter', event => {
-      if (finePointer.matches && event.pointerType === 'mouse') turnFlower(flower, 280);
-    });
-    flower.addEventListener('focus', () => turnFlower(flower, 280));
-    if (flower.tagName === 'BUTTON') {
-      flower.addEventListener('click', () => {
-        turnFlower(flower, 180);
-        const status = document.querySelector('.flower-status');
-        if (status) status.textContent = '手绘花朵转起来了。';
+    const frames = [...flower.querySelectorAll('.flower-frame')];
+    if (!frames.length) {
+      flower.addEventListener('pointerenter', event => {
+        if (finePointer.matches && event.pointerType === 'mouse') turnFlower(flower, 280);
       });
+      flower.addEventListener('focus', () => turnFlower(flower, 280));
+      return;
     }
+
+    const artwork = flower.querySelector('.flower-art');
+    let cycle;
+    let frame = 0;
+
+    function showFrame(index) {
+      frame = index;
+      flower.dataset.frame = frames[index].classList[1].replace('flower-frame-', '');
+    }
+
+    function stopCycle() {
+      clearInterval(cycle);
+      cycle = undefined;
+      showFrame(0);
+    }
+
+    function startCycle(amount) {
+      if (reducedMotion.matches || cycle !== undefined) return;
+      turnFlower(flower, amount);
+      showFrame(1);
+      cycle = setInterval(() => showFrame((frame + 1) % frames.length), 320);
+    }
+
+    function handleRotationEnd(event) {
+      if (event.target === artwork && event.propertyName === 'transform') stopCycle();
+    }
+
+    artwork.addEventListener('transitionend', handleRotationEnd);
+    artwork.addEventListener('transitioncancel', handleRotationEnd);
+    reducedMotion.addEventListener('change', stopCycle);
+    flower.addEventListener('pointerenter', event => {
+      if (finePointer.matches && event.pointerType === 'mouse') startCycle(280);
+    });
+    flower.addEventListener('focus', () => {
+      if (flower.matches(':focus-visible')) startCycle(280);
+    });
+    flower.addEventListener('click', () => startCycle(180));
   });
 
   const copyButton = document.querySelector('[data-copy-email]');

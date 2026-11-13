@@ -63,15 +63,29 @@ HERO_FLOWER_CENTERS = {
 }
 
 
+def flower_frame(name, artwork):
+    return (
+        f'<span class="flower-frame flower-frame-{name}">'
+        '<svg viewBox="0 0 600 600" focusable="false">'
+        f'{artwork}</svg></span>'
+    )
+
+
 def flower(kind):
     color, center = ("#84def9", "#0636ce") if kind == "blue" else ("#f32312", "#ffffff")
+    original = flower_frame("ink",
+        f'<path d="{HERO_FLOWER_PATHS[kind]}" fill="{color}" />'
+        f'<path d="{HERO_FLOWER_CENTERS[kind]}" fill="{center}" />'
+    )
+    variants = "".join(
+        f'<span class="flower-frame flower-frame-{style}">'
+        f'<img src="/assets/hero-flowers/{style}-{kind}.webp" alt="" draggable="false"></span>'
+        for style in ("neon", "crayon", "paint")
+    )
     return (
         f'<button class="flower flower-{kind}" data-flower data-start="{(-18 if kind == "blue" else 12)}" '
-        'type="button" aria-label="让手绘花朵转起来">'
-        '<span class="flower-art"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" '
-        'aria-hidden="true" focusable="false">'
-        f'<path d="{HERO_FLOWER_PATHS[kind]}" fill="{color}" />'
-        f'<path d="{HERO_FLOWER_CENTERS[kind]}" fill="{center}" /></svg></span></button>'
+        'type="button" aria-label="旋转花朵并切换形态">'
+        f'<span class="flower-art" aria-hidden="true">{original}{variants}</span></button>'
     )
 
 
@@ -129,7 +143,7 @@ def build_edition3():
 <meta name="theme-color" content="#f7f5ef"><title>Yuki · 吴雨晴｜体验与 AI 设计师</title>
 <meta name="description" content="设计是我的起点，不是我的边界。吴雨晴的抖音 IP、游戏直播、AI 产品与设计工作流作品集。">
 <meta property="og:title" content="Yuki · 吴雨晴｜体验与 AI 设计师"><meta property="og:type" content="website"><meta property="og:url" content="{origin}/"><meta property="og:image" content="{origin}/assets/ai-card-cover.png">
-<link rel="canonical" href="{origin}/"><link rel="icon" href="/favicon-flower.svg" type="image/svg+xml"><link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>
+<link rel="canonical" href="{origin}/"><link rel="icon" href="/favicon-flower.svg" type="image/svg+xml"><link rel="stylesheet" href="/edition3.css?v=flower-ease"><script src="/edition3.js?v=flower-stop" defer></script></head>
 <body class="edition-three" id="top"><a class="e3-skip" href="#main">跳到主要内容</a>{navigation}
 <main id="main"><section class="e3-hero" aria-labelledby="hero-title">
 {flower('blue')}{flower('red')}
@@ -149,18 +163,18 @@ def build_edition3():
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
         page = path.read_text().replace('content="#101210"', 'content="#f7f5ef"')
         page = page.replace('href="/favicon.svg"', 'href="/favicon-flower.svg"')
-        page = page.replace('<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script>', "")
+        page = page.replace('<link rel="stylesheet" href="/edition3.css?v=flower-spin"><script src="/edition3.js?v=flower-spin" defer></script>', "")
         page = re.sub(r'<header class="(?:site-header|e3-header)">.*?</header>', navigation, page, flags=re.S)
         page = re.sub(r'<footer class="(?:footer|e3-footer e3-wrap)">.*?</footer>', footer, page, flags=re.S)
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
-        page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>')
+        page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css?v=flower-spin"><script src="/edition3.js?v=flower-spin" defer></script></head>')
         page = page.replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
         (path).write_text(page)
     from site_base import head
     for slug in ("spring-gala", "game-link", "game-events"):
         project = projects[slug]
         page = head(project["title"] + ' · Yuki Design', project["summary"], '/work/' + slug + '.html').replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
-        page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>')
+        page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css?v=flower-spin"><script src="/edition3.js?v=flower-spin" defer></script></head>')
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
         page += navigation + f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, assets)}</main>' + footer + image_preview() + '</body></html>'
         (DIST / 'work' / f'{slug}.html').write_text(page)
