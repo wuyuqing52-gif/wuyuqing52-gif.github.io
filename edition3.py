@@ -111,6 +111,8 @@ def build_edition3():
             collage = '<div class="collage-main original-cover"><img src="/assets/ai-card-cover.png" alt="集换式卡牌游戏" loading="lazy"></div><div class="collage-small original-detail"><img src="/assets/card-case/figure-16.webp" alt="卡牌稀有度与视觉效果" loading="lazy"></div>'
         elif slug == "ai-review":
             collage = '<div class="collage-main original-cover"><img src="/assets/portfolio/review-cover.png" alt="AI 走查助手" loading="lazy"></div><div class="collage-small original-detail"><img src="/demos/review-assistant/design.png" alt="走查工具设计稿" loading="lazy"></div>'
+        elif slug == "dual-screen":
+            collage = '<div class="collage-main"><img src="/assets/dual-screen-doc/design-05.png" alt="双屏开播摄像头布局设计" loading="lazy" decoding="async"></div><div class="collage-small"><img src="/assets/dual-screen-doc/analysis-09.png" alt="双屏直播竖屏观看效果" loading="lazy" decoding="async"></div>'
         else:
             main, small = [by_name[name] for name in covers[slug]]
             src = main["parts"][0]["src"] if main["parts"] else main["src"]
@@ -180,8 +182,14 @@ def build_edition3():
         elif slug == "dual-screen":
             start = page.index('<section class="project-guide"')
             end = page.index('<a class="next-project"', start)
-            page = page[:start] + project_gallery(projects[slug], assets) + page[end:]
+            page = page[:start] + (ROOT / "dual-screen-case.html").read_text() + page[end:]
             page = re.sub(r'<p class="case-lead">.*?</p>', '', page, flags=re.S)
+            page = page.replace('<body id="top" class="edition-three e3-case">', '<body id="top" class="edition-three e3-case dual-screen-case">')
+            page = re.sub(r'<h1>.*?</h1>', '<h1>提升游戏直播开看播体验</h1>', page, count=1, flags=re.S)
+            page = re.sub(r'<div class="detail-top">.*?</div>', '', page, flags=re.S)
+            page = re.sub(r'<p class="detail-meta">.*?</p>', '', page, flags=re.S)
+            page = page.replace('直播双屏项目 · Yuki Design', '提升游戏直播开看播体验 · Yuki Design')
+            page = page.replace('</head>', '<link rel="stylesheet" href="/dual-screen-case.css"></head>')
         page = re.sub(r'<section class="case-assets">.*?</section>', '', page, flags=re.S)
         next_slug = PROJECT_ORDER[(index + 1) % len(PROJECT_ORDER)]
         next_link = f'<a class="next-project" href="/work/{next_slug}.html"><span>继续浏览</span><strong>{escape(projects[next_slug]["title"])}</strong></a>'

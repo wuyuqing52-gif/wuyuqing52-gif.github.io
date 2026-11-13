@@ -1342,3 +1342,7 @@ body.has-open-artwork {
 @media(hover:none){.peek-track{animation:none;transform:none}.peek-gallery{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-inline:20px}.peek-group{padding:0}.peek-group[aria-hidden]{display:none}.peek-slide{scroll-snap-align:start}.project-description{max-height:none;opacity:1;transform:none;overflow:visible;margin-top:9px;font-size:12px}.project-copy{bottom:auto;position:relative;left:auto;right:auto;padding:0 22px 22px}.project-collage{height:250px;position:relative}.e3-project{aspect-ratio:auto;min-height:360px}.project-caption>p{font-size:10px}.case-action{max-height:none;opacity:1;margin-top:12px}.card-bloom{display:none}.e3-project:hover .project-collage{opacity:1;transform:none}.e3-project:hover .project-description{max-height:none}.flower-art{will-change:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.peek-gallery{overflow-x:auto;padding-inline:20px}.peek-group[aria-hidden]{display:none}.flower-art{transform:none!important;will-change:auto}}
 @media print{.e3-header,.e3-footer{display:none!important}.e3-case{background:#fff!important;color:#222!important}.e3-case .resume-page{padding-top:0}.e3-case .experience-item{break-inside:avoid}}
+
+.project-dual-screen :is(.collage-main, .collage-small, .collage-main img, .collage-small img) {
+  border-radius: 16px;
+}
