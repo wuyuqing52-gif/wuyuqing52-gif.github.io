@@ -69,7 +69,46 @@ def event_gallery(project, assets):
     return '<div class="art-gallery">' + ''.join(sections) + '</div>'
 
 
-def project_gallery(project, assets):
+def figma_gallery(project, boards):
+    compositions = []
+    for board in boards:
+        width, height = board["width"], board["height"]
+        watermarks = ''.join(
+            f'<span class="figma-watermark" aria-hidden="true" style="left:{mark["x"] / width * 100:.6f}%;top:{mark["y"] / height * 100:.6f}%">{escape(mark["text"])}</span>'
+            for mark in board["watermarks"]
+        )
+        screens = []
+        for index, screen in enumerate(board["screens"], 1):
+            caption = f'{project["title"]} · {board["label"]} · 界面{index}'
+            motion = "long" if screen.get("long") else "still"
+            style = (
+                f'left:{screen["x"] / width * 100:.6f}%;top:{screen["y"] / height * 100:.6f}%;'
+                f'width:{screen["display_width"] / width * 100:.6f}%;'
+                f'aspect-ratio:{screen["display_width"]}/{screen["display_height"]};'
+                f'--figma-angle:{screen["angle"]}deg;'
+                f'--figma-border:{screen.get("border", 36) / width * 100:.6f}cqw;'
+                f'--figma-radius:{screen.get("radius", 120) / width * 100:.6f}cqw;'
+                f'--figma-shadow:{screen.get("shadow_blur", 150) / width * 100:.6f}cqw;'
+                f'--figma-shadow-alpha:{screen.get("shadow_alpha", .39)}'
+            )
+            src = escape(screen["src"], quote=True)
+            screens.append(
+                f'<a class="figma-screen figma-screen--{motion}" style="{style}" href="{src}" '
+                f'data-image-preview data-image-title="{escape(caption)}" aria-label="放大{escape(caption)}">'
+                f'<img src="{src}" alt="{escape(caption)}" width="{screen["width"]}" height="{screen["height"]}" loading="lazy" decoding="async"></a>'
+            )
+        compositions.append(
+            f'<div class="figma-board" role="group" aria-label="{escape(board["label"])}" '
+            f'style="aspect-ratio:{width}/{height};background:{board["background"]};--figma-watermark:{board["watermark_color"]}">'
+            f'{watermarks}{"".join(screens)}</div>'
+        )
+    return '<div class="art-gallery figma-gallery">' + ''.join(compositions) + '</div>'
+
+
+def project_gallery(project, assets, boards=()):
+    project_boards = [board for board in boards if board["project"] == project["slug"]]
+    if project_boards:
+        return figma_gallery(project, project_boards)
     if project["slug"] == "game-events":
         return event_gallery(project, assets)
     groups = {}

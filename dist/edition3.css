@@ -1354,3 +1354,77 @@ body.has-open-artwork {
 .project-dual-screen :is(.collage-main, .collage-small, .collage-main img, .collage-small img) {
   border-radius: 16px;
 }
+
+.figma-gallery {
+  display:grid;
+  gap:62px
+}
+.figma-board {
+  position:relative;
+  container-type:inline-size;
+  width:100%;
+  overflow:clip;
+  isolation:isolate;
+  border-radius:3.410641% / 5.737234%
+}
+.figma-watermark {
+  position:absolute;
+  z-index:-1;
+  margin:0;
+  font-family:"FZLanTingHeiS-H-GB","PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:27.793588cqw;
+  font-weight:700;
+  line-height:normal;
+  white-space:nowrap;
+  color:var(--figma-watermark);
+  pointer-events:none
+}
+.figma-screen {
+  position:absolute;
+  display:block;
+  border-radius:var(--figma-radius);
+  box-shadow:0 .852660cqw var(--figma-shadow) rgba(54,38,34,var(--figma-shadow-alpha));
+  transform:translate(-50%,-50%) rotate(var(--figma-angle));
+  cursor:zoom-in;
+  transition:transform .65s var(--e3-ease)
+}
+.figma-screen::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  border:var(--figma-border) solid #fff;
+  border-radius:inherit;
+  pointer-events:none
+}
+.figma-screen img {
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:cover;
+  border-radius:inherit
+}
+.figma-screen:focus-visible {
+  outline:3px solid var(--e3-blue,#0636ce);
+  outline-offset:4px
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .figma-screen--still:hover {
+    animation:figma-screen-wobble .85s ease-in-out
+  }
+  .figma-screen--long:hover {
+    transform:translate(-50%,calc(-50% - 1.2cqw)) rotate(var(--figma-angle));
+    transition-duration:3s
+  }
+}
+@keyframes figma-screen-wobble {
+  0%,100%{transform:translate(-50%,-50%) rotate(var(--figma-angle))}
+  30%{transform:translate(-50%,calc(-50% - .3cqw)) rotate(calc(var(--figma-angle) - .8deg))}
+  65%{transform:translate(-50%,calc(-50% - .15cqw)) rotate(calc(var(--figma-angle) + .6deg))}
+}
+@media(max-width:700px) {
+  .figma-gallery{gap:38px}
+}
+@media(prefers-reduced-motion:reduce) {
+  .figma-screen{transition:none}
+}

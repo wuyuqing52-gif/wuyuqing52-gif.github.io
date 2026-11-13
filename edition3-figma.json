@@ -1,0 +1,516 @@
+[
+  {
+    "project": "ai-game",
+    "name": "card-board",
+    "figma_node_id": "222:2497",
+    "kind": "figma-board",
+    "label": "游戏抽卡与抽卡分享",
+    "width": 5864,
+    "height": 3486,
+    "background": "#fff5d7",
+    "screens": [
+      {
+        "display_width": 1125,
+        "display_height": 2436,
+        "x": 1452,
+        "y": 1743,
+        "angle": 0,
+        "src": "/assets/edition3-projects/figma/card-01.png",
+        "width": 1125,
+        "height": 2436
+      },
+      {
+        "display_width": 1125,
+        "display_height": 2436,
+        "x": 2932,
+        "y": 1743,
+        "angle": 0,
+        "src": "/assets/edition3-projects/figma/card-02.png",
+        "width": 1125,
+        "height": 2436
+      },
+      {
+        "display_width": 1125,
+        "display_height": 2436,
+        "x": 4412,
+        "y": 1743,
+        "angle": 0,
+        "src": "/assets/edition3-projects/figma/card-03.png",
+        "width": 1892,
+        "height": 4096
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "游戏抽卡",
+        "x": -655,
+        "y": 0
+      },
+      {
+        "text": "抽卡分享",
+        "x": 354,
+        "y": 1743
+      }
+    ],
+    "watermark_color": "rgba(150,20,6,0.1)"
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-preheat-board",
+    "figma_node_id": "238:2260",
+    "kind": "figma-board",
+    "label": "年度榜单 · 预热阶段",
+    "width": 5864,
+    "height": 3486,
+    "background": "#fff5d7",
+    "screens": [
+      {
+        "display_width": 1125,
+        "display_height": 7986,
+        "x": 1114.3725,
+        "y": 5314.0005,
+        "angle": 5,
+        "long": true,
+        "part": 1,
+        "src": "/assets/edition3-projects/spring-gala-01.webp",
+        "width": 1200,
+        "height": 8522
+      },
+      {
+        "display_width": 1125,
+        "display_height": 7986,
+        "x": 2931.5025,
+        "y": 1945.0005,
+        "angle": 5,
+        "long": true,
+        "part": 2,
+        "src": "/assets/edition3-projects/spring-gala-01.webp",
+        "width": 1200,
+        "height": 8522
+      },
+      {
+        "display_width": 1125,
+        "display_height": 7986,
+        "x": 4748.3724999999995,
+        "y": -937.9994999999999,
+        "angle": 5,
+        "long": true,
+        "part": 3,
+        "src": "/assets/edition3-projects/spring-gala-01.webp",
+        "width": 1200,
+        "height": 8522
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "年度榜单",
+        "x": -733,
+        "y": -208
+      },
+      {
+        "text": "预热阶段",
+        "x": 74.89,
+        "y": 1657.95
+      }
+    ],
+    "watermark_color": "rgba(150,20,6,0.1)"
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-announcement-board",
+    "figma_node_id": "238:2264",
+    "kind": "figma-board",
+    "label": "年度榜单 · 公示阶段",
+    "width": 5864,
+    "height": 3486,
+    "background": "#ffded8",
+    "screens": [
+      {
+        "display_width": 1125,
+        "display_height": 9742,
+        "x": 984.895,
+        "y": 6051.4895,
+        "angle": 5,
+        "long": true,
+        "part": 1,
+        "src": "/assets/edition3-projects/spring-gala-02.webp",
+        "width": 750,
+        "height": 6490
+      },
+      {
+        "display_width": 1125,
+        "display_height": 9742,
+        "x": 2954.895,
+        "y": 2840.4894999999997,
+        "angle": 5,
+        "long": true,
+        "part": 2,
+        "src": "/assets/edition3-projects/spring-gala-02.webp",
+        "width": 750,
+        "height": 6490
+      },
+      {
+        "display_width": 1125,
+        "display_height": 9742,
+        "x": 4924.895,
+        "y": -510.5105000000003,
+        "angle": 5,
+        "long": true,
+        "part": 3,
+        "src": "/assets/edition3-projects/spring-gala-02.webp",
+        "width": 750,
+        "height": 6490
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "年度榜单",
+        "x": -733,
+        "y": -208
+      },
+      {
+        "text": "公示阶段",
+        "x": 74.89,
+        "y": 1657.95
+      }
+    ],
+    "watermark_color": "rgba(150,20,6,0.1)"
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-voting-board",
+    "figma_node_id": "242:2324",
+    "kind": "figma-board",
+    "label": "年度榜单 · 打投阶段",
+    "width": 5864,
+    "height": 3486,
+    "background": "#fff5d7",
+    "screens": [
+      {
+        "display_width": 1125,
+        "display_height": 14817,
+        "x": 304.0530000000001,
+        "y": 8219.503499999999,
+        "angle": 5,
+        "long": true,
+        "part": 1,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-03.webp",
+        "width": 1125,
+        "height": 14817
+      },
+      {
+        "display_width": 1125,
+        "display_height": 14817,
+        "x": 1956.053,
+        "y": 4789.5035,
+        "angle": 5,
+        "long": true,
+        "part": 2,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-03.webp",
+        "width": 1125,
+        "height": 14817
+      },
+      {
+        "display_width": 1125,
+        "display_height": 14817,
+        "x": 3733.053,
+        "y": 435.5034999999998,
+        "angle": 5,
+        "long": true,
+        "part": 3,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-03.webp",
+        "width": 1125,
+        "height": 14817
+      },
+      {
+        "display_width": 1125,
+        "display_height": 14817,
+        "x": 5376.053,
+        "y": -2379.4965,
+        "angle": 5,
+        "long": true,
+        "part": 4,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-03.webp",
+        "width": 1125,
+        "height": 14817
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "年度榜单",
+        "x": -733,
+        "y": -208
+      },
+      {
+        "text": "打投阶段",
+        "x": 74.89,
+        "y": 1657.95
+      }
+    ],
+    "watermark_color": "rgba(150,20,6,0.13)"
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-show-board",
+    "figma_node_id": "238:2266",
+    "kind": "figma-board",
+    "label": "新春会 · 晚会阶段",
+    "width": 5864,
+    "height": 3486,
+    "background": "#e8e8ff",
+    "screens": [
+      {
+        "display_width": 1125,
+        "display_height": 16225,
+        "x": 96.41049999999996,
+        "y": 8957.505,
+        "angle": 5,
+        "long": true,
+        "part": 1,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-07.webp",
+        "width": 750,
+        "height": 10826
+      },
+      {
+        "display_width": 1125,
+        "display_height": 16225,
+        "x": 1790.4105,
+        "y": 5550.504999999999,
+        "angle": 5,
+        "long": true,
+        "part": 2,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-07.webp",
+        "width": 750,
+        "height": 10826
+      },
+      {
+        "display_width": 1125,
+        "display_height": 16225,
+        "x": 3904.4105,
+        "y": -2099.495,
+        "angle": 5,
+        "long": true,
+        "part": 3,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-07.webp",
+        "width": 750,
+        "height": 10826
+      },
+      {
+        "display_width": 1125,
+        "display_height": 16225,
+        "x": 5583.4105,
+        "y": -4934.495,
+        "angle": 5,
+        "long": true,
+        "part": 4,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-07.webp",
+        "width": 750,
+        "height": 10826
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "新春会",
+        "x": 0,
+        "y": -208
+      },
+      {
+        "text": "晚会阶段",
+        "x": 74.89,
+        "y": 1657.95
+      }
+    ],
+    "watermark_color": "rgba(150,6,54,0.1)"
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-templates-board",
+    "figma_node_id": "238:2271",
+    "kind": "figma-board",
+    "label": "新春会 · 文字模板",
+    "width": 5864,
+    "height": 3486,
+    "background": "#e3f6ff",
+    "screens": [
+      {
+        "display_width": 3801,
+        "display_height": 2432,
+        "x": 2932.5,
+        "y": 1743,
+        "angle": 0,
+        "border": 0,
+        "radius": 0,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.3,
+        "src": "/assets/edition3-projects/wishing-template.png",
+        "width": 4096,
+        "height": 2620
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "新春会",
+        "x": 0,
+        "y": -208
+      },
+      {
+        "text": "文字模板",
+        "x": 74.89,
+        "y": 1657.95
+      }
+    ],
+    "watermark_color": "rgba(150,6,54,0.1)"
+  },
+  {
+    "project": "spring-gala",
+    "name": "spring-results-board",
+    "figma_node_id": "242:2356",
+    "kind": "figma-board",
+    "label": "年度榜单 · 榜单揭晓",
+    "width": 5864,
+    "height": 3486,
+    "background": "#ffded8",
+    "screens": [
+      {
+        "display_width": 1125,
+        "display_height": 11785,
+        "x": 378.92499999999995,
+        "y": 6703.5025,
+        "angle": 5,
+        "long": true,
+        "part": 1,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-08.webp",
+        "width": 750,
+        "height": 7860
+      },
+      {
+        "display_width": 1125,
+        "display_height": 11785,
+        "x": 2041.925,
+        "y": 4122.5025000000005,
+        "angle": 5,
+        "long": true,
+        "part": 2,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-08.webp",
+        "width": 750,
+        "height": 7860
+      },
+      {
+        "display_width": 1125,
+        "display_height": 11785,
+        "x": 3742.925,
+        "y": 1038.5024999999996,
+        "angle": 5,
+        "long": true,
+        "part": 3,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-08.webp",
+        "width": 750,
+        "height": 7860
+      },
+      {
+        "display_width": 1125,
+        "display_height": 11785,
+        "x": 5418.925,
+        "y": -2223.8975,
+        "angle": 5,
+        "long": true,
+        "part": 4,
+        "shadow_blur": 100,
+        "shadow_alpha": 0.12,
+        "src": "/assets/edition3-projects/spring-gala-08.webp",
+        "width": 750,
+        "height": 7860
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "年度榜单",
+        "x": -733,
+        "y": -208
+      },
+      {
+        "text": "榜单揭晓",
+        "x": 74.89,
+        "y": 1657.95
+      }
+    ],
+    "watermark_color": "rgba(150,20,6,0.1)"
+  },
+  {
+    "project": "game-events",
+    "name": "events-review-board",
+    "figma_node_id": "242:2409",
+    "kind": "figma-board",
+    "label": "选手点评",
+    "width": 5864,
+    "height": 3486,
+    "background": "#e3f6ff",
+    "screens": [
+      {
+        "display_width": 1125,
+        "display_height": 2436,
+        "x": 1452.5,
+        "y": 1743,
+        "angle": 0,
+        "src": "/assets/edition3-projects/figma/events-01.png",
+        "width": 375,
+        "height": 812
+      },
+      {
+        "display_width": 1125,
+        "display_height": 2436,
+        "x": 2932.5,
+        "y": 1743,
+        "angle": 0,
+        "src": "/assets/edition3-projects/figma/events-02.png",
+        "width": 750,
+        "height": 1606
+      },
+      {
+        "display_width": 1125,
+        "display_height": 2436,
+        "x": 4412.5,
+        "y": 1743,
+        "angle": 0,
+        "src": "/assets/edition3-projects/figma/events-03.png",
+        "width": 750,
+        "height": 1608
+      }
+    ],
+    "watermarks": [
+      {
+        "text": "游戏赛事",
+        "x": 0,
+        "y": -208
+      },
+      {
+        "text": "选手点评",
+        "x": 74.89,
+        "y": 1657.95
+      }
+    ],
+    "watermark_color": "rgba(150,6,54,0.1)"
+  }
+]

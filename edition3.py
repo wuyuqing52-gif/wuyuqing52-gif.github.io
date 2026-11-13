@@ -80,6 +80,7 @@ def build_edition3():
     origin = json.loads((ROOT / ".openai/hosting.json").read_text()).get("site_url", "https://yuki-edition-3.yuki3316950442.chatgpt.site")
     projects = selected_projects(content)
     assets = json.loads((ROOT / "edition3-assets.json").read_text())
+    figma_boards = json.loads((ROOT / "edition3-figma.json").read_text())
     covers = {
         "dual-screen": ("dual-screen-02", "dual-screen-01"),
         "spring-gala": ("spring-gala-03", "spring-gala-05"),
@@ -164,7 +165,7 @@ def build_edition3():
         page = head(project["title"] + ' · Yuki Design', project["summary"], '/work/' + slug + '.html').replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
         page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css"><script src="/edition3.js" defer></script></head>')
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
-        page += navigation + f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, assets)}</main>' + footer + image_preview() + '</body></html>'
+        page += navigation + f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, assets, figma_boards)}</main>' + footer + image_preview() + '</body></html>'
         (DIST / 'work' / f'{slug}.html').write_text(page)
 
     for index, slug in enumerate(PROJECT_ORDER):
@@ -173,7 +174,7 @@ def build_edition3():
         if slug == "ai-game":
             start = page.index('<div class="case-reading card-case-reading">')
             end = page.index('<a class="next-project"', start)
-            page = page[:start] + project_gallery(projects[slug], assets) + page[end:]
+            page = page[:start] + project_gallery(projects[slug], assets, figma_boards) + page[end:]
         elif slug == "ai-review":
             start = page.index('<div class="case-reading">')
             end = page.index('<a class="next-project"', start)
