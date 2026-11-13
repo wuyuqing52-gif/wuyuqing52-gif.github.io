@@ -148,6 +148,12 @@
   margin: 20px 0;
 }
 
+.doc-image--portrait-sample {
+  width: 234px;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
 .doc-image a {
   display: block;
   cursor: zoom-in;
