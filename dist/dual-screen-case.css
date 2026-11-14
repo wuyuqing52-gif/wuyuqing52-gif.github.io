@@ -3,7 +3,8 @@
 }
 
 .dual-screen-case .detail > h1 {
-  margin:28px 0 0
+  margin:28px 0 0;
+  text-wrap:balance
 }
 
 .doc-case {
