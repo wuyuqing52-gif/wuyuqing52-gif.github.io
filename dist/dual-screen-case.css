@@ -72,7 +72,7 @@
 
 .doc-case .doc-callout {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
   padding: 20px;
   border: 1px solid #ded8c0;
@@ -83,6 +83,7 @@
 .doc-callout-icon {
   flex: 0 0 auto;
   font-size: 20px;
+  line-height: 1;
 }
 
 .doc-callout > div {
@@ -97,6 +98,7 @@
   padding: 1px 3px;
   border-radius: 4px;
   background: #dce8c8;
+  white-space: nowrap;
 }
 
 .doc-case .doc-emphasis {

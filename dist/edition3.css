@@ -1202,9 +1202,9 @@ body.has-open-artwork {
 }
 .e3-case .card-demo .level-tab.is-active,
 .e3-case .card-demo .solution-tabs button.is-active {
-  background:#183944;
-  border-color:#84def9;
-  color:#c5f1ff
+  background:#484e3e;
+  border-color:transparent;
+  color:#fff
 }
 .e3-case .card-demo .viewer-close:hover,
 .e3-case .card-demo .viewer-close:focus-visible {
