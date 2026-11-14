@@ -79,15 +79,31 @@ document.querySelectorAll('[data-project-guide]').forEach(guide => {
   });
 });
 const caseChapters = document.querySelectorAll('[data-case-chapter]');
-if (caseChapters.length && 'IntersectionObserver' in window) {
-  const observer = new IntersectionObserver(entries => {
-    const active = entries.filter(entry => entry.isIntersecting).sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-    if (active) document.querySelectorAll('.case-contents a').forEach(link => {
-      if (link.hash === '#' + active.target.id) link.setAttribute('aria-current','location');
+if (caseChapters.length) {
+  let chapterUpdateFrame = 0;
+  function updateCaseChapter() {
+    chapterUpdateFrame = 0;
+    let active = caseChapters[0];
+    const readingLine = parseFloat(getComputedStyle(caseChapters[0]).scrollMarginTop)
+      + parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) + 1;
+    for (const chapter of caseChapters) {
+      if (chapter.getBoundingClientRect().top <= readingLine) active = chapter;
+    }
+    if (scrollY + innerHeight >= document.documentElement.scrollHeight - 2) {
+      active = caseChapters[caseChapters.length - 1];
+    }
+    document.querySelectorAll('.case-contents a').forEach(link => {
+      if (link.hash === '#' + active.id) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
     });
-  }, {rootMargin:'-110px 0px -65% 0px'});
-  caseChapters.forEach(chapter => observer.observe(chapter));
+  }
+  function scheduleChapterUpdate() {
+    if (!chapterUpdateFrame) chapterUpdateFrame = requestAnimationFrame(updateCaseChapter);
+  }
+  addEventListener('scroll', scheduleChapterUpdate, {passive: true});
+  addEventListener('resize', scheduleChapterUpdate);
+  document.fonts.ready.then(scheduleChapterUpdate);
+  updateCaseChapter();
 }
 // Re-drawn report illustration: reveal the correspondence between each issue
 // and its marked region without uploading or analysing visitor data.

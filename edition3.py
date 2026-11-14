@@ -44,6 +44,27 @@ def flower(kind):
     )
 
 
+def add_button_blooms(page):
+    def decorate(match):
+        attributes, content = match.group(1), match.group(2)
+        if 'class="button-bloom"' in content:
+            return match.group(0)
+        class_match = re.search(r'class="([^"]*)"', attributes)
+        class_names = class_match.group(1).split()
+        if "e3-button" not in class_names:
+            classes = class_match.group(1) + " e3-button"
+            attributes = attributes.replace(class_match.group(0), f'class="{classes}"', 1)
+        bloom = flower_shape("blue", "#0636ce", "#ffffff")
+        return (f'<a{attributes}><span class="button-label">{content}</span>'
+                f'<span class="button-bloom" aria-hidden="true">{bloom}</span></a>')
+    return re.sub(
+        r'<a(\s[^>]*class="[^"]*\b(?:primary-button|e3-button)\b[^"]*"[^>]*)>(.*?)</a>',
+        decorate,
+        page,
+        flags=re.S,
+    )
+
+
 def build_edition3():
     content = json.loads((ROOT / "content.json").read_text())
     origin = json.loads((ROOT / ".openai/hosting.json").read_text()).get("site_url", "https://yuki-edition-3.yuki3316950442.chatgpt.site")
@@ -67,7 +88,7 @@ def build_edition3():
         "ai-review": "用AI<br>改变设计师<br>工作流",
         "dual-screen": "发现核心问题<br>自驱动力",
         "spring-gala": "不设边界<br>挑战自我",
-        "game-events": "深耕行业<br>规范设计风格",
+        "game-events": "深耕行业<br>解决复杂问题",
     }
     design_covers = {
         "ai-game": ("card-cover.webp", "card-detail.webp"),
@@ -172,6 +193,8 @@ def build_edition3():
         if 'id="art-lightbox"' not in page:
             page = page.replace('</body>', image_preview() + '</body>')
         path.write_text(page)
+    for path in [DIST / "index.html", *sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
+        path.write_text(add_button_blooms(path.read_text()))
     sitemap = DIST / "sitemap.xml"
     routes = ['/', '/resume.html'] + [f'/work/{slug}.html' for slug in VISIBLE_PROJECT_ORDER]
     sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{origin}{route}</loc></url>' for route in routes) + '</urlset>')
