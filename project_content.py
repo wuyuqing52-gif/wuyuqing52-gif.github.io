@@ -1,12 +1,34 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
 from html import escape as e
+import base64
 import json
 from review_visuals import render_visual
 
 def render_block(b):
  t=b['type']
  if t=='visual':return render_visual(b['name'])
+ if t=='diagram':
+  return (f'<figure class="review-diagram" tabindex="0" role="region" aria-label="{e(b["caption"])}">'
+          f'<img src="/assets/edition3/{e(b["name"])}.svg" alt="{e(b["caption"])}" loading="lazy"></figure>')
+ if t=='media':
+  images = []
+  for image in b['images']:
+   src, label = image['src'], image['label']
+   images.append(f'<a href="{e(src)}" data-image-preview data-image-title="{e(label)}" aria-label="放大{e(label)}">'
+                 f'<img src="{e(src)}" alt="{e(label)}" loading="lazy" decoding="async"></a>')
+  ratio = b.get('ratio', 'auto')
+  return (f'<figure class="review-media"><figcaption>{e(b["caption"])}</figcaption>'
+          f'<div class="review-media-images" style="--review-media-ratio:{e(ratio)}">'
+          + ''.join(images) + '</div></figure>')
+ if t=='obstacles':
+  items = []
+  for index,label in enumerate(b['items'],1):
+   asset = Path(__file__).parent / 'dist/assets/edition3' / f'lynx-obstacle-{index}.webp'
+   image = base64.b64encode(asset.read_bytes()).decode('ascii')
+   items.append(f'<div><img src="data:image/webp;base64,{image}" alt="" width="81" height="81">'
+                f'<p>{e(label)}</p></div>')
+  return '<div class="review-obstacles">'+''.join(items)+'</div>'
  if t=='image':return '<figure class="review-source-image"><a href="'+e(b['src'])+'" target="_blank" rel="noopener" aria-label="查看原图：'+e(b['caption'])+'"><img src="'+e(b['src'])+'" alt="'+e(b['caption'])+'" loading="lazy"></a><figcaption>'+e(b['caption'])+'</figcaption></figure>'
  if t=='heading':return '<h3 class="review-stage-heading">'+e(b['text'])+'</h3>'
  if t=='paragraph':return '<p>'+e(b['text'])+'</p>'

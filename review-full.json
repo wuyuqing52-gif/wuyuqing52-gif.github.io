@@ -14,24 +14,26 @@
       "title": "项目发展历程",
       "blocks": [
         {
-          "type": "visual",
-          "name": "evolution"
+          "type": "diagram",
+          "name": "review-evolution",
+          "caption": "项目发展历程，从走查网站到直接参与代码修复"
         },
         {
           "type": "heading",
-          "text": "阶段一"
+          "text": "阶段一：建立走查网站"
         },
         {
           "type": "paragraph",
-          "text": "我用 Coze 搭建了第一版网页工具，让设计师上传设计稿和开发截图、批量比对差异，再将复核后的问题导出成表格。"
+          "text": "我用 Coze 搭建了第一版网页工具，上传设计稿和开发截图可批量走查，输出问题标注和描述，支持导出成表格。"
         },
         {
-          "type": "visual",
-          "name": "web-flow"
+          "type": "diagram",
+          "name": "review-web-flow",
+          "caption": "网页端走查流程，上传设计稿、开发截图，AI 输出结果，再导出表格"
         },
         {
           "type": "heading",
-          "text": "阶段二"
+          "text": "阶段二：打磨PE"
         },
         {
           "type": "paragraph",
@@ -43,15 +45,16 @@
         },
         {
           "type": "heading",
-          "text": "阶段三"
+          "text": "阶段三：补齐移动端&插件"
         },
         {
           "type": "paragraph",
-          "text": "移动端、figma插件：通过开发ios、安卓移动端及figma插件补齐能力缺口。移动端测试环境截图后使用配套app一键批量上传图片至走查网站和figma插件；在figma插件则可直接导入选中的设计稿截图。"
+          "text": "通过开发ios、安卓移动端及figma插件补齐能力缺口：\n移动端测试环境截图后使用配套app一键批量上传图片至走查网站和figma插件；在figma插件则可直接导入选中的设计稿截图。"
         },
         {
-          "type": "visual",
-          "name": "sync"
+          "type": "diagram",
+          "name": "review-sync",
+          "caption": "手机采集与多端同步，移动端 App 通过同一账号同步网页端与 Figma 插件"
         },
         {
           "type": "heading",
@@ -62,14 +65,19 @@
           "text": "能力skill化：随着AI能力发展，我逐渐将走查能力做成可复用的 Skill。设计师可以直接给 AI 发送设计图与开发图，不必再逐项操作网站，AI 会识别问题、截取问题区域，并填入飞书走查表格。"
         },
         {
-          "type": "image",
-          "src": "/assets/review/agent-conversation.png",
-          "caption": "与Agent对话发图"
-        },
-        {
-          "type": "image",
-          "src": "/assets/review/review-table.png",
-          "caption": "AI将问题描述、截图、优先级等录入表格"
+          "type": "media",
+          "caption": "与Agent对话发图，AI将问题描述、截图、优先级等录入表格",
+          "ratio": "419 / 251",
+          "images": [
+            {
+              "src": "/assets/edition3/review-conversation.webp",
+              "label": "与 Agent 对话发图"
+            },
+            {
+              "src": "/assets/edition3/review-table.webp",
+              "label": "AI 将走查问题录入表格"
+            }
+          ]
         },
         {
           "type": "heading",
@@ -80,8 +88,70 @@
           "text": "设计师交付代码：与研发深度合作，接入代码仓库，自行开发页面前端，修复 UI 问题后提交代码。"
         },
         {
-          "type": "visual",
-          "name": "repository"
+          "type": "paragraph",
+          "text": "网页需求"
+        },
+        {
+          "type": "diagram",
+          "name": "review-repository",
+          "caption": "网页需求工作流，接入仓库、建立分支、读取设计稿、修复 UI、提交代码"
+        },
+        {
+          "type": "paragraph",
+          "text": "Lynx语言需求"
+        },
+        {
+          "type": "paragraph",
+          "text": "字节专有代码语言，可及时更新。但对于AI vibe coding存在以下困难："
+        },
+        {
+          "type": "obstacles",
+          "items": [
+            "AI不熟悉语言",
+            "无法预览效果图",
+            "环境配置困难"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "代表团队与研发深度合作共创，率先跑通Lynx需求链路："
+        },
+        {
+          "type": "media",
+          "caption": "完成复杂环境配置，跑通链路",
+          "ratio": "850 / 486",
+          "images": [
+            {
+              "src": "/assets/edition3/lynx-preview.webp",
+              "label": "完成复杂环境配置，跑通链路"
+            }
+          ]
+        },
+        {
+          "type": "media",
+          "caption": "总结为文档指引及配置脚本，帮助团队成员快速配置",
+          "ratio": "419 / 359",
+          "images": [
+            {
+              "src": "/assets/edition3/lynx-document.webp",
+              "label": "环境配置文档指引"
+            },
+            {
+              "src": "/assets/edition3/lynx-script.webp",
+              "label": "环境配置脚本"
+            }
+          ]
+        },
+        {
+          "type": "media",
+          "caption": "进一步配合研发集成一键配置环境、AI编程及效果预览的产品应用",
+          "ratio": "850 / 486",
+          "images": [
+            {
+              "src": "/assets/edition3/lynx-app.webp",
+              "label": "一键配置环境、AI编程及效果预览的产品应用"
+            }
+          ]
         }
       ]
     },
@@ -90,16 +160,12 @@
       "blocks": [
         {
           "type": "paragraph",
-          "text": "首次使用需要注册账号，多端使用时登录同一账号。"
+          "text": "因涉及多端，首次使用需要注册账号"
         },
         {
           "type": "link",
-          "label": "体验 AI 走查助手",
+          "label": "体验AI走查助手",
           "url": "https://ykqtbvy3wr.coze.site/"
-        },
-        {
-          "type": "paragraph",
-          "text": "Figma 插件已发布至字节组织内部。Android 安装包与 iOS 线下安装方式，可联系我了解。"
         }
       ]
     }
