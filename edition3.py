@@ -166,8 +166,8 @@ def build_edition3():
         page = path.read_text()
         if slug == "ai-game":
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-card-dark"')
-            page = page.replace('</head>', '<link rel="stylesheet" href="/card-dark.css?v=forest"></head>')
-            page = page.replace('name="theme-color" content="#f7f5ef"', 'name="theme-color" content="#29382f"')
+            page = page.replace('</head>', '<link rel="stylesheet" href="/card-dark.css?v=taro-radial"></head>')
+            page = page.replace('name="theme-color" content="#f7f5ef"', 'name="theme-color" content="#302a3b"')
             start = page.index('<div class="case-reading card-case-reading">')
             end = page.index('<a class="next-project"', start)
             page = page[:start] + project_gallery(projects[slug], assets, figma_boards) + page[end:]
