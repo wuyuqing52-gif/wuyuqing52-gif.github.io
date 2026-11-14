@@ -75,7 +75,7 @@ def build_font_subsets(output, pages):
         text = "".join(sorted(characters[name] | {chr(code) for code in range(32, 127)}))
         digest = hashlib.sha256(source.read_bytes() + text.encode()).hexdigest()[:12]
         target = source.with_name(f"{source.stem}-subset-{digest}.woff2")
-        font = TTFont(source)
+        font = TTFont(source, recalcTimestamp=False)
         original_codepoints = set(font.getBestCmap())
         options = subset.Options()
         options.flavor = "woff2"
