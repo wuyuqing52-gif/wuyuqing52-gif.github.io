@@ -30,11 +30,11 @@ def flower(kind):
     original = (
         '<span class="flower-frame flower-frame-ink">'
         f'<img src="/assets/edition3/hero-flower-{kind}.svg" alt="" '
-        'width="775" height="775" draggable="false"></span>'
+        'width="775" height="775" loading="eager" fetchpriority="high" decoding="async" draggable="false"></span>'
     )
     variants = "".join(
         f'<span class="flower-frame flower-frame-{style}">'
-        f'<img src="/assets/hero-flowers/{style}-{kind}.webp" alt="" draggable="false"></span>'
+        f'<img src="/assets/hero-flowers/{style}-{kind}.webp" alt="" width="775" height="775" loading="eager" decoding="async" draggable="false"></span>'
         for style in ("neon", "crayon", "paint")
     )
     return (
@@ -110,7 +110,7 @@ def build_edition3():
 <div class="hero-copy"><h1 id="hero-title"><span class="hero-line">设计是我的起点，</span><span class="hero-line">不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></span></h1>
 <p class="hero-summary">你好，我是 Yuki / 吴雨晴。一名以设计为起点、不设边界的设计师。既打磨复杂流程、系统框架与协作体验，也探索代码、视觉、与动态表达。</p>
 <div class="hero-actions"><a class="e3-button" href="#work"><span>看看我的作品</span><span class="button-bloom" aria-hidden="true">{flower_shape("blue", "#0636ce", "#ffffff")}</span></a></div></div>
-<a class="hero-scroll" href="#work" aria-label="向下查看作品"><img src="/assets/portfolio/arrow-down.svg" alt="" width="28" height="28"></a>
+<a class="hero-scroll" href="#work" aria-label="向下查看作品"><img src="/assets/edition3/hero-scroll.png" alt="" width="70" height="70" loading="eager" decoding="async"></a>
 <p class="flower-status visually-hidden" role="status" aria-live="polite"></p>
 </section>
 <section class="e3-work e3-wrap" id="work" aria-labelledby="work-title"><div class="section-intro"><h2 id="work-title">My Work</h2></div><div class="e3-project-grid">{''.join(cards)}</div>

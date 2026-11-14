@@ -1510,10 +1510,9 @@ body.has-open-artwork {
 }
 .hero-scroll img {
   display:block;
-  width:28px;
-  height:28px;
-  margin:21px;
-  mix-blend-mode:multiply
+  width:70px;
+  height:70px;
+  margin:0
 }
 .flower {
   --hero-flower-size:clamp(600px,48vw,775px);
@@ -1694,7 +1693,7 @@ body.has-open-artwork {
   height:auto
 }
 .review-media {
-  padding:14px;
+  padding:16px 14px;
   border-radius:20px;
   margin:20px 0 0;
   background:#e6ebe6
@@ -1708,7 +1707,7 @@ body.has-open-artwork {
 .review-media-images {
   display:flex;
   gap:12px;
-  padding-top:16px
+  padding-top:12px
 }
 .review-media-images>a {
   display:block;
@@ -1904,6 +1903,8 @@ body.has-open-artwork {
   padding:6px 24px
 }
 .e3-review .case-chapter>.primary-button {
+  gap:8px;
+  font-weight:400;
   border-radius:99px;
   padding:11px 23px;
   background:#111;
@@ -1961,3 +1962,13 @@ body.has-open-artwork {
   .project-spring-gala .project-collage{inset:auto;height:250px;padding:20px 13%}
 }
 @media print{.e3-header,.e3-footer{display:none!important}.e3-case{background:#fff!important;color:#222!important}.e3-case .resume-page{padding-top:0}.e3-case .experience-item{break-inside:avoid}}
+
+.e3-review .review-subheading {
+  margin:20px 0 12px;
+  font-size:16px;
+  font-weight:500;
+  line-height:29px
+}
+.e3-review .review-subheading + .review-diagram {
+  margin-top:12px
+}

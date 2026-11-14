@@ -235,7 +235,7 @@ function getSequenceFrameSrc(sequence, frameOffset = 0) {
   return `${sequence.directory}/${name}`;
 }
 
-function setFrameSequence(layer, sequence) {
+function setFrameSequence(layer, sequence, deferred = false) {
   if (!sequence) {
     delete layer.dataset.sequenceDirectory;
     delete layer.dataset.sequencePrefix;
@@ -254,12 +254,18 @@ function setFrameSequence(layer, sequence) {
   layer.dataset.sequencePad = String(sequence.pad);
   layer.dataset.sequenceExtension = sequence.extension;
   layer.dataset.sequenceFrameMs = String(sequence.frameMs);
-  layer.src = getSequenceFrameSrc(sequence);
+  if (deferred) {
+    layer.dataset.src = getSequenceFrameSrc(sequence);
+  } else {
+    layer.src = getSequenceFrameSrc(sequence);
+  }
 }
 
 function animateFrameSequences(timestamp) {
   if (document.hidden || (!viewer.open && (gallery.getBoundingClientRect().bottom < 0 || gallery.getBoundingClientRect().top > innerHeight))) { requestAnimationFrame(animateFrameSequences); return; }
   document.querySelectorAll("[data-sequence-directory]").forEach((layer) => {
+    const solution = layer.closest(".solution-row");
+    if ((solution && solution.dataset.solution !== gallery.dataset.solution) || layer.dataset.src) return;
     const sequence = {
       directory: layer.dataset.sequenceDirectory,
       prefix: layer.dataset.sequencePrefix,
@@ -300,6 +306,18 @@ function renderCards(level) {
     const cards = document.createElement("div");
 
     section.className = "solution-row";
+    section.dataset.solution = String(solutionIndex + 1);
+    const deferred = section.dataset.solution !== gallery.dataset.solution;
+    function setCardSource(layer, source) {
+      layer.loading = "eager";
+      layer.decoding = "async";
+      if (deferred) {
+        layer.dataset.src = source;
+      } else {
+        layer.fetchPriority = "high";
+        layer.src = source;
+      }
+    }
     title.className = "solution-label";
     title.textContent = solutionName;
     cards.className = "solution-cards";
@@ -334,13 +352,13 @@ function renderCards(level) {
         trigger.classList.add("is-real-card");
         trigger.dataset.cardType = baseAsset.type;
         trigger.setAttribute("aria-label", `${baseAsset.label}，点击放大预览`);
-        trigger.querySelector(".card-layer--background").src = baseAsset.composite || baseAsset.background;
+        setCardSource(trigger.querySelector(".card-layer--background"), baseAsset.composite || baseAsset.background);
         if (baseAsset.composite) {
           trigger.querySelector(".card-layer--character").hidden = true;
           trigger.querySelector(".card-layer--ui").hidden = true;
         } else {
-          trigger.querySelector(".card-layer--character").src = baseAsset.character;
-          trigger.querySelector(".card-layer--ui").src = baseAsset.ui;
+          setCardSource(trigger.querySelector(".card-layer--character"), baseAsset.character);
+          setCardSource(trigger.querySelector(".card-layer--ui"), baseAsset.ui);
           trigger.classList.toggle("has-animated-character", Boolean(baseAsset.animatedCharacter));
         }
       }
@@ -351,7 +369,7 @@ function renderCards(level) {
         trigger.classList.add("is-real-card");
         trigger.dataset.cardType = isRealLv2Normal ? "lv2-normal" : "lv2-rare";
         trigger.setAttribute("aria-label", `Lv2 方案一${rarity}动态卡牌，点击放大预览`);
-        trigger.querySelector(".card-layer--background").src = assets.composite;
+        setCardSource(trigger.querySelector(".card-layer--background"), assets.composite);
         trigger.querySelector(".card-layer--character").hidden = true;
         trigger.querySelector(".card-layer--ui").hidden = true;
       }
@@ -363,13 +381,13 @@ function renderCards(level) {
         trigger.dataset.cardType = "lv2-super";
         trigger.setAttribute("aria-label", "Lv2 方案一超稀有动态卡牌，点击放大预览");
         setFrameSequence(underlayLayer);
-        underlayLayer.src = lv2SuperAssets.underlay;
+        setCardSource(underlayLayer, lv2SuperAssets.underlay);
         underlayLayer.hidden = false;
-        trigger.querySelector(".card-layer--background").src = lv2SuperAssets.background;
-        trigger.querySelector(".card-layer--character").src = lv2SuperAssets.character;
-        effectLayer.src = lv2SuperAssets.effect;
+        setCardSource(trigger.querySelector(".card-layer--background"), lv2SuperAssets.background);
+        setCardSource(trigger.querySelector(".card-layer--character"), lv2SuperAssets.character);
+        setCardSource(effectLayer, lv2SuperAssets.effect);
         effectLayer.hidden = false;
-        trigger.querySelector(".card-layer--ui").src = lv2SuperAssets.ui;
+        setCardSource(trigger.querySelector(".card-layer--ui"), lv2SuperAssets.ui);
       }
 
       if (isRealLv2Legend) {
@@ -377,11 +395,11 @@ function renderCards(level) {
         trigger.classList.add("is-real-card", "has-animated-background", "has-animated-character");
         trigger.dataset.cardType = "lv2-legend";
         trigger.setAttribute("aria-label", "Lv2 方案一典藏金色动态卡牌，点击放大预览");
-        trigger.querySelector(".card-layer--background").src = lv2LegendAssets.background;
-        trigger.querySelector(".card-layer--character").src = lv2LegendAssets.character;
-        effectLayer.src = lv2LegendAssets.effect;
+        setCardSource(trigger.querySelector(".card-layer--background"), lv2LegendAssets.background);
+        setCardSource(trigger.querySelector(".card-layer--character"), lv2LegendAssets.character);
+        setCardSource(effectLayer, lv2LegendAssets.effect);
         effectLayer.hidden = false;
-        trigger.querySelector(".card-layer--ui").src = lv2LegendAssets.ui;
+        setCardSource(trigger.querySelector(".card-layer--ui"), lv2LegendAssets.ui);
       }
 
       if (isRealLv2Plan2Normal || isRealLv2Plan2Rare) {
@@ -393,11 +411,11 @@ function renderCards(level) {
         trigger.dataset.cardType = isRealLv2Plan2Normal ? "lv2-plan2-normal" : "lv2-plan2-rare";
         trigger.setAttribute("aria-label", `Lv2 方案二${rarity}特效卡牌，点击放大预览`);
         setFrameSequence(underlayLayer);
-        underlayLayer.src = assets.underlay;
+        setCardSource(underlayLayer, assets.underlay);
         underlayLayer.hidden = false;
-        trigger.querySelector(".card-layer--background").src = assets.background;
+        setCardSource(trigger.querySelector(".card-layer--background"), assets.background);
         trigger.querySelector(".card-layer--character").hidden = true;
-        effectLayer.src = assets.effect;
+        setCardSource(effectLayer, assets.effect);
         effectLayer.hidden = false;
         trigger.querySelector(".card-layer--ui").hidden = true;
       }
@@ -412,13 +430,13 @@ function renderCards(level) {
         trigger.dataset.cardType = isRealLv2Plan2Super ? "lv2-plan2-super" : "lv2-plan2-legend";
         trigger.setAttribute("aria-label", `Lv2 方案二${rarity}特效卡牌，点击放大预览`);
         setFrameSequence(underlayLayer);
-        underlayLayer.src = assets.underlay;
+        setCardSource(underlayLayer, assets.underlay);
         underlayLayer.hidden = false;
-        trigger.querySelector(".card-layer--background").src = assets.background;
-        trigger.querySelector(".card-layer--character").src = assets.character;
-        effectLayer.src = assets.effect;
+        setCardSource(trigger.querySelector(".card-layer--background"), assets.background);
+        setCardSource(trigger.querySelector(".card-layer--character"), assets.character);
+        setCardSource(effectLayer, assets.effect);
         effectLayer.hidden = false;
-        trigger.querySelector(".card-layer--ui").src = assets.ui;
+        setCardSource(trigger.querySelector(".card-layer--ui"), assets.ui);
       }
 
       if (isRealLv3Normal || isRealLv3Rare) {
@@ -427,7 +445,7 @@ function renderCards(level) {
         trigger.classList.add("is-real-card");
         trigger.dataset.cardType = isRealLv3Normal ? "lv3-normal" : "lv3-rare";
         trigger.setAttribute("aria-label", `Lv3 方案一${rarity}动态卡牌，点击放大预览`);
-        trigger.querySelector(".card-layer--background").src = assets.composite;
+        setCardSource(trigger.querySelector(".card-layer--background"), assets.composite);
         trigger.querySelector(".card-layer--character").hidden = true;
         trigger.querySelector(".card-layer--ui").hidden = true;
       }
@@ -437,11 +455,11 @@ function renderCards(level) {
         trigger.classList.add("is-real-card", "has-animated-background");
         trigger.dataset.cardType = "lv3-super";
         trigger.setAttribute("aria-label", "Lv3 方案一超稀有动态卡牌，点击放大预览");
-        trigger.querySelector(".card-layer--background").src = lv3SuperAssets.background;
-        trigger.querySelector(".card-layer--character").src = lv3SuperAssets.character;
-        effectLayer.src = lv3SuperAssets.effect;
+        setCardSource(trigger.querySelector(".card-layer--background"), lv3SuperAssets.background);
+        setCardSource(trigger.querySelector(".card-layer--character"), lv3SuperAssets.character);
+        setCardSource(effectLayer, lv3SuperAssets.effect);
         effectLayer.hidden = false;
-        trigger.querySelector(".card-layer--ui").src = lv3SuperAssets.ui;
+        setCardSource(trigger.querySelector(".card-layer--ui"), lv3SuperAssets.ui);
       }
 
       if (isRealLv3Plan2Normal || isRealLv3Plan2Rare) {
@@ -453,11 +471,11 @@ function renderCards(level) {
         trigger.dataset.cardType = isRealLv3Plan2Normal ? "lv3-plan2-normal" : "lv3-plan2-rare";
         trigger.setAttribute("aria-label", `Lv3 方案二${rarity}特效卡牌，点击放大预览`);
         setFrameSequence(underlayLayer);
-        underlayLayer.src = assets.underlay;
+        setCardSource(underlayLayer, assets.underlay);
         underlayLayer.hidden = false;
-        trigger.querySelector(".card-layer--background").src = assets.background;
+        setCardSource(trigger.querySelector(".card-layer--background"), assets.background);
         trigger.querySelector(".card-layer--character").hidden = true;
-        effectLayer.src = assets.effect;
+        setCardSource(effectLayer, assets.effect);
         effectLayer.hidden = false;
         trigger.querySelector(".card-layer--ui").hidden = true;
       }
@@ -469,13 +487,13 @@ function renderCards(level) {
         trigger.classList.add("is-real-card", "has-animated-underlay");
         trigger.dataset.cardType = "lv3-plan2-super";
         trigger.setAttribute("aria-label", "Lv3 方案二超稀有序列动态卡牌，点击放大预览");
-        setFrameSequence(underlayLayer, lv3Plan2SuperAssets.underlaySequence);
+        setFrameSequence(underlayLayer, lv3Plan2SuperAssets.underlaySequence, deferred);
         underlayLayer.hidden = false;
         backgroundLayer.hidden = true;
-        trigger.querySelector(".card-layer--character").src = lv3Plan2SuperAssets.character;
-        effectLayer.src = lv3Plan2SuperAssets.effect;
+        setCardSource(trigger.querySelector(".card-layer--character"), lv3Plan2SuperAssets.character);
+        setCardSource(effectLayer, lv3Plan2SuperAssets.effect);
         effectLayer.hidden = false;
-        trigger.querySelector(".card-layer--ui").src = lv3Plan2SuperAssets.ui;
+        setCardSource(trigger.querySelector(".card-layer--ui"), lv3Plan2SuperAssets.ui);
       }
 
       if (isRealLv3Plan2Legend) {
@@ -485,13 +503,13 @@ function renderCards(level) {
         trigger.dataset.cardType = "lv3-plan2-legend";
         trigger.setAttribute("aria-label", "Lv3 方案二典藏动态卡牌，点击放大预览");
         setFrameSequence(underlayLayer);
-        underlayLayer.src = lv3Plan2LegendAssets.underlay;
+        setCardSource(underlayLayer, lv3Plan2LegendAssets.underlay);
         underlayLayer.hidden = false;
-        trigger.querySelector(".card-layer--background").src = lv3Plan2LegendAssets.background;
-        trigger.querySelector(".card-layer--character").src = lv3Plan2LegendAssets.character;
-        effectLayer.src = lv3Plan2LegendAssets.effect;
+        setCardSource(trigger.querySelector(".card-layer--background"), lv3Plan2LegendAssets.background);
+        setCardSource(trigger.querySelector(".card-layer--character"), lv3Plan2LegendAssets.character);
+        setCardSource(effectLayer, lv3Plan2LegendAssets.effect);
         effectLayer.hidden = false;
-        trigger.querySelector(".card-layer--ui").src = lv3Plan2LegendAssets.ui;
+        setCardSource(trigger.querySelector(".card-layer--ui"), lv3Plan2LegendAssets.ui);
       }
 
       if (isRealLv3Legend) {
@@ -501,13 +519,19 @@ function renderCards(level) {
         trigger.dataset.cardType = "lv3-legend";
         trigger.setAttribute("aria-label", "Lv3 方案一典藏金色动态卡牌，点击放大预览");
         setFrameSequence(underlayLayer);
-        underlayLayer.src = lv3LegendAssets.underlay;
+        setCardSource(underlayLayer, lv3LegendAssets.underlay);
         underlayLayer.hidden = false;
-        trigger.querySelector(".card-layer--background").src = lv3LegendAssets.background;
-        trigger.querySelector(".card-layer--character").src = lv3LegendAssets.character;
-        effectLayer.src = lv3LegendAssets.effect;
+        setCardSource(trigger.querySelector(".card-layer--background"), lv3LegendAssets.background);
+        setCardSource(trigger.querySelector(".card-layer--character"), lv3LegendAssets.character);
+        setCardSource(effectLayer, lv3LegendAssets.effect);
         effectLayer.hidden = false;
-        trigger.querySelector(".card-layer--ui").src = lv3LegendAssets.ui;
+        setCardSource(trigger.querySelector(".card-layer--ui"), lv3LegendAssets.ui);
+      }
+
+      if (!trigger.classList.contains("is-real-card")) {
+        setCardSource(trigger.querySelector(".card-layer--background"), placeholderAssets.background);
+        setCardSource(trigger.querySelector(".card-layer--character"), placeholderAssets.character);
+        setCardSource(trigger.querySelector(".card-layer--ui"), placeholderAssets.ui);
       }
 
       // The simpler cards have less visible parallax, so give them more tilt.
@@ -737,6 +761,10 @@ viewer.addEventListener("cancel", (event) => {
 });
 
 viewer.addEventListener("close", () => {
+  viewer.querySelectorAll(".card-layer").forEach(layer => {
+    setFrameSequence(layer);
+    layer.removeAttribute("src");
+  });
   document.body.classList.remove("has-open-viewer");
 });
 
@@ -744,6 +772,11 @@ document.querySelectorAll('[data-solution]').forEach(button => {
   if (button.tagName !== 'BUTTON') return;
   button.addEventListener('click', () => {
     gallery.dataset.solution = button.dataset.solution;
+    const solution = gallery.querySelector(`.solution-row[data-solution="${button.dataset.solution}"]`);
+    solution.querySelectorAll("img[data-src]").forEach(layer => {
+      layer.src = layer.dataset.src;
+      delete layer.dataset.src;
+    });
     document.querySelectorAll('.solution-tabs button').forEach(item => {
       const active = item === button;
       item.classList.toggle('is-active', active);

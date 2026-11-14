@@ -88,7 +88,7 @@
           "text": "设计师交付代码：与研发深度合作，接入代码仓库，自行开发页面前端，修复 UI 问题后提交代码。"
         },
         {
-          "type": "paragraph",
+          "type": "subheading",
           "text": "网页需求"
         },
         {
@@ -97,12 +97,12 @@
           "caption": "网页需求工作流，接入仓库、建立分支、读取设计稿、修复 UI、提交代码"
         },
         {
-          "type": "paragraph",
+          "type": "subheading",
           "text": "Lynx语言需求"
         },
         {
           "type": "paragraph",
-          "text": "字节专有代码语言，可及时更新。但对于AI vibe coding存在以下困难："
+          "text": "字节专有代码语言，可即时更新。但对于AI vibe coding存在以下困难："
         },
         {
           "type": "obstacles",

@@ -30,6 +30,7 @@ def render_block(b):
                 f'<p>{e(label)}</p></div>')
   return '<div class="review-obstacles">'+''.join(items)+'</div>'
  if t=='image':return '<figure class="review-source-image"><a href="'+e(b['src'])+'" target="_blank" rel="noopener" aria-label="查看原图：'+e(b['caption'])+'"><img src="'+e(b['src'])+'" alt="'+e(b['caption'])+'" loading="lazy"></a><figcaption>'+e(b['caption'])+'</figcaption></figure>'
+ if t=='subheading':return '<h4 class="review-subheading">'+e(b['text'])+'</h4>'
  if t=='heading':return '<h3 class="review-stage-heading">'+e(b['text'])+'</h3>'
  if t=='paragraph':return '<p>'+e(b['text'])+'</p>'
  if t in ['list','steps']:
@@ -38,7 +39,7 @@ def render_block(b):
  if t=='table':
   return '<div class="chapter-table-wrap" tabindex="0" role="region" aria-label="'+e('、'.join(b['headers']))+'"><table><thead><tr>'+''.join('<th scope="col">'+e(h)+'</th>' for h in b['headers'])+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+e(c)+'</td>' for c in row)+'</tr>' for row in b['rows'])+'</tbody></table></div>'
  if t=='note':return '<aside class="chapter-note"><h3>'+e(b['title'])+'</h3><p>'+e(b['text'])+'</p></aside>'
- if t=='link':return '<a class="primary-button" href="'+e(b['url'])+'" target="_blank" rel="noopener noreferrer">'+e(b['label'])+' <span>↗</span></a>'
+ if t=='link':return '<a class="primary-button" href="'+e(b['url'])+'" target="_blank" rel="noopener noreferrer">'+e(b['label'])+' <span aria-hidden="true">→</span></a>'
  raise ValueError(t)
 
 def render_review_full():

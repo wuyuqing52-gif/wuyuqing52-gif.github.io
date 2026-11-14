@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import importlib.util
 import os
 from pathlib import Path
 import re
@@ -10,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import venv
 import urllib.error
 import urllib.request
 
@@ -38,6 +40,29 @@ def run(arguments, directory, environment=None):
     return result.stdout.strip()
 
 
+def ensure_build_dependencies():
+    modules = ("PIL", "fontTools", "brotli")
+    if all(importlib.util.find_spec(module) for module in modules):
+        return
+    environment = Path.home() / ".cache/yuki52-publish/python"
+    interpreter = environment / "bin/python"
+    if not interpreter.is_file():
+        venv.EnvBuilder(with_pip=True).create(environment)
+    ready = subprocess.run(
+        [str(interpreter), "-c", "import PIL, fontTools, brotli"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    ).returncode == 0
+    if not ready:
+        print("首次发布正在准备图片与字体处理依赖", flush=True)
+        subprocess.run(
+            [str(interpreter), "-m", "pip", "install", "Pillow>=10", "fonttools>=4", "brotli>=1"],
+            check=True,
+        )
+    result = subprocess.run([str(interpreter), str(SOURCE / "publish.py"), *sys.argv[1:]])
+    raise SystemExit(result.returncode)
+
+
 def build(directory):
     print("正在构建网站", flush=True)
     snapshot = directory / "source"
@@ -64,6 +89,8 @@ def build(directory):
     missing = sorted(asset for asset in assets if not (output / asset.lstrip("/")).is_file())
     if missing:
         raise RuntimeError("卡牌素材缺失\n" + "\n".join(missing))
+    from optimize_assets import optimize_assets
+    optimize_assets(output)
     print(f"构建完成，已检查 {len(assets)} 个卡牌素材，域名已配置", flush=True)
     return output
 
@@ -128,6 +155,7 @@ def main():
     parser = argparse.ArgumentParser(description="一键发布个人网站到 yuki52.com")
     parser.add_argument("--check", action="store_true", help="构建并检查发布文件")
     arguments = parser.parse_args()
+    ensure_build_dependencies()
     with tempfile.TemporaryDirectory(prefix="yuki52-publish-") as temporary:
         directory = Path(temporary)
         output = build(directory)
@@ -141,7 +169,7 @@ if __name__ == "__main__":
     try:
         main()
     except subprocess.CalledProcessError as error:
-        print(error.stderr.strip() or str(error), file=sys.stderr)
+        print((error.stderr or "").strip() or str(error), file=sys.stderr)
         sys.exit(1)
     except (RuntimeError, OSError) as error:
         print(str(error), file=sys.stderr)

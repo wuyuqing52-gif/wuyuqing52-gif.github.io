@@ -1,3 +1,12 @@
+// Promote images visible on arrival while retaining lazy loading below the viewport.
+document.querySelectorAll('img[loading="lazy"]').forEach(image => {
+  const bounds = image.getBoundingClientRect();
+  if (bounds.bottom > 0 && bounds.top < innerHeight && bounds.width > 0 && bounds.height > 0) {
+    image.loading = "eager";
+    image.fetchPriority = "high";
+  }
+});
+
 (() => {
   'use strict';
 
