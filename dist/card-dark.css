@@ -1,0 +1,131 @@
+/* A forest-green, paper-like night palette for the card-game case. */
+body.e3-card-dark {
+  color-scheme:dark;
+  --paper:#29382f;
+  --ink:#f4f0d9;
+  --red:#c6dfa8;
+  --blue:#f0dba0;
+  --rule:#536a59;
+  --bg:var(--paper);
+  --panel:#344938;
+  --panel2:#405647;
+  --text:var(--ink);
+  --muted:#bbc9b8;
+  --soft:#d8dfca;
+  --lime:var(--red);
+  --line:var(--rule);
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(ellipse at 100% 0%, #57735333, transparent 45%),
+    radial-gradient(#f4f0d908 .6px, transparent .8px);
+  background-size:100% 760px, 5px 5px;
+  background-repeat:no-repeat, repeat
+}
+.e3-card-dark .yuki-wordmark > g {
+  stroke:var(--red)
+}
+.e3-card-dark .nav-link:hover,
+.e3-card-dark .nav-link:focus-visible {
+  background:#c6dfa818
+}
+.e3-card-dark .case-status {
+  color:var(--red);
+  border-color:#7d916c
+}
+.e3-card-dark .detail > h1 {
+  color:var(--ink)
+}
+.e3-card-dark :is(.back-link,.detail-meta,.e3-footer p) {
+  color:var(--muted)
+}
+.e3-card-dark .back-link:hover {
+  color:var(--red)
+}
+.e3-card-dark .card-demo {
+  --panel:#344938;
+  --text:var(--ink);
+  --muted:#bbc9b8;
+  --soft:#d8dfca;
+  --line:#4a5e4c;
+  --lime:var(--blue);
+  background:#000;
+  border-color:var(--line)
+}
+.e3-card-dark .card-demo::before {
+  background:linear-gradient(90deg, #344938 0%, #26352b 32%, #101a13 65%, #000 90%)
+}
+.e3-card-dark .demo-sidebar h2 {
+  color:var(--ink)
+}
+.e3-card-dark .card-demo :is(.level-tab,.solution-tabs button) {
+  color:var(--soft);
+  border-color:var(--line);
+  background:#334639
+}
+.e3-card-dark .card-demo :is(.level-tab,.solution-tabs button):hover {
+  color:var(--ink);
+  background:#455d45
+}
+.e3-card-dark .card-demo :is(.level-tab,.solution-tabs button).is-active {
+  color:#28372d;
+  background:#c7dcac;
+  border-color:#c7dcac
+}
+.e3-card-dark .card-demo :is(.card-viewer,.card-viewer::backdrop) {
+  background:#000;
+  color:var(--ink)
+}
+.e3-card-dark .card-demo .viewer-close {
+  color:var(--ink);
+  background:#384f3d;
+  border-color:var(--rule)
+}
+.e3-card-dark .card-demo .viewer-close:hover,
+.e3-card-dark .card-demo .viewer-close:focus-visible {
+  color:#28372d;
+  background:var(--blue)
+}
+.e3-card-dark .figma-board {
+  background:#3f5443 !important
+}
+.e3-card-dark .figma-watermark {
+  color:#f4f0d912
+}
+.e3-card-dark .figma-screen {
+  box-shadow:0 .852660cqw var(--figma-shadow) #101d1277
+}
+.e3-card-dark .figma-screen::after {
+  border-color:#e6d6cc
+}
+.e3-card-dark .figma-screen:focus-visible {
+  outline-color:var(--blue)
+}
+.e3-card-dark .art-lightbox::backdrop {
+  background:#111b14ee
+}
+.e3-card-dark .art-close {
+  color:var(--ink);
+  background:#384f3d;
+  border-color:#a9c49366
+}
+.e3-card-dark .art-lightbox .art-close:focus-visible {
+  outline-color:var(--blue)
+}
+.e3-card-dark .next-project strong {
+  color:var(--ink)
+}
+.e3-card-dark .next-project:hover strong {
+  color:var(--red)
+}
+.e3-card-dark .skip {
+  color:var(--paper);
+  background:var(--blue)
+}
+@media print {
+  body.e3-card-dark {
+    --ink:#222;
+    --muted:#666;
+    --red:#4e6540;
+    background-image:none
+  }
+}
