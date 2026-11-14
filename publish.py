@@ -126,11 +126,26 @@ def publish(directory, output):
 
 def wait_for_deployment(commit):
     print("正在等待 GitHub Pages 部署", flush=True)
+    headers = {"User-Agent": "yuki52-publisher", "Accept": "application/vnd.github+json"}
+    environment = os.environ.copy()
+    environment["GIT_TERMINAL_PROMPT"] = "0"
+    result = subprocess.run(
+        ["git", "-c", "credential.helper=store", "credential", "fill"],
+        cwd=SOURCE,
+        input="url=" + REPOSITORY + "\n\n",
+        env=environment,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    credential = dict(line.split("=", 1) for line in result.stdout.splitlines() if "=" in line)
+    if result.returncode == 0 and credential.get("password"):
+        headers["Authorization"] = "Bearer " + credential["password"]
     deadline = time.monotonic() + 1200
     while time.monotonic() < deadline:
         request = urllib.request.Request(
             API_URL + "?head_sha=" + commit + "&per_page=10",
-            headers={"User-Agent": "yuki52-publisher", "Accept": "application/vnd.github+json"},
+            headers=headers,
         )
         try:
             with urllib.request.urlopen(request, timeout=20) as response:
