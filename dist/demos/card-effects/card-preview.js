@@ -72,7 +72,7 @@ const baseCardAssets = {
     type: "base-plan2-legend",
     label: "基础方案二典藏动态卡牌",
     background: "/demos/card-effects/assets/base-plan2-legend-background.webp",
-    character: "/demos/card-effects/assets/lv3-gold-character.webp",
+    character: "/demos/card-effects/assets/lv3-gold-character-optimized.webp",
     ui: "/demos/card-effects/assets/base-plan2-legend-ui.webp",
     shineMask: "/demos/card-effects/assets/base-plan2-legend-background.webp",
     animatedCharacter: true
@@ -81,7 +81,7 @@ const baseCardAssets = {
     type: "base-plan1-legend",
     label: "基础方案一典藏动态卡牌",
     background: "/demos/card-effects/assets/lv3-gold-static-background.webp",
-    character: "/demos/card-effects/assets/lv3-gold-character.webp",
+    character: "/demos/card-effects/assets/lv3-gold-character-optimized.webp",
     ui: "/demos/card-effects/assets/lv3-gold-ui.webp",
     shineMask: "/demos/card-effects/assets/lv3-gold-static-background.webp",
     animatedCharacter: true
@@ -129,7 +129,7 @@ const lv2SuperAssets = {
 
 const lv2LegendAssets = {
   background: "/demos/card-effects/assets/lv2-gold-background.webp",
-  character: "/demos/card-effects/assets/lv3-gold-character.webp",
+  character: "/demos/card-effects/assets/lv3-gold-character-optimized.webp",
   effect: "/demos/card-effects/assets/lv2-gold-effect.webp",
   ui: "/demos/card-effects/assets/lv2-gold-ui.webp",
   shineMask: "/demos/card-effects/assets/lv3-gold-static-background.webp",
@@ -193,17 +193,17 @@ const lv3Plan2RareAssets = {
 const lv3Plan2SuperAssets = {
   underlay: "/demos/card-effects/assets/lv3-plan2-super-underlay-optimized.webp",
   character: "/demos/card-effects/assets/base-plan2-super-character.webp",
-  effect: "/demos/card-effects/assets/lv3-gold-effect.webp",
+  effect: "/demos/card-effects/assets/lv3-gold-effect-optimized.webp",
   ui: "/demos/card-effects/assets/base-plan2-super-ui.webp",
   shineMask: "/demos/card-effects/assets/base-plan2-super-background.webp",
   animatedUnderlay: true
 };
 
 const lv3LegendAssets = {
-  underlay: "/demos/card-effects/assets/lv3-gold-underlay.webp",
+  underlay: "/demos/card-effects/assets/lv3-gold-underlay-optimized.webp",
   background: "/demos/card-effects/assets/lv3-gold-static-background.webp",
-  character: "/demos/card-effects/assets/lv3-gold-character.webp",
-  effect: "/demos/card-effects/assets/lv3-gold-effect.webp",
+  character: "/demos/card-effects/assets/lv3-gold-character-optimized.webp",
+  effect: "/demos/card-effects/assets/lv3-gold-effect-optimized.webp",
   ui: "/demos/card-effects/assets/lv3-gold-ui.webp",
   shineMask: "/demos/card-effects/assets/lv3-gold-static-background.webp",
   animatedUnderlay: true,
