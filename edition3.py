@@ -167,10 +167,13 @@ def build_edition3():
         if slug == "ai-game":
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-card-dark"')
             page = page.replace('</head>', '<link rel="stylesheet" href="/card-dark.css?v=taro-radial"></head>')
+            page = page.replace('</head>', '<link rel="stylesheet" href="/card-story.css?v=20261116"><script src="/card-story.js?v=20261116" defer></script></head>')
             page = page.replace('name="theme-color" content="#f7f5ef"', 'name="theme-color" content="#302a3b"')
             start = page.index('<div class="case-reading card-case-reading">')
             end = page.index('<a class="next-project"', start)
-            page = page[:start] + project_gallery(projects[slug], assets, figma_boards) + page[end:]
+            story = (ROOT / "card-story.html").read_text()
+            gallery = '<section id="card-artwork" data-case-chapter aria-label="游戏抽卡与分享">' + project_gallery(projects[slug], assets, figma_boards) + '</section>'
+            page = page[:start] + story + gallery + page[end:]
         elif slug == "ai-review":
             page = re.sub(r'<p class="case-lead">.*?</p>', '', page, flags=re.S)
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-review"')
