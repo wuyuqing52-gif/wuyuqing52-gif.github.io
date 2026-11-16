@@ -148,26 +148,35 @@
   position: absolute;
   bottom: 6%;
   right: 6%;
-  padding: 8px 16px;
-  border: 3px solid #118b4e;
+  padding: 6px 12px;
+  border: 2px solid #118b4e;
   border-radius: 5px 30px 30px 30px;
   background: #15b765;
   color: #e3f8e8;
   box-shadow: 0 5px 18px #15b76526;
-  font-size: clamp(11px, 1.5cqw, 14px);
+  font-size: clamp(10px, 1.3cqw, 12px);
   font-weight: 500;
   line-height: 1.4;
   white-space: nowrap;
   pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .25s ease;
   animation: card-hint-drift 3.6s ease-in-out infinite;
+}
+
+.card-thesis.is-hint-ready .card-thesis-hint {
+  visibility: visible;
+  opacity: 1;
 }
 
 .card-thesis-hint-cursor {
   position: absolute;
-  width: 22px;
-  height: 26px;
-  top: -24px;
-  left: -21px;
+  width: 17px;
+  height: 19px;
+  top: -19px;
+  left: -17px;
+  filter: drop-shadow(0 2px 3px #0003);
 }
 
 .card-thesis:focus-visible {
@@ -305,7 +314,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card-thesis-face { transition: none; }
-  .card-thesis-hint,
+  .card-thesis-hint { animation: none; transition: none; }
   .card-story.has-case-motion .worldbook-keyword,
   .card-story.has-case-motion .challenge-module {
     animation: none;
