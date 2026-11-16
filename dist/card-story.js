@@ -8,7 +8,7 @@
   let pinned = false;
 
   function showAnswer(show) {
-    thesis.classList.toggle('is-flipped', show);
+    thesis.classList.toggle('is-showing-answer', show);
     thesis.setAttribute('aria-pressed', String(show));
     front.setAttribute('aria-hidden', String(show));
     back.setAttribute('aria-hidden', String(!show));
@@ -37,11 +37,13 @@
   story.classList.add('has-case-motion');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting || entry.intersectionRatio < .995) return;
-      entry.target.classList.add('is-entered');
-      observer.unobserve(entry.target);
+      if (!entry.isIntersecting) {
+        entry.target.classList.remove('is-entered');
+      } else if (entry.intersectionRatio >= .995) {
+        entry.target.classList.add('is-entered');
+      }
     });
-  }, {threshold: [0, 1]});
+  }, {threshold: [0, .995, 1]});
 
   story.querySelectorAll('[data-case-enter]').forEach(figure => observer.observe(figure));
 })();

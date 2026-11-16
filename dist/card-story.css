@@ -104,10 +104,11 @@
   position: relative;
   width: 100%;
   aspect-ratio: 880 / 216.792;
-  border: 0;
   padding: 0;
-  background: transparent;
-  perspective: 1200px;
+  background: var(--ppt-deepgray-background, #1d1b1f);
+  border: .052045cqw solid var(--ppt-deepgray-border, #514b58);
+  border-radius: 1.818182cqw;
+  overflow: hidden;
   text-align: left;
   color: var(--ink);
   cursor: pointer;
@@ -117,35 +118,56 @@
   position: absolute;
   inset: 0;
   display: block;
-  transform-style: preserve-3d;
-  transition: transform .8s cubic-bezier(.22, .8, .24, 1);
-}
-
-.card-thesis.is-flipped .card-thesis-inner {
-  transform: rotateY(180deg);
 }
 
 .card-thesis-face {
   position: absolute;
   inset: 0;
   display: block;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  transition: transform .7s cubic-bezier(.22, .8, .24, 1);
+}
+
+.card-thesis-face > .card-story-art {
+  background: transparent !important;
+  border: 0 !important;
 }
 
 .card-thesis-back {
-  transform: rotateY(180deg);
+  transform: translateY(100%);
+}
+
+.card-thesis.is-showing-answer .card-thesis-front {
+  transform: translateY(-100%);
+}
+
+.card-thesis.is-showing-answer .card-thesis-back {
+  transform: translateY(0);
 }
 
 .card-thesis-hint {
   position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #b4abb8;
-  font-size: 10px;
-  letter-spacing: .5px;
-  animation: card-hint-pulse 2.4s ease-in-out infinite;
+  bottom: 6%;
+  right: 6%;
+  padding: 8px 16px;
+  border: 3px solid #118b4e;
+  border-radius: 5px 30px 30px 30px;
+  background: #15b765;
+  color: #e3f8e8;
+  box-shadow: 0 5px 18px #15b76526;
+  font-size: clamp(11px, 1.5cqw, 14px);
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: card-hint-drift 3.6s ease-in-out infinite;
+}
+
+.card-thesis-hint-cursor {
+  position: absolute;
+  width: 22px;
+  height: 26px;
+  top: -24px;
+  left: -21px;
 }
 
 .card-thesis:focus-visible {
@@ -171,9 +193,9 @@
   scroll-margin-top: 115px;
 }
 
-@keyframes card-hint-pulse {
-  0%, 100% { opacity: .55; }
-  50% { opacity: 1; }
+@keyframes card-hint-drift {
+  0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+  50% { transform: translate(-7px, -4px) rotate(1deg); }
 }
 
 @keyframes worldbook-expand {
@@ -235,6 +257,12 @@
     aspect-ratio: 880 / 360;
   }
 
+  .card-thesis-hint {
+    padding: 6px 10px;
+    border-width: 2px;
+    font-size: 10px;
+  }
+
   .card-thesis-back p {
     white-space: normal !important;
   }
@@ -276,7 +304,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-thesis-inner { transition: none; }
+  .card-thesis-face { transition: none; }
   .card-thesis-hint,
   .card-story.has-case-motion .worldbook-keyword,
   .card-story.has-case-motion .challenge-module {
