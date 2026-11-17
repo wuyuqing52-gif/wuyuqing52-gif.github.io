@@ -2,6 +2,7 @@
 document.querySelectorAll('img[loading="lazy"]').forEach(image => {
   const bounds = image.getBoundingClientRect();
   if (bounds.bottom > 0 && bounds.top < innerHeight && bounds.width > 0 && bounds.height > 0) {
+    if (image.sizes.startsWith("auto")) image.sizes = `${image.clientWidth}px`;
     image.loading = "eager";
     image.fetchPriority = "high";
   }

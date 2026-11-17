@@ -1,3 +1,28 @@
+// Load nearby portfolio images after the first-screen photographs.
+const deferredImages = document.querySelectorAll("img[data-deferred-src]");
+function loadDeferredImage(image) {
+  if (image.dataset.deferredSrcset) {
+    image.srcset = image.dataset.deferredSrcset;
+    delete image.dataset.deferredSrcset;
+  }
+  image.src = image.dataset.deferredSrc;
+  delete image.dataset.deferredSrc;
+}
+
+if ("IntersectionObserver" in window) {
+  const imageObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        loadDeferredImage(entry.target);
+        imageObserver.unobserve(entry.target);
+      }
+    }
+  }, { rootMargin: "320px 0px" });
+  deferredImages.forEach((image) => imageObserver.observe(image));
+} else {
+  deferredImages.forEach(loadDeferredImage);
+}
+
 const navLinks = [...document.querySelectorAll(".main-nav a")];
 const sections = ["work", "about", "contact"].map((id) => document.getElementById(id));
 const header = document.querySelector(".site-header");

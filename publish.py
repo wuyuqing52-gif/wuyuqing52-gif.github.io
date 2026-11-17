@@ -67,17 +67,21 @@ def ensure_build_dependencies():
 def snapshot_version(directory, branch):
     snapshot = directory / (branch + "-source")
     checkout = None
+    checkouts = []
     worktrees = run(["git", "worktree", "list", "--porcelain", "-z"], SOURCE)
     for field in worktrees.split("\0"):
         if field.startswith("worktree "):
             checkout = Path(field.removeprefix("worktree "))
         elif field == "branch refs/heads/" + branch:
-            shutil.copytree(
-                checkout,
-                snapshot,
-                ignore=shutil.ignore_patterns(".git", "__pycache__", ".DS_Store"),
-            )
-            return snapshot
+            checkouts.append(checkout)
+    if checkouts:
+        checkout = SOURCE if SOURCE in checkouts else checkouts[0]
+        shutil.copytree(
+            checkout,
+            snapshot,
+            ignore=shutil.ignore_patterns(".git", "__pycache__", ".DS_Store"),
+        )
+        return snapshot
     archive = directory / (branch + ".tar")
     try:
         revision = run(["git", "rev-parse", "--verify", "refs/heads/" + branch], SOURCE)

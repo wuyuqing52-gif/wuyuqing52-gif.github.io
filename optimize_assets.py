@@ -155,6 +155,44 @@ def build_image_preview(output, source_url, cache):
         return "/" + target.relative_to(output).as_posix(), width, height, path.stat().st_size - target.stat().st_size
 
 
+def build_responsive_previews(output, source_url, cache):
+    location = urlsplit(source_url)
+    if location.scheme or location.netloc:
+        return None
+    path = (output / unquote(location.path).lstrip("/")).resolve()
+    if not path.is_relative_to(output.resolve()) or path.suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp"}:
+        return None
+    with Image.open(path) as original:
+        if getattr(original, "n_frames", 1) > 1 or original.width <= 320:
+            return None
+        width, height = original.size
+        image = ImageOps.exif_transpose(original).convert("RGBA" if "A" in original.getbands() or "transparency" in original.info else "RGB")
+        fingerprint = hashlib.sha256(path.read_bytes()).hexdigest()
+        candidates = []
+        for target_width in (320, 480, 640, 960, 1440, 1920):
+            if target_width >= min(width, MAX_IMAGE_WIDTH):
+                continue
+            digest = hashlib.sha256(f"responsive-v1-{fingerprint}-{target_width}-{IMAGE_QUALITY}".encode()).hexdigest()[:16]
+            filename = f"{path.stem}-{digest}.webp"
+            cached = cache / filename
+            if not cached.is_file():
+                resized = image.resize((target_width, max(1, round(image.height * target_width / image.width))), Image.Resampling.LANCZOS)
+                with tempfile.NamedTemporaryFile(dir=cache, suffix=".webp", delete=False) as temporary:
+                    temporary_path = Path(temporary.name)
+                try:
+                    resized.save(temporary_path, format="WEBP", quality=IMAGE_QUALITY, alpha_quality=100, method=6)
+                    temporary_path.replace(cached)
+                finally:
+                    temporary_path.unlink(missing_ok=True)
+            if cached.stat().st_size >= path.stat().st_size:
+                continue
+            target = output / "assets/optimized" / filename
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(cached, target)
+            candidates.append(("/" + target.relative_to(output).as_posix(), target_width))
+        return width, height, candidates
+
+
 def optimize_assets(output):
     output = Path(output)
     cache = Path.home() / ".cache/yuki52-publish/previews"
@@ -162,6 +200,7 @@ def optimize_assets(output):
     pages = sorted(output.rglob("*.html"))
     font_urls, font_savings = build_font_subsets(output, pages)
     previews = {}
+    responsive_previews = {}
     for page in pages:
         content = page.read_text(encoding="utf-8")
 
@@ -174,16 +213,39 @@ def optimize_assets(output):
             if source_url not in previews:
                 previews[source_url] = build_image_preview(output, source_url, cache)
             preview = previews[source_url]
-            if not preview:
-                return tag
-            url, width, height, _ = preview
-            tag = tag[:attribute.start(2)] + escape(url, quote=True) + tag[attribute.end(2):]
+            responsive = None
+            if preview:
+                url, width, height, _ = preview
+                tag = tag[:attribute.start(2)] + escape(url, quote=True) + tag[attribute.end(2):]
+            if "scrapbook.css" in content and not re.search(r"\ssrcset=", tag):
+                if source_url not in responsive_previews:
+                    responsive_previews[source_url] = build_responsive_previews(output, source_url, cache)
+                responsive = responsive_previews[source_url]
+                if responsive:
+                    width, height, candidates = responsive
+                    if candidates:
+                        fallback = SOURCE_ATTRIBUTE.search(tag).group(2)
+                        candidates = candidates + [(fallback, min(width, MAX_IMAGE_WIDTH) if preview else width)]
+                        srcset = ", ".join(f"{url} {size}w" for url, size in candidates)
+                        sizes = '(max-width: 720px) 100vw, 1120px'
+                        if 'loading="lazy"' in tag:
+                            sizes = "auto, " + sizes
+                        elif urlsplit(source_url).path in {"/assets/scrapbook/coast.webp", "/assets/scrapbook/plant.webp"}:
+                            sizes = '280px'
+                        tag = tag[:-1] + f' srcset="{escape(srcset, quote=True)}" sizes="{sizes}">'
             dimensions = ""
-            if not re.search(r"\swidth=", tag):
-                dimensions += f' width="{width}"'
-            if not re.search(r"\sheight=", tag):
-                dimensions += f' height="{height}"'
-            return tag[:-1] + dimensions + ">"
+            if preview or responsive:
+                if not re.search(r"\swidth=", tag):
+                    dimensions += f' width="{width}"'
+                if not re.search(r"\sheight=", tag):
+                    dimensions += f' height="{height}"'
+            tag = tag[:-1] + dimensions + ">"
+            if page == output / "index.html" and "scrapbook.css" in content and 'loading="lazy"' in tag:
+                fallback = tag
+                tag = re.sub(r"\ssrc=", " data-deferred-src=", tag)
+                tag = re.sub(r"\ssrcset=", " data-deferred-srcset=", tag)
+                tag += f"<noscript>{fallback}</noscript>"
+            return tag
 
         content = IMAGE_TAG.sub(replace_image, content)
         if "edition3.css" in content or "scrapbook.css" in content:
