@@ -3,6 +3,7 @@ from html import escape
 import json
 from pathlib import Path
 import re
+from scrapbook import render_scrapbook
 from edition3_gallery import PROJECT_ORDER, selected_projects, project_gallery, image_preview
 
 
@@ -23,24 +24,6 @@ def flower_shape(kind="blue", color="#84def9", center="#0636ce"):
         f'<path d="{FLOWER_PATHS[kind]}" fill="{color}" />'
         f'<path d="M279 239 C309 221 350 245 358 274 C375 306 357 344 327 357 '
         f'C296 374 255 351 247 323 C232 294 250 254 279 239 Z" fill="{center}" /></svg>'
-    )
-
-
-def flower(kind):
-    original = (
-        '<span class="flower-frame flower-frame-ink">'
-        f'<img src="/assets/edition3/hero-flower-{kind}.svg" alt="" '
-        'width="775" height="775" loading="eager" fetchpriority="high" decoding="async" draggable="false"></span>'
-    )
-    variants = "".join(
-        f'<span class="flower-frame flower-frame-{style}">'
-        f'<img src="/assets/hero-flowers/{style}-{kind}.webp" alt="" width="775" height="775" loading="eager" decoding="async" draggable="false"></span>'
-        for style in ("neon", "crayon", "paint")
-    )
-    return (
-        f'<button class="flower flower-{kind}" data-flower data-start="{(-18 if kind == "blue" else 12)}" '
-        'type="button" aria-label="旋转花朵并切换形态">'
-        f'<span class="flower-art" aria-hidden="true">{original}{variants}</span></button>'
     )
 
 
@@ -75,71 +58,7 @@ def build_edition3():
     navigation = f'''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">{wordmark}</a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
     footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/" aria-label="Yuki 首页">{wordmark}</a><p>© 2026 吴雨晴</p><a class="footer-top" href="#top">回到顶部</a></footer>'''
     (DIST / "favicon-flower.svg").write_text(flower_shape("blue", "#0636ce", "#ffd23c"))
-    palettes = [
-        ("#0636ce", "#ffd23c", "#f32312", "#ffcf4c"),
-        ("#ff8fca", "#0636ce", "#ffffff", "#ff8fca"),
-        ("#ffcf4c", "#f32312", "#ffffff", "#84def9"),
-        ("#84def9", "#0636ce", "#ffffff", "#ffcf4c"),
-        ("#f32312", "#ffcf4c", "#0636ce", "#ff8fca"),
-        ("#ffcf4c", "#0636ce", "#ffffff", "#84def9"),
-    ]
-    marks = {
-        "ai-game": "用AI<br>拓展设计师<br>能力边界",
-        "ai-review": "用AI<br>改变设计师<br>工作流",
-        "dual-screen": "发现核心问题<br>自驱动力",
-        "spring-gala": "不设边界<br>挑战自我",
-        "game-events": "深耕行业<br>解决复杂问题",
-    }
-    design_covers = {
-        "ai-game": ("card-cover.webp", "card-detail.webp"),
-        "ai-review": ("review-cover.webp", "review-detail.webp"),
-        "dual-screen": ("dual-desktop.webp", "dual-phone.webp"),
-        "spring-gala": ("spring-main.webp", "spring-detail.webp"),
-        "game-events": ("events-desktop.webp", "events-phone.webp"),
-    }
-    cards = []
-    for index, slug in enumerate(VISIBLE_PROJECT_ORDER):
-        project = projects[slug]
-        tile, petal, center, bloom = palettes[index]
-        card_flower = flower_shape("blue", bloom, bloom).replace('</svg>', f'<circle cx="300" cy="300" r="190" fill="{bloom}" /></svg>')
-        main, small = design_covers[slug]
-        main_class = "original-cover" if slug in ("ai-game", "ai-review") else "has-alpha" if slug == "game-events" else ""
-        small_class = "original-detail" if slug in ("ai-game", "ai-review") else ""
-        collage = (
-            f'<div class="collage-main {main_class}"><img src="/assets/edition3/{main}" '
-            f'alt="{escape(project["title"])}" loading="lazy" decoding="async"></div>'
-            f'<div class="collage-small {small_class}"><img src="/assets/edition3/{small}" '
-            f'alt="{escape(project["title"])}项目细节" loading="lazy" decoding="async"></div>'
-        )
-        cards.append(f'''<article class="e3-project-row project-{slug}" id="project-{slug}">
-          <a class="e3-project" href="/work/{slug}.html" aria-describedby="summary-{slug}">
-            <span class="card-bloom" aria-hidden="true">{card_flower}</span>
-            <div class="project-collage" aria-hidden="true">{collage}</div>
-            <div class="project-copy"><div class="project-caption"><h3>{escape(project['title'])}</h3></div><p class="project-description" id="summary-{slug}">{escape(project['summary'])}</p><span class="case-action" aria-hidden="true">查看案例</span></div>
-          </a>
-          <div class="project-side"><a class="flower-tile" href="/work/{slug}.html" data-flower data-start="-9" style="background:{tile}" aria-label="查看{escape(project['title'])}"><span class="flower-art">{flower_shape("blue", petal, center)}</span></a><a class="project-wordmark" href="/work/{slug}.html" aria-label="查看{escape(project['title'])}">{marks[slug]}</a></div>
-        </article>''')
-    html = f'''<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f7f5ef"><title>Yuki · 吴雨晴｜体验与 AI 设计师</title>
-<meta name="description" content="设计是我的起点，不是我的边界。吴雨晴的抖音 IP、游戏直播、AI 产品与设计工作流作品集。">
-<meta property="og:title" content="Yuki · 吴雨晴｜体验与 AI 设计师"><meta property="og:type" content="website"><meta property="og:url" content="{origin}/"><meta property="og:image" content="{origin}/assets/ai-card-cover.png">
-<link rel="canonical" href="{origin}/"><link rel="icon" href="/favicon-flower.svg" type="image/svg+xml"><link rel="stylesheet" href="/edition3.css?v=figma-20261114"><script src="/edition3.js?v=flower-stop" defer></script></head>
-<body class="edition-three" id="top"><a class="e3-skip" href="#main">跳到主要内容</a>{navigation}
-<main id="main"><section class="e3-hero" aria-labelledby="hero-title">
-{flower('blue')}{flower('red')}
-<div class="hero-copy"><h1 id="hero-title"><span class="hero-line">设计是我的起点，</span><span class="hero-line">不是我的<span class="hero-word">边界<i aria-hidden="true"></i></span></span></h1>
-<p class="hero-summary">你好，我是 Yuki / 吴雨晴。一名以设计为起点、不设边界的设计师。既打磨复杂流程、系统框架与协作体验，也探索代码、视觉、与动态表达。</p>
-<div class="hero-actions"><a class="e3-button" href="#work"><span>看看我的作品</span><span class="button-bloom" aria-hidden="true">{flower_shape("blue", "#0636ce", "#ffffff")}</span></a></div></div>
-<a class="hero-scroll" href="#work" aria-label="向下查看作品"><img src="/assets/edition3/hero-scroll.png" alt="" width="70" height="70" loading="eager" decoding="async"></a>
-<p class="flower-status visually-hidden" role="status" aria-live="polite"></p>
-</section>
-<section class="e3-work e3-wrap" id="work" aria-labelledby="work-title"><div class="section-intro"><h2 id="work-title">My Work</h2></div><div class="e3-project-grid">{''.join(cards)}</div>
-</section>
-<section class="e3-about e3-wrap" id="about" aria-labelledby="about-title"><div class="about-heading"><p class="section-kicker">A LITTLE ABOUT ME</p><h2 id="about-title">设计之外，<br>还有<span class="serif-accent">好奇心。</span></h2><a class="e3-text-link" href="/resume.html">查看完整简历</a></div><div class="about-copy"><p class="about-lead">我喜欢把复杂的事情理清楚，<br>再把它做成可以体验的东西。</p><p>{escape(content['intro'])}</p><div class="expertise" aria-label="设计方向"><a href="/work/dual-screen.html">交互体验</a><a href="/work/ai-review.html">AI 工作流</a><a href="/work/ai-game.html">视觉与动态</a></div><ol class="about-career"><li><time>2021.04 — 至今</time><div><strong>字节跳动</strong><span>抖音 IP 与游戏 · 体验 / AI 设计</span></div></li><li><time>2020.12 — 2021.04</time><div><strong>拼多多</strong><span>用户增长 · 交互设计</span></div></li><li><time>2019.11 — 2020.12</time><div><strong>腾讯</strong><span>理财通 · 交互设计</span></div></li></ol></div></section>
-<section class="e3-contact" id="contact" aria-labelledby="contact-title"><div class="contact-flower" aria-hidden="true">{flower_shape("blue", "#84def9", "#ffffff")}</div><p>关于体验、AI，或是一个有趣的想法</p><h2 id="contact-title"><a href="mailto:435456341@qq.com">一起聊聊</a></h2><div class="contact-email"><a href="mailto:435456341@qq.com">435456341@qq.com</a><button type="button" class="copy-email" data-copy-email aria-label="复制邮箱地址">复制邮箱</button><span data-copy-status role="status" aria-live="polite"></span></div></section>
-</main>{footer}</body></html>'''
-    (DIST / "index.html").write_text(html)
+    (DIST / "index.html").write_text(render_scrapbook(origin, projects))
     # Case demos keep their original scripts and receive the third-edition shell.
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
         page = path.read_text().replace('content="#101210"', 'content="#f7f5ef"')
@@ -196,7 +115,7 @@ def build_edition3():
         if 'id="art-lightbox"' not in page:
             page = page.replace('</body>', image_preview() + '</body>')
         path.write_text(page)
-    for path in [DIST / "index.html", *sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
+    for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
         path.write_text(add_button_blooms(path.read_text()))
     sitemap = DIST / "sitemap.xml"
     routes = ['/', '/resume.html'] + [f'/work/{slug}.html' for slug in VISIBLE_PROJECT_ORDER]
