@@ -172,8 +172,7 @@ def build_edition3():
             start = page.index('<div class="case-reading card-case-reading">')
             end = page.index('<a class="next-project"', start)
             story = (ROOT / "card-story.html").read_text()
-            gallery = '<section id="card-artwork" data-case-chapter aria-label="游戏抽卡与分享">' + project_gallery(projects[slug], assets, figma_boards) + '</section>'
-            page = page[:start] + story + gallery + page[end:]
+            page = page[:start] + story + page[end:]
         elif slug == "ai-review":
             page = re.sub(r'<p class="case-lead">.*?</p>', '', page, flags=re.S)
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-review"')

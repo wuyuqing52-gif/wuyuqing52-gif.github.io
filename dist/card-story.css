@@ -200,10 +200,6 @@
   animation: challenge-enter .65s cubic-bezier(.18, .8, .24, 1) var(--enter-delay) both;
 }
 
-#card-artwork {
-  scroll-margin-top: 115px;
-}
-
 @keyframes card-hint-drift {
   0%, 100% { transform: translate(0, 0) rotate(-2deg); }
   50% { transform: translate(-7px, -4px) rotate(1deg); }
