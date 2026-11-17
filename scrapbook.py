@@ -1,16 +1,16 @@
 """Render the scrapbook-style portfolio homepage."""
 
-from html import escape
+from hashlib import sha256
+from pathlib import Path
+
+DIST = Path(__file__).parent / "dist"
 
 FEATURED = (
-    ("ai-game", ("卡牌游戏", "产品设计"), ("从世界观到界面体验", "打造沉浸式游戏产品"), "card-cover", "card-detail"),
-    ("ai-review", ("AI 设计助手",), ("让创作更高效", "让灵感随时发生"), "review-cover", "review-detail"),
-    ("dual-screen", ("直播双屏项目",), ("打通内容与互动", "探索新的直播体验"), "dual-desktop", "dual-phone"),
-    ("spring-gala", ("抖音游戏新春会",), ("从创意策划到落地执行", "打造节日氛围与用户互动"), "spring-main", "spring-detail"),
-)
-ARCHIVE = (
-    ("game-events", "抖音游戏赛事"),
-    ("licaitong", "理财通产品体验设计"),
+    ("ai-game", "卡牌游戏产品设计", "从世界观到界面体验，打造沉浸式游戏产品", "游戏产品", "scrapbook/card-paper-cover", None),
+    ("ai-review", "AI 设计助手", "让创作更高效，让灵感随时发生", "AI 工具", "scrapbook/review-paper-cover", None),
+    ("dual-screen", "直播双屏项目", "打通内容与互动，探索新的直播体验", "直播体验", "edition3/dual-desktop", "edition3/dual-phone"),
+    ("spring-gala", "抖音游戏新春会", "从创意策划到落地执行，打造节日氛围与用户互动", "活动设计", "edition3/spring-main", "edition3/spring-detail"),
+    ("game-events", "游戏赛事", "围绕选手评分与自建赛，打磨观众参与和主播配置体验", "赛事体验", "edition3/events-desktop", "edition3/events-phone"),
 )
 EMAIL = "435456341@qq.com"
 
@@ -20,49 +20,71 @@ def icon(name):
     return f'<img class="icon" src="/assets/scrapbook/{name}.{extension}" alt="" width="24" height="24">'
 
 
+def asset_url(path):
+    version = sha256((DIST / path).read_bytes()).hexdigest()[:12]
+    return f"/{path}?v={version}"
+
+
 def photo(name, caption, alt, eager=False):
     loading = 'fetchpriority="high"' if eager else 'loading="lazy"'
     return f'''<figure class="polaroid polaroid-{name}">
-      <img src="/assets/scrapbook/{name}.webp" alt="{alt}" width="280" height="307" {loading} decoding="async">
+      <img src="{asset_url(f'assets/scrapbook/{name}.webp')}" alt="{alt}" width="280" height="307" {loading} decoding="async">
       <figcaption>{caption}</figcaption>
     </figure>'''
 
 
-def project_row(index, featured):
-    slug, title, summary, cover, detail = featured
-    title_html = "<br>".join(title)
-    summary_html = ' '.join(f"<span>{line}</span>" for line in summary)
+def project_card(featured):
+    slug, title, summary, category, cover, detail = featured
+    detail_image = (
+        f'\n            <img class="project-detail" src="/assets/{detail}.webp" alt="" loading="lazy" decoding="async">'
+        if detail else ""
+    )
     return f'''<article class="project" id="project-{slug}">
       <a class="project-link" href="/work/{slug}.html" aria-labelledby="title-{slug}" aria-describedby="summary-{slug}">
-        <div class="project-copy">
-          <span class="project-number" aria-hidden="true">{index:02}</span>
-          <h3 id="title-{slug}">{title_html}</h3>
-          <p id="summary-{slug}">{summary_html}</p>
-          <span class="project-arrow">{icon("arrow")}</span>
+        <div class="project-folder">
+          <div class="folder-tab">{category}</div>
+          <div class="project-art" aria-hidden="true">
+            <img class="project-main" src="/assets/{cover}.webp" alt="" loading="lazy" decoding="async">{detail_image}
+          </div>
         </div>
-        <div class="project-art" aria-hidden="true">
-          <span class="paper-panel"></span><span class="paper-block"></span><span class="paper-accent"></span>
-          <img class="project-main" src="/assets/edition3/{cover}.webp" alt="" loading="lazy" decoding="async">
-          <img class="project-detail" src="/assets/edition3/{detail}.webp" alt="" loading="lazy" decoding="async">
+        <div class="project-copy">
+          <h3 id="title-{slug}">{title}</h3>
+          <p id="summary-{slug}">{summary}</p>
         </div>
       </a>
     </article>'''
 
 
-def render_scrapbook(origin, projects):
-    current = ' aria-current="location"'
+def render_navigation(active="top", *, home=False):
+    prefix = "" if home else "/"
+    current = ' aria-current="location"' if home else ' data-active'
     nav = "".join(
-        f'<a href="#{target}"{current if target == "top" else ""}>{icon(symbol)}<span>{label}</span></a>'
+        f'<a href="{prefix}#{target}"{current if target == active else ""}>{icon(symbol)}<span>{label}</span></a>'
         for target, symbol, label in (
             ("top", "home", "HOME"), ("work", "work", "WORK"),
             ("about", "about", "ABOUT"), ("contact", "mail", "CONTACT"),
         )
     )
-    rows = "".join(project_row(index, item) for index, item in enumerate(FEATURED, 1))
-    archived = "".join(
-        f'<li id="project-{slug}"><a href="/work/{slug}.html">{escape(projects.get(slug, {}).get("title", title))}{icon("arrow")}</a></li>'
-        for slug, title in ARCHIVE
-    )
+    return f'''<header class="site-header">
+    <div class="header-inner">
+      <a class="site-mark" href="{prefix}#top" aria-label="Yuki 首页"><span aria-hidden="true"></span></a>
+      <nav class="main-nav" aria-label="主导航">{nav}</nav>
+      <div class="header-shortcuts" aria-label="快捷入口">
+        <a href="/resume.html" aria-label="查看简历" title="查看简历">{icon("resume")}</a>
+        <a href="/work/ai-game.html#card-effects" aria-label="体验卡牌演示" title="体验卡牌演示">{icon("play")}</a>
+        <a href="mailto:{EMAIL}" aria-label="发送邮件" title="发送邮件">{icon("mail")}</a>
+      </div>
+    </div>
+  </header>'''
+
+
+def render_footer(*, home=False):
+    end = '<span>设计，让世界多一种可能。</span>' if home else '<a href="#top">回到顶部 ↑</a>'
+    return f'<footer class="site-footer"><div class="wrap"><span>© 2026 YUKI</span>{end}</div></footer>'
+
+
+def render_scrapbook(origin):
+    cards = "".join(project_card(item) for item in FEATURED)
     return f'''<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -78,27 +100,17 @@ def render_scrapbook(origin, projects):
   <link rel="canonical" href="{origin}/">
   <link rel="icon" href="/favicon-flower.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/jersey-10.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/scrapbook.css">
-  <script src="/scrapbook.js" defer></script>
+  <link rel="stylesheet" href="{asset_url('scrapbook.css')}">
+  <script src="{asset_url('scrapbook.js')}" defer></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">跳到主要内容</a>
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="site-mark" href="#top" aria-label="Yuki 首页"><span aria-hidden="true"></span></a>
-      <nav class="main-nav" aria-label="主导航">{nav}</nav>
-      <div class="header-shortcuts" aria-label="快捷入口">
-        <a href="/resume.html" aria-label="查看简历" title="查看简历">{icon("resume")}</a>
-        <a href="/work/ai-game.html#card-effects" aria-label="体验卡牌演示" title="体验卡牌演示">{icon("play")}</a>
-        <a href="mailto:{EMAIL}" aria-label="发送邮件" title="发送邮件">{icon("mail")}</a>
-      </div>
-    </div>
-  </header>
+  {render_navigation(home=True)}
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-inner">
-        {photo("coast", "Creative", "海边暮色中的人物侧影", True)}
-        {photo("plant", "Design Life", "窗边绿植和斜照的阳光", True)}
+        {photo("coast", "Creative", "站在船边的 Yuki", True)}
+        {photo("plant", "Design Life", "阳光下手中举起的银杏叶", True)}
         <div class="hero-notes"><span>HELLO, I’M</span><span>UI / PRODUCT DESIGNER</span></div>
         <div class="wordmark">
           <span class="frame-handles" aria-hidden="true">{'<i></i>' * 8}</span>
@@ -106,20 +118,20 @@ def render_scrapbook(origin, projects):
         </div>
         <div class="hero-stickers"><span>用设计</span><span>连接想象</span></div>
         <p class="hero-line"><span>设计是我的起点</span> <span>不是我的边界</span></p>
-        <a class="button hero-button" href="#work"><span class="button-tile">{icon("arrow")}</span>查看我的作品</a>
+        <div class="work-slide">
+          <span class="work-slide-label" aria-hidden="true">查看我的作品</span>
+          <a class="work-slide-handle" href="#work" aria-label="查看我的作品" draggable="false">{icon("arrow")}</a>
+        </div>
       </div>
     </section>
     <section class="work section" id="work" aria-labelledby="work-title">
       <div class="wrap">
         <div class="section-header">
-          <h2 class="section-title" id="work-title">我的作品</h2>
-          <a class="section-link" href="#all-work">查看全部 {icon("arrow")}</a>
+          <span class="section-title">我的作品</span>
+          <a class="section-link" href="/resume.html" aria-label="更多关于我，查看简历">MORE ABOUT ME {icon("arrow")}</a>
         </div>
-        <div class="projects">{rows}</div>
-        <details class="work-archive" id="all-work">
-          <summary>更多作品 {icon("arrow")}</summary>
-          <ul>{archived}</ul>
-        </details>
+        <h2 class="work-title" id="work-title">FEATURED WORKS</h2>
+        <div class="projects">{cards}</div>
       </div>
     </section>
     <section class="about section" id="about" aria-labelledby="about-title">
@@ -129,11 +141,11 @@ def render_scrapbook(origin, projects):
           <a class="section-link" href="/resume.html" aria-label="更多关于我，查看简历">MORE ABOUT ME {icon("arrow")}</a>
         </div>
         <div class="about-grid">
-          {photo("portrait", "yuki", "戴黄色帽子的人望向远处")}
+          {photo("portrait", "yuki", "坐在街边建筑前的 Yuki")}
           <div class="about-copy">
-            <h3>我是一名产品设计师，<br>专注于用设计解决真实问题。</h3>
+            <h3>我是一名产品设计师，<br>不设边界探索更多可能。</h3>
             <p>从用户需求出发，结合创意与技术，<br class="wide-break">在游戏、AI 工具和直播等领域探索更好的体验方式。<br class="wide-break">我相信设计能让想法落地，也能推动改变。</p>
-            <ul class="skills" aria-label="设计方向"><li>产品设计</li><li>交互设计</li><li>用户研究</li><li>创意策划</li></ul>
+            <ul class="skills" aria-label="设计方向"><li>UX设计</li><li>AI能力</li><li>用户研究</li><li>视觉设计</li></ul>
           </div>
         </div>
       </div>
@@ -147,7 +159,7 @@ def render_scrapbook(origin, projects):
       <span class="copy-status" role="status"></span>
     </section>
   </main>
-  <footer class="site-footer"><div class="wrap"><span>© 2026 YUKI</span><span>设计，让世界多一种可能。</span></div></footer>
+  {render_footer(home=True)}
 </body>
 </html>
 '''

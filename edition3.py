@@ -3,7 +3,7 @@ from html import escape
 import json
 from pathlib import Path
 import re
-from scrapbook import render_scrapbook
+from scrapbook import render_footer, render_navigation, render_scrapbook
 from edition3_gallery import PROJECT_ORDER, selected_projects, project_gallery, image_preview
 
 
@@ -27,24 +27,61 @@ def flower_shape(kind="blue", color="#84def9", center="#0636ce"):
     )
 
 
-def add_button_blooms(page):
-    def decorate(match):
-        attributes, content = match.group(1), match.group(2)
-        if 'class="button-bloom"' in content:
-            return match.group(0)
-        class_match = re.search(r'class="([^"]*)"', attributes)
-        class_names = class_match.group(1).split()
-        if "e3-button" not in class_names:
-            classes = class_match.group(1) + " e3-button"
-            attributes = attributes.replace(class_match.group(0), f'class="{classes}"', 1)
-        bloom = flower_shape("blue", "#0636ce", "#ffffff")
-        return (f'<a{attributes}><span class="button-label">{content}</span>'
-                f'<span class="button-bloom" aria-hidden="true">{bloom}</span></a>')
-    return re.sub(
-        r'<a(\s[^>]*class="[^"]*\b(?:primary-button|e3-button)\b[^"]*"[^>]*)>(.*?)</a>',
-        decorate,
+def apply_scrapbook_shell(page, slug, is_project):
+    resume = slug == "resume"
+    dark = slug == "ai-game"
+    nav = render_navigation("about" if resume else "work" if is_project else "")
+    footer = render_footer()
+
+    if re.search(r'<header class="(?:site-header|e3-header)">', page):
+        page = re.sub(r'<header class="(?:site-header|e3-header)">.*?</header>', nav, page, count=1, flags=re.S)
+    else:
+        page = re.sub(r'(<main\b)', lambda m: nav + m[0], page, count=1)
+
+    if re.search(r'<footer class="(?:footer|e3-footer e3-wrap|site-footer)">', page):
+        page = re.sub(r'<footer class="(?:footer|e3-footer e3-wrap|site-footer)">.*?</footer>', footer, page, count=1, flags=re.S)
+        page = page.replace(f'<div class="wrap">{footer}</div>', footer)
+    else:
+        page = page.replace('</main>', '</main>' + footer, 1)
+
+    if 'class="page-mast"' not in page:
+        if resume:
+            pattern = r'(<h1>.*?</h1><p class="resume-subtitle">.*?</p><p class="resume-summary">.*?</p>)'
+            page = re.sub(
+                pattern,
+                r'<div class="page-mast"><p class="page-kicker">RESUME</p>\1</div>',
+                page,
+                count=1,
+                flags=re.S,
+            )
+        elif is_project and 'class="wrap detail"' in page:
+            pattern = (
+                r'(?P<context><div class="detail-top">.*?</div>)?(?P<title><h1>.*?</h1>)'
+                r'(?:<p class="detail-meta">(?P<tags>.*?)</p>)?(?P<lead><p class="case-lead">.*?</p>)?'
+            )
+            page = re.sub(pattern, render_case_mast, page, count=1, flags=re.S)
+
+    page = re.sub(r'(class="edition-three e3-case)(?! scrapbook-inner)', r'\1 scrapbook-inner', page, count=1)
+    page = re.sub(
+        r'(<meta name="theme-color" content=")[^"]*',
+        lambda m: m[1] + ("#24212b" if dark else "#f8f7f3"),
         page,
-        flags=re.S,
+        count=1,
+    )
+    styles = '<link rel="stylesheet" href="/scrapbook.css"><link rel="stylesheet" href="/scrapbook-pages.css">'
+    return page.replace(styles, "").replace('</head>', styles + '</head>', 1)
+
+
+def render_case_mast(match):
+    context = match["context"] or ""
+    lead = match["lead"] or ""
+    tags = ""
+    if match["tags"]:
+        items = "".join(f"<li>{item.strip()}</li>" for item in match["tags"].split(" · "))
+        tags = f'<ul class="case-tags" aria-label="项目关键词">{items}</ul>'
+    return (
+        '<div class="page-mast"><div class="case-heading">'
+        f'<p class="page-kicker">CASE STUDY</p>{match["title"]}{lead}{context}</div>{tags}</div>'
     )
 
 
@@ -54,19 +91,14 @@ def build_edition3():
     projects = selected_projects(content)
     assets = json.loads((ROOT / "edition3-assets.json").read_text())
     figma_boards = json.loads((ROOT / "edition3-figma.json").read_text())
-    wordmark = (DIST / 'assets/yuki-wordmark.svg').read_text().replace('<svg ', '<svg class="yuki-wordmark" aria-hidden="true" focusable="false" ', 1)
-    navigation = f'''<header class="e3-header"><nav class="e3-nav" aria-label="主导航"><a class="nav-link" href="/#work">作品</a><a class="e3-brand" href="/" aria-label="Yuki 第三版首页">{wordmark}</a><a class="nav-link" href="/#about">关于我</a></nav></header>'''
-    footer = f'''<footer class="e3-footer e3-wrap"><a class="e3-brand" href="/" aria-label="Yuki 首页">{wordmark}</a><p>© 2026 吴雨晴</p><a class="footer-top" href="#top">回到顶部</a></footer>'''
     (DIST / "favicon-flower.svg").write_text(flower_shape("blue", "#0636ce", "#ffd23c"))
-    (DIST / "index.html").write_text(render_scrapbook(origin, projects))
+    (DIST / "index.html").write_text(render_scrapbook(origin))
     # Case demos keep their original scripts and receive the third-edition shell.
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
         page = path.read_text().replace('content="#101210"', 'content="#f7f5ef"')
         page = page.replace('href="/favicon.svg"', 'href="/favicon-flower.svg"')
         page = re.sub(r'<link rel="stylesheet" href="/edition3\.css(?:\?[^"]*)?">', "", page)
         page = re.sub(r'<script src="/edition3\.js(?:\?[^"]*)?" defer></script>', "", page)
-        page = re.sub(r'<header class="(?:site-header|e3-header)">.*?</header>', navigation, page, flags=re.S)
-        page = re.sub(r'<footer class="(?:footer|e3-footer e3-wrap)">.*?</footer>', footer, page, flags=re.S)
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
         page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css?v=figma-20261114"><script src="/edition3.js?v=flower-stop" defer></script></head>')
         page = page.replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
@@ -77,7 +109,7 @@ def build_edition3():
         page = head(project["title"] + ' · Yuki Design', project["summary"], '/work/' + slug + '.html').replace('https://yuki-design.yuki3316950442.chatgpt.site', origin)
         page = page.replace('</head>', '<link rel="stylesheet" href="/edition3.css?v=figma-20261114"><script src="/edition3.js?v=flower-stop" defer></script></head>')
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
-        page += navigation + f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, assets, figma_boards)}</main>' + footer + image_preview() + '</body></html>'
+        page += f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, assets, figma_boards)}</main>' + image_preview() + '</body></html>'
         (DIST / 'work' / f'{slug}.html').write_text(page)
 
     for index, slug in enumerate(PROJECT_ORDER):
@@ -86,10 +118,12 @@ def build_edition3():
         if slug == "ai-game":
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-card-dark"')
             page = page.replace('</head>', '<link rel="stylesheet" href="/card-dark.css?v=taro-radial"></head>')
+            page = page.replace('</head>', '<link rel="stylesheet" href="/card-story.css?v=20261116"><script src="/card-story.js?v=20261116" defer></script></head>')
             page = page.replace('name="theme-color" content="#f7f5ef"', 'name="theme-color" content="#302a3b"')
             start = page.index('<div class="case-reading card-case-reading">')
             end = page.index('<a class="next-project"', start)
-            page = page[:start] + project_gallery(projects[slug], assets, figma_boards) + page[end:]
+            story = (ROOT / "card-story.html").read_text()
+            page = page[:start] + story + page[end:]
         elif slug == "ai-review":
             page = re.sub(r'<p class="case-lead">.*?</p>', '', page, flags=re.S)
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-review"')
@@ -116,7 +150,7 @@ def build_edition3():
             page = page.replace('</body>', image_preview() + '</body>')
         path.write_text(page)
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
-        path.write_text(add_button_blooms(path.read_text()))
+        path.write_text(apply_scrapbook_shell(path.read_text(), path.stem, path.parent.name == "work"))
     sitemap = DIST / "sitemap.xml"
     routes = ['/', '/resume.html'] + [f'/work/{slug}.html' for slug in VISIBLE_PROJECT_ORDER]
     sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{origin}{route}</loc></url>' for route in routes) + '</urlset>')

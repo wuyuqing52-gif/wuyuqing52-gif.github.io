@@ -24,20 +24,62 @@ window.addEventListener("scroll", updateNavigation, { passive: true });
 window.addEventListener("resize", updateNavigation);
 updateNavigation();
 
-const archive = document.querySelector(".work-archive");
+const workSlide = document.querySelector(".work-slide");
+const slideHandle = workSlide.querySelector(".work-slide-handle");
+let slideGesture;
+let slideDragged = false;
+let slideReset;
 
-function openArchiveForAnchor() {
-  const target = document.getElementById(window.location.hash.slice(1));
-  if (!target || !archive.contains(target)) return;
-  archive.open = true;
-  target.scrollIntoView();
+function positionHandle(offset, travel) {
+  workSlide.style.setProperty("--slide-offset", `${offset}px`);
+  workSlide.style.setProperty("--slide-progress", offset / travel);
 }
 
-document.querySelector('a[href="#all-work"]').addEventListener("click", () => {
-  archive.open = true;
+slideHandle.addEventListener("pointerdown", (event) => {
+  if (!event.isPrimary || event.button !== 0 || slideGesture) return;
+
+  const travel = workSlide.clientWidth - slideHandle.offsetWidth - 2 * slideHandle.offsetLeft;
+  if (travel <= 0) return;
+
+  clearTimeout(slideReset);
+  positionHandle(0, travel);
+  slideGesture = { pointerId: event.pointerId, startX: event.clientX, travel };
+  slideDragged = false;
+  slideHandle.setPointerCapture(event.pointerId);
+  workSlide.setAttribute("data-dragging", "");
 });
-window.addEventListener("hashchange", openArchiveForAnchor);
-openArchiveForAnchor();
+
+slideHandle.addEventListener("pointermove", (event) => {
+  if (slideGesture?.pointerId !== event.pointerId) return;
+
+  const distance = event.clientX - slideGesture.startX;
+  if (Math.abs(distance) > 6) slideDragged = true;
+  positionHandle(Math.min(slideGesture.travel, Math.max(0, distance)), slideGesture.travel);
+});
+
+function finishSlide(event) {
+  if (slideGesture?.pointerId !== event.pointerId) return;
+
+  const { startX, travel } = slideGesture;
+  slideGesture = null;
+  workSlide.removeAttribute("data-dragging");
+
+  if (event.type === "pointerup" && event.clientX - startX >= travel * 0.9) {
+    slideDragged = true;
+    positionHandle(travel, travel);
+    slideHandle.click();
+    slideReset = setTimeout(() => positionHandle(0, travel), 260);
+  } else {
+    positionHandle(0, travel);
+  }
+}
+
+slideHandle.addEventListener("pointerup", finishSlide);
+slideHandle.addEventListener("pointercancel", finishSlide);
+slideHandle.addEventListener("lostpointercapture", finishSlide);
+slideHandle.addEventListener("click", (event) => {
+  if (event.detail > 0 && slideDragged) event.preventDefault();
+});
 
 const copy = document.querySelector("[data-copy-email]");
 const status = document.querySelector(".copy-status");

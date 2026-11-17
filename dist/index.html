@@ -13,8 +13,8 @@
   <link rel="canonical" href="https://yuki-edition-3.yuki3316950442.chatgpt.site/">
   <link rel="icon" href="/favicon-flower.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/jersey-10.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/scrapbook.css">
-  <script src="/scrapbook.js" defer></script>
+  <link rel="stylesheet" href="/scrapbook.css?v=e13231446733">
+  <script src="/scrapbook.js?v=04897fd93985" defer></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">跳到主要内容</a>
@@ -33,11 +33,11 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-inner">
         <figure class="polaroid polaroid-coast">
-      <img src="/assets/scrapbook/coast.webp" alt="海边暮色中的人物侧影" width="280" height="307" fetchpriority="high" decoding="async">
+      <img src="/assets/scrapbook/coast.webp?v=067255d5c80d" alt="站在船边的 Yuki" width="280" height="307" fetchpriority="high" decoding="async">
       <figcaption>Creative</figcaption>
     </figure>
         <figure class="polaroid polaroid-plant">
-      <img src="/assets/scrapbook/plant.webp" alt="窗边绿植和斜照的阳光" width="280" height="307" fetchpriority="high" decoding="async">
+      <img src="/assets/scrapbook/plant.webp?v=16387835b9e6" alt="阳光下手中举起的银杏叶" width="280" height="307" fetchpriority="high" decoding="async">
       <figcaption>Design Life</figcaption>
     </figure>
         <div class="hero-notes"><span>HELLO, I’M</span><span>UI / PRODUCT DESIGNER</span></div>
@@ -47,76 +47,88 @@
         </div>
         <div class="hero-stickers"><span>用设计</span><span>连接想象</span></div>
         <p class="hero-line"><span>设计是我的起点</span> <span>不是我的边界</span></p>
-        <a class="button hero-button" href="#work"><span class="button-tile"><img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></span>查看我的作品</a>
+        <div class="work-slide">
+          <span class="work-slide-label" aria-hidden="true">查看我的作品</span>
+          <a class="work-slide-handle" href="#work" aria-label="查看我的作品" draggable="false"><img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></a>
+        </div>
       </div>
     </section>
     <section class="work section" id="work" aria-labelledby="work-title">
       <div class="wrap">
         <div class="section-header">
-          <h2 class="section-title" id="work-title">我的作品</h2>
-          <a class="section-link" href="#all-work">查看全部 <img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></a>
+          <span class="section-title">我的作品</span>
+          <a class="section-link" href="/resume.html" aria-label="更多关于我，查看简历">MORE ABOUT ME <img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></a>
         </div>
+        <h2 class="work-title" id="work-title">FEATURED WORKS</h2>
         <div class="projects"><article class="project" id="project-ai-game">
       <a class="project-link" href="/work/ai-game.html" aria-labelledby="title-ai-game" aria-describedby="summary-ai-game">
-        <div class="project-copy">
-          <span class="project-number" aria-hidden="true">01</span>
-          <h3 id="title-ai-game">卡牌游戏<br>产品设计</h3>
-          <p id="summary-ai-game"><span>从世界观到界面体验</span> <span>打造沉浸式游戏产品</span></p>
-          <span class="project-arrow"><img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></span>
+        <div class="project-folder">
+          <div class="folder-tab">游戏产品</div>
+          <div class="project-art" aria-hidden="true">
+            <img class="project-main" src="/assets/scrapbook/card-paper-cover.webp" alt="" loading="lazy" decoding="async">
+          </div>
         </div>
-        <div class="project-art" aria-hidden="true">
-          <span class="paper-panel"></span><span class="paper-block"></span><span class="paper-accent"></span>
-          <img class="project-main" src="/assets/edition3/card-cover.webp" alt="" loading="lazy" decoding="async">
-          <img class="project-detail" src="/assets/edition3/card-detail.webp" alt="" loading="lazy" decoding="async">
+        <div class="project-copy">
+          <h3 id="title-ai-game">卡牌游戏产品设计</h3>
+          <p id="summary-ai-game">从世界观到界面体验，打造沉浸式游戏产品</p>
         </div>
       </a>
     </article><article class="project" id="project-ai-review">
       <a class="project-link" href="/work/ai-review.html" aria-labelledby="title-ai-review" aria-describedby="summary-ai-review">
-        <div class="project-copy">
-          <span class="project-number" aria-hidden="true">02</span>
-          <h3 id="title-ai-review">AI 设计助手</h3>
-          <p id="summary-ai-review"><span>让创作更高效</span> <span>让灵感随时发生</span></p>
-          <span class="project-arrow"><img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></span>
+        <div class="project-folder">
+          <div class="folder-tab">AI 工具</div>
+          <div class="project-art" aria-hidden="true">
+            <img class="project-main" src="/assets/scrapbook/review-paper-cover.webp" alt="" loading="lazy" decoding="async">
+          </div>
         </div>
-        <div class="project-art" aria-hidden="true">
-          <span class="paper-panel"></span><span class="paper-block"></span><span class="paper-accent"></span>
-          <img class="project-main" src="/assets/edition3/review-cover.webp" alt="" loading="lazy" decoding="async">
-          <img class="project-detail" src="/assets/edition3/review-detail.webp" alt="" loading="lazy" decoding="async">
+        <div class="project-copy">
+          <h3 id="title-ai-review">AI 设计助手</h3>
+          <p id="summary-ai-review">让创作更高效，让灵感随时发生</p>
         </div>
       </a>
     </article><article class="project" id="project-dual-screen">
       <a class="project-link" href="/work/dual-screen.html" aria-labelledby="title-dual-screen" aria-describedby="summary-dual-screen">
-        <div class="project-copy">
-          <span class="project-number" aria-hidden="true">03</span>
-          <h3 id="title-dual-screen">直播双屏项目</h3>
-          <p id="summary-dual-screen"><span>打通内容与互动</span> <span>探索新的直播体验</span></p>
-          <span class="project-arrow"><img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></span>
+        <div class="project-folder">
+          <div class="folder-tab">直播体验</div>
+          <div class="project-art" aria-hidden="true">
+            <img class="project-main" src="/assets/edition3/dual-desktop.webp" alt="" loading="lazy" decoding="async">
+            <img class="project-detail" src="/assets/edition3/dual-phone.webp" alt="" loading="lazy" decoding="async">
+          </div>
         </div>
-        <div class="project-art" aria-hidden="true">
-          <span class="paper-panel"></span><span class="paper-block"></span><span class="paper-accent"></span>
-          <img class="project-main" src="/assets/edition3/dual-desktop.webp" alt="" loading="lazy" decoding="async">
-          <img class="project-detail" src="/assets/edition3/dual-phone.webp" alt="" loading="lazy" decoding="async">
+        <div class="project-copy">
+          <h3 id="title-dual-screen">直播双屏项目</h3>
+          <p id="summary-dual-screen">打通内容与互动，探索新的直播体验</p>
         </div>
       </a>
     </article><article class="project" id="project-spring-gala">
       <a class="project-link" href="/work/spring-gala.html" aria-labelledby="title-spring-gala" aria-describedby="summary-spring-gala">
-        <div class="project-copy">
-          <span class="project-number" aria-hidden="true">04</span>
-          <h3 id="title-spring-gala">抖音游戏新春会</h3>
-          <p id="summary-spring-gala"><span>从创意策划到落地执行</span> <span>打造节日氛围与用户互动</span></p>
-          <span class="project-arrow"><img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></span>
+        <div class="project-folder">
+          <div class="folder-tab">活动设计</div>
+          <div class="project-art" aria-hidden="true">
+            <img class="project-main" src="/assets/edition3/spring-main.webp" alt="" loading="lazy" decoding="async">
+            <img class="project-detail" src="/assets/edition3/spring-detail.webp" alt="" loading="lazy" decoding="async">
+          </div>
         </div>
-        <div class="project-art" aria-hidden="true">
-          <span class="paper-panel"></span><span class="paper-block"></span><span class="paper-accent"></span>
-          <img class="project-main" src="/assets/edition3/spring-main.webp" alt="" loading="lazy" decoding="async">
-          <img class="project-detail" src="/assets/edition3/spring-detail.webp" alt="" loading="lazy" decoding="async">
+        <div class="project-copy">
+          <h3 id="title-spring-gala">抖音游戏新春会</h3>
+          <p id="summary-spring-gala">从创意策划到落地执行，打造节日氛围与用户互动</p>
+        </div>
+      </a>
+    </article><article class="project" id="project-game-events">
+      <a class="project-link" href="/work/game-events.html" aria-labelledby="title-game-events" aria-describedby="summary-game-events">
+        <div class="project-folder">
+          <div class="folder-tab">赛事体验</div>
+          <div class="project-art" aria-hidden="true">
+            <img class="project-main" src="/assets/edition3/events-desktop.webp" alt="" loading="lazy" decoding="async">
+            <img class="project-detail" src="/assets/edition3/events-phone.webp" alt="" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="project-copy">
+          <h3 id="title-game-events">游戏赛事</h3>
+          <p id="summary-game-events">围绕选手评分与自建赛，打磨观众参与和主播配置体验</p>
         </div>
       </a>
     </article></div>
-        <details class="work-archive" id="all-work">
-          <summary>更多作品 <img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></summary>
-          <ul><li id="project-game-events"><a href="/work/game-events.html">游戏赛事<img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></a></li><li id="project-licaitong"><a href="/work/licaitong.html">理财通产品体验设计<img class="icon" src="/assets/scrapbook/arrow.svg" alt="" width="24" height="24"></a></li></ul>
-        </details>
       </div>
     </section>
     <section class="about section" id="about" aria-labelledby="about-title">
@@ -127,13 +139,13 @@
         </div>
         <div class="about-grid">
           <figure class="polaroid polaroid-portrait">
-      <img src="/assets/scrapbook/portrait.webp" alt="戴黄色帽子的人望向远处" width="280" height="307" loading="lazy" decoding="async">
+      <img src="/assets/scrapbook/portrait.webp?v=2306c59e33af" alt="坐在街边建筑前的 Yuki" width="280" height="307" loading="lazy" decoding="async">
       <figcaption>yuki</figcaption>
     </figure>
           <div class="about-copy">
-            <h3>我是一名产品设计师，<br>专注于用设计解决真实问题。</h3>
+            <h3>我是一名产品设计师，<br>不设边界探索更多可能。</h3>
             <p>从用户需求出发，结合创意与技术，<br class="wide-break">在游戏、AI 工具和直播等领域探索更好的体验方式。<br class="wide-break">我相信设计能让想法落地，也能推动改变。</p>
-            <ul class="skills" aria-label="设计方向"><li>产品设计</li><li>交互设计</li><li>用户研究</li><li>创意策划</li></ul>
+            <ul class="skills" aria-label="设计方向"><li>UX设计</li><li>AI能力</li><li>用户研究</li><li>视觉设计</li></ul>
           </div>
         </div>
       </div>
