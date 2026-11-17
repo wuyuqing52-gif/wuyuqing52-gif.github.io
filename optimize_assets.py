@@ -6,6 +6,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import re
 import shutil
+import struct
 import tempfile
 from urllib.parse import unquote, urlsplit
 
@@ -30,6 +31,7 @@ class FontTextParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.stack = []
         self.characters = {name: set() for name in FONT_FILES}
+        self.all_characters = set()
 
     def handle_starttag(self, tag, attributes):
         classes = set(dict(attributes).get("class", "").split())
@@ -55,21 +57,27 @@ class FontTextParser(HTMLParser):
                 break
 
     def handle_data(self, text):
+        if not any(tag in {"script", "style"} for tag, _, _ in self.stack):
+            self.all_characters.update(text)
         font = self.stack[-1][2] if self.stack else None
         if font:
             self.characters[font].update(text)
 
 
 def build_font_subsets(output, pages):
-    characters = {name: set() for name in FONT_FILES}
+    font_files = dict(FONT_FILES)
+    if (output / "scrapbook.css").is_file():
+        font_files.update(display="douyin-sans-bold.ttf", pixel="jersey-10.ttf")
+    characters = {name: set() for name in font_files}
     for page in pages:
         parser = FontTextParser()
         parser.feed(page.read_text(encoding="utf-8"))
         for name in characters:
-            characters[name].update(parser.characters[name])
+            text = parser.characters[name] if name in FONT_FILES else parser.all_characters
+            characters[name].update(text)
     urls = {}
     savings = 0
-    for name, filename in FONT_FILES.items():
+    for name, filename in font_files.items():
         source = output / "assets/fonts" / filename
         # Include Latin text and numbers, which may appear alongside Chinese titles.
         text = "".join(sorted(characters[name] | {chr(code) for code in range(32, 127)}))
@@ -79,6 +87,12 @@ def build_font_subsets(output, pages):
         original_codepoints = set(font.getBestCmap())
         options = subset.Options()
         options.flavor = "woff2"
+        if filename == "douyin-sans-bold.ttf" and "GSUB" in font:
+            try:
+                font["GSUB"]
+            except struct.error:
+                # Keep glyph outlines and metrics when the bundled substitution table is malformed.
+                options.drop_tables.append("GSUB")
         subsetter = subset.Subsetter(options=options)
         subsetter.populate(text=text)
         subsetter.subset(font)
@@ -90,8 +104,10 @@ def build_font_subsets(output, pages):
             if not required <= set(result.getBestCmap()):
                 raise RuntimeError(f"字体子集缺少页面文字：{filename}")
         url = "/" + target.relative_to(output).as_posix()
-        css = output / "edition3.css"
+        css = output / ("edition3.css" if name in FONT_FILES else "scrapbook.css")
         content = css.read_text().replace("/assets/fonts/" + filename, url)
+        if name not in FONT_FILES:
+            content = content.replace('format("truetype")', 'format("woff2")')
         css.write_text(content)
         urls[name] = url
         savings += source.stat().st_size - target.stat().st_size
@@ -170,15 +186,23 @@ def optimize_assets(output):
             return tag[:-1] + dimensions + ">"
 
         content = IMAGE_TAG.sub(replace_image, content)
-        if "edition3.css" in content:
-            preloads = [font_urls["title"]]
-            if page == output / "index.html":
+        if "edition3.css" in content or "scrapbook.css" in content:
+            content = re.sub(r'<link\b(?=[^>]*\brel="preload")(?=[^>]*\bas="font")[^>]*>', "", content)
+            preloads = [font_urls["display"], font_urls["pixel"]] if "scrapbook.css" in content else [font_urls["title"]]
+            if page == output / "index.html" and "scrapbook.css" not in content:
                 preloads.append(font_urls["label"])
             links = "".join(f'<link rel="preload" href="{url}" as="font" type="font/woff2" crossorigin>' for url in preloads)
             content = content.replace("</head>", links + "</head>")
         page.write_text(content, encoding="utf-8")
     changed = [preview for preview in previews.values() if preview]
     image_savings = sum(preview[3] for preview in changed)
+    version_page_assets(output)
+    print(f"已生成 {len(changed)} 个高质量预览，图片下载量合计减少 {image_savings / 1024 / 1024:.1f} MB，字体减少 {font_savings / 1024 / 1024:.2f} MB", flush=True)
+
+
+def version_page_assets(output):
+    output = Path(output)
+    pages = sorted(output.rglob("*.html"))
     # Content versions make new styles, scripts and font URLs take effect on the next visit.
     for page in pages:
         content = page.read_text(encoding="utf-8")
@@ -194,4 +218,3 @@ def optimize_assets(output):
 
         content = re.sub(r'(\b(?:src|href)=)"([^"]+)"', version_file, content)
         page.write_text(content, encoding="utf-8")
-    print(f"已生成 {len(changed)} 个高质量预览，图片下载量合计减少 {image_savings / 1024 / 1024:.1f} MB，字体减少 {font_savings / 1024 / 1024:.2f} MB", flush=True)
