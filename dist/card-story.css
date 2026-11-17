@@ -26,7 +26,8 @@
   min-width: 0;
 }
 
-.card-story-chapter {
+.card-story-chapter,
+.card-story-subchapter {
   scroll-margin-top: 115px;
   margin-bottom: 32px;
 }
@@ -40,7 +41,8 @@
   margin: 0;
 }
 
-.card-story-chapter > p {
+.card-story-chapter > p,
+.card-story-subchapter > p {
   color: var(--ink);
   font-size: 14px;
   line-height: 28.7px;
@@ -217,6 +219,94 @@
   to { opacity: 1; translate: 0 0; }
 }
 
+.card-story .card-story-subcontents {
+  margin: 0 0 8px;
+  padding-left: 18px;
+}
+
+.card-story .card-story-subcontents a {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.card-worldview-reveal .card-reveal-message {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: transform .7s cubic-bezier(.22, .8, .24, 1);
+}
+
+.card-worldview-reveal .card-reveal-answer {
+  transform: translateY(100%);
+}
+
+.card-worldview-reveal.is-showing-answer .card-reveal-question {
+  transform: translateY(-100%);
+}
+
+.card-worldview-reveal.is-showing-answer .card-reveal-answer {
+  transform: translateY(0);
+}
+
+.card-worldview-initial-shade,
+.card-worldview-answer-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity .7s ease;
+}
+
+.card-worldview-answer-shade {
+  opacity: 0;
+}
+
+.card-worldview-reveal.is-showing-answer .card-worldview-initial-shade {
+  opacity: 0;
+}
+
+.card-worldview-reveal.is-showing-answer .card-worldview-answer-shade {
+  opacity: 1;
+}
+
+.card-style-reveal > .card-style-answer {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s ease;
+  z-index: 3;
+}
+
+.card-style-reveal.is-showing-answer > .card-style-answer {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: .65s;
+}
+
+.card-style-reveal.is-showing-answer .card-style-selected {
+  z-index: 2;
+  animation: card-style-expand 1s cubic-bezier(.22, .8, .24, 1) both;
+}
+
+.card-style-front > :not(.card-style-selected) {
+  transition: opacity .3s ease;
+}
+
+.card-style-reveal.is-showing-answer .card-style-front > :not(.card-style-selected) {
+  opacity: 0;
+}
+
+.card-worldview-reveal > .card-thesis-hint,
+.card-style-reveal > .card-thesis-hint {
+  z-index: 4;
+}
+
+@keyframes card-style-expand {
+  0% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-1.8cqw) scale(1.04); }
+  100% { transform: translate(-7.6cqw, -7cqw) scale(9); }
+}
+
 @media (max-width: 1000px) {
   .e3-card-dark .card-story {
     grid-template-columns: 145px minmax(0, 1fr);
@@ -249,15 +339,22 @@
     margin: 0;
   }
 
-  .card-story-canvas {
+  .card-story-canvas,
+  .card-reveal-canvas {
     min-width: 640px;
+  }
+
+  .card-thesis.card-worldview-reveal,
+  .card-thesis.card-style-reveal {
+    aspect-ratio: 880 / 216.792;
   }
 
   .card-story-chapter h2 {
     font-size: 22px;
   }
 
-  .card-story-chapter > p {
+  .card-story-chapter > p,
+.card-story-subchapter > p {
     font-size: 13px;
     line-height: 1.95;
   }
@@ -313,7 +410,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-thesis-face { transition: none; }
+  .card-thesis-face,
+  .card-reveal-message,
+  .card-worldview-initial-shade,
+  .card-worldview-answer-shade,
+  .card-style-front > :not(.card-style-selected),
+  .card-style-reveal > .card-style-answer {
+    transition: none;
+  }
+
+  .card-style-reveal.is-showing-answer .card-style-selected {
+    animation: none;
+  }
   .card-thesis-hint { animation: none; transition: none; }
   .card-story.has-case-motion .worldbook-keyword,
   .card-story.has-case-motion .challenge-module {
