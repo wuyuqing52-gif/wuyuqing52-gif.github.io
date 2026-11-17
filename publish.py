@@ -79,7 +79,11 @@ def snapshot_version(directory, branch):
             )
             return snapshot
     archive = directory / (branch + ".tar")
-    run(["git", "archive", "--format=tar", "--output=" + str(archive), branch], SOURCE)
+    try:
+        revision = run(["git", "rev-parse", "--verify", "refs/heads/" + branch], SOURCE)
+    except subprocess.CalledProcessError:
+        revision = run(["git", "rev-parse", "--verify", "refs/remotes/origin/" + branch], SOURCE)
+    run(["git", "archive", "--format=tar", "--output=" + str(archive), revision], SOURCE)
     snapshot.mkdir()
     run(["tar", "-xf", str(archive), "-C", str(snapshot)], SOURCE)
     return snapshot
