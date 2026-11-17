@@ -344,23 +344,14 @@
     min-width: 640px;
   }
 
-  .card-thesis.card-worldview-reveal,
-  .card-thesis.card-style-reveal {
-    aspect-ratio: 880 / 216.792;
-  }
-
   .card-story-chapter h2 {
     font-size: 22px;
   }
 
   .card-story-chapter > p,
-.card-story-subchapter > p {
+  .card-story-subchapter > p {
     font-size: 13px;
     line-height: 1.95;
-  }
-
-  .card-thesis {
-    aspect-ratio: 880 / 360;
   }
 
   .card-thesis-hint {
@@ -369,44 +360,7 @@
     font-size: 10px;
   }
 
-  .card-thesis-back p {
-    white-space: normal !important;
-  }
 
-  .card-thesis-front .card-story-art > div:nth-of-type(1) {
-    top: calc(50% - 22px) !important;
-  }
-
-  .card-thesis-front .card-story-art > div:nth-of-type(2) {
-    top: calc(50% + 8px) !important;
-  }
-
-  .card-thesis-front .card-story-art > div:nth-of-type(-n+2) p {
-    font-size: 18px !important;
-    line-height: 27px !important;
-  }
-
-  .card-thesis-back p:first-child {
-    font-size: 16px !important;
-    line-height: 24px !important;
-  }
-
-  .card-thesis-back p:last-child {
-    font-size: 10px !important;
-    line-height: 17px !important;
-  }
-
-  .card-thesis-bracket-left {
-    left: 3cqw !important;
-  }
-
-  .card-thesis-bracket-right {
-    left: 95cqw !important;
-  }
-
-  .card-thesis-back > .card-story-art > div:first-child {
-    gap: 8px !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
