@@ -13,6 +13,7 @@ import sys
 import tempfile
 import time
 import venv
+import xml.etree.ElementTree as ET
 import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
@@ -101,7 +102,7 @@ def snapshot_version(directory, branch):
 def add_version_prefix(output, prefix):
     # Match real top-level routes, including runtime JS strings and CSS URLs.
     roots = {path.name for path in output.iterdir()}
-    url_pattern = re.compile(r"([\"'`(])(/(?!/)[^\"'`<>\s)]*)")
+    url_pattern = re.compile(r"([\"'`(])(/(?![/>])[^\"'`<>\s)]*)")
 
     def replace_url(match):
         url = match.group(2)
@@ -193,6 +194,11 @@ def build(directory):
     robots.write_text(content.rstrip() + "\nSitemap: " + SITE_URL + "/website/sitemap.xml\n", encoding="utf-8")
     from optimize_assets import version_page_assets
     version_page_assets(output)
+    for asset in output.rglob("*.svg"):
+        try:
+            ET.parse(asset)
+        except ET.ParseError as error:
+            raise RuntimeError("SVG 文件损坏：" + str(asset.relative_to(output))) from error
     print("双版本构建完成，redbook 为主站，website 发布在 /website/，旧版入口已添加跳转", flush=True)
     return output
 

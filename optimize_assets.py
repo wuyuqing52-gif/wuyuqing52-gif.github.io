@@ -271,19 +271,33 @@ def optimize_assets(output):
 
 def version_page_assets(output):
     output = Path(output)
-    pages = sorted(output.rglob("*.html"))
-    # Content versions make new styles, scripts and font URLs take effect on the next visit.
-    for page in pages:
+
+    def version_url(url, suffixes):
+        location = urlsplit(url)
+        asset = output / location.path.lstrip("/")
+        if location.scheme or location.netloc or asset.suffix not in suffixes or not asset.is_file():
+            return url
+        digest = hashlib.sha256(asset.read_bytes()).hexdigest()[:12]
+        fragment = "#" + location.fragment if location.fragment else ""
+        return location.path + "?v=" + digest + fragment
+
+    # Version SVG backgrounds before hashing the stylesheets that reference them.
+    for stylesheet in sorted(output.rglob("*.css")):
+        content = stylesheet.read_text(encoding="utf-8")
+
+        def version_background(match):
+            quote = match.group(1)
+            return "url(" + quote + version_url(match.group(2), {".svg"}) + quote + ")"
+
+        content = re.sub(r"url\(([\"']?)(/[^\"'()\s]+)\1\)", version_background, content)
+        stylesheet.write_text(content, encoding="utf-8")
+
+    # Content versions refresh styles, scripts and SVG images on the next visit.
+    for page in sorted(output.rglob("*.html")):
         content = page.read_text(encoding="utf-8")
 
         def version_file(match):
-            url = match.group(2)
-            location = urlsplit(url)
-            asset = output / location.path.lstrip("/")
-            if location.scheme or location.netloc or asset.suffix not in {".css", ".js"} or not asset.is_file():
-                return match.group()
-            digest = hashlib.sha256(asset.read_bytes()).hexdigest()[:12]
-            return f'{match.group(1)}"{location.path}?v={digest}"'
+            return match.group(1) + '"' + version_url(match.group(2), {".css", ".js", ".svg"}) + '"'
 
         content = re.sub(r'(\b(?:src|href)=)"([^"]+)"', version_file, content)
         page.write_text(content, encoding="utf-8")
