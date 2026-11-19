@@ -78,7 +78,7 @@
 }
 
 .card-story-canvas {
-  aspect-ratio: 880 / 216.792;
+  aspect-ratio: 16 / 9;
 }
 
 .card-story-art {
@@ -101,11 +101,35 @@
   border: 0;
 }
 
+.card-progressive-blur {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.card-progressive-blur-layer {
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(calc(var(--blur-radius) * var(--blur-increment)));
+  backdrop-filter: blur(calc(var(--blur-radius) * var(--blur-increment)));
+  -webkit-mask-image: linear-gradient(var(--blur-angle), transparent var(--blur-from), #000 var(--blur-to));
+  mask-image: linear-gradient(var(--blur-angle), transparent var(--blur-from), #000 var(--blur-to));
+}
+
+.card-progressive-blur::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, .15) 60.338%, #0000 100%);
+  content: "";
+}
+
 .card-thesis {
   display: block;
   position: relative;
   width: 100%;
-  aspect-ratio: 880 / 216.792;
+  aspect-ratio: 16 / 9;
   padding: 0;
   background: var(--ppt-deepgray-background, #1d1b1f);
   border: .052045cqw solid var(--ppt-deepgray-border, #514b58);
@@ -264,43 +288,56 @@
   opacity: 1;
 }
 
-.card-style-reveal > .card-style-answer {
-  position: absolute !important;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .18s cubic-bezier(.22, .8, .24, 1);
-  z-index: 3;
-}
-
-.card-style-reveal.is-showing-answer > .card-style-answer {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: .65s;
-}
-
-.card-style-reveal.is-showing-answer .card-style-selected {
-  z-index: 2;
-  animation: card-style-expand 1s cubic-bezier(.22, .8, .24, 1) both;
-}
-
-.card-style-front > :not(.card-style-selected) {
-  transition: opacity .2s ease;
-}
-
-.card-style-reveal.is-showing-answer .card-style-front > :not(.card-style-selected) {
-  opacity: 0;
-}
-
-.card-worldview-reveal > .card-thesis-hint,
-.card-style-reveal > .card-thesis-hint {
+.card-worldview-reveal > .card-thesis-hint {
   z-index: 4;
 }
 
-@keyframes card-style-expand {
-  0% { transform: translateY(0) scale(1); }
-  25% { transform: translateY(-1.8cqw) scale(1.04); }
-  100% { transform: translate(-7.6cqw, -7cqw) scale(9); }
+.card-source-preview {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.card-source-preview img {
+  pointer-events: auto !important;
+  cursor: zoom-in;
+}
+
+.card-source-preview:focus-visible img {
+  outline: 2px solid #83dfc7;
+  outline-offset: -2px;
+}
+
+.card-story.has-case-motion [data-case-enter]:not(.is-entered) :is(.card-wipe-down, .card-wipe-right) {
+  clip-path: inset(0 0 100% 0);
+}
+
+.card-story.has-case-motion [data-case-enter]:not(.is-entered) .card-wipe-right {
+  clip-path: inset(0 100% 0 0);
+}
+
+.card-story.has-case-motion .is-entered .card-wipe-down {
+  animation: card-wipe-down .8s cubic-bezier(.22, .8, .24, 1) var(--enter-delay, 0ms) both;
+}
+
+.card-story.has-case-motion .is-entered .card-wipe-right {
+  animation: card-wipe-right .85s cubic-bezier(.22, .8, .24, 1) var(--enter-delay, 0ms) both;
+}
+
+@keyframes card-wipe-down {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0); }
+}
+
+@keyframes card-wipe-right {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}
+
+.card-story.has-case-motion [data-case-enter].is-static :is(.worldbook-keyword, .challenge-module, .card-wipe-down, .card-wipe-right) {
+  opacity: 1;
+  clip-path: none;
+  animation: none;
 }
 
 @media (max-width: 1000px) {
@@ -354,6 +391,7 @@
     padding: 6px 10px;
     border-width: 2px;
     font-size: 10px;
+    right: calc(50% - 78px);
   }
 
 
@@ -363,19 +401,16 @@
   .card-thesis-face,
   .card-reveal-message,
   .card-worldview-initial-shade,
-  .card-worldview-answer-shade,
-  .card-style-front > :not(.card-style-selected),
-  .card-style-reveal > .card-style-answer {
+  .card-worldview-answer-shade {
     transition: none;
-  }
-
-  .card-style-reveal.is-showing-answer .card-style-selected {
-    animation: none;
   }
   .card-thesis-hint { animation: none; transition: none; }
   .card-story.has-case-motion .worldbook-keyword,
-  .card-story.has-case-motion .challenge-module {
+  .card-story.has-case-motion .challenge-module,
+  .card-story.has-case-motion .card-wipe-down,
+  .card-story.has-case-motion .card-wipe-right {
     animation: none;
     opacity: 1;
+    clip-path: none;
   }
 }

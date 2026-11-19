@@ -112,16 +112,16 @@ def build_edition3():
         page += f'<main class="wrap detail" id="main"><a class="back-link" href="/#project-{slug}">返回作品</a><h1>{escape(project["title"])}</h1><p class="case-lead">{escape(project["summary"])}</p>{project_gallery(project, assets, figma_boards)}</main>' + image_preview() + '</body></html>'
         (DIST / 'work' / f'{slug}.html').write_text(page)
 
-    for index, slug in enumerate(PROJECT_ORDER):
+    for slug in PROJECT_ORDER:
         path = DIST / 'work' / f'{slug}.html'
         page = path.read_text()
         if slug == "ai-game":
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-card-dark"')
             page = page.replace('</head>', '<link rel="stylesheet" href="/card-dark.css?v=taro-radial"></head>')
-            page = page.replace('</head>', '<link rel="stylesheet" href="/card-story.css?v=20261116"><script src="/card-story.js?v=20261116" defer></script></head>')
+            page = page.replace('</head>', '<link rel="stylesheet" href="/card-story.css?v=20261119"><script src="/card-story.js?v=20261119" defer></script></head>')
             page = page.replace('name="theme-color" content="#f7f5ef"', 'name="theme-color" content="#302a3b"')
             start = page.index('<div class="case-reading card-case-reading">')
-            end = page.index('<a class="next-project"', start)
+            end = page.index('</main>', start)
             story = (ROOT / "card-story.html").read_text()
             page = page[:start] + story + page[end:]
         elif slug == "ai-review":
@@ -129,7 +129,7 @@ def build_edition3():
             page = page.replace('class="edition-three e3-case"', 'class="edition-three e3-case e3-review"')
         elif slug == "dual-screen":
             start = page.index('<section class="project-guide"')
-            end = page.index('<a class="next-project"', start)
+            end = page.index('</main>', start)
             page = page[:start] + (ROOT / "dual-screen-case.html").read_text() + page[end:]
             page = re.sub(r'<p class="case-lead">.*?</p>', '', page, flags=re.S)
             page = page.replace('<body id="top" class="edition-three e3-case">', '<body id="top" class="edition-three e3-case dual-screen-case">')
@@ -139,18 +139,12 @@ def build_edition3():
             page = page.replace('直播双屏项目 · Yuki Design', '提升游戏直播开看播体验 · Yuki Design')
             page = page.replace('</head>', '<link rel="stylesheet" href="/dual-screen-case.css"></head>')
         page = re.sub(r'<section class="case-assets">.*?</section>', '', page, flags=re.S)
-        visible_index = VISIBLE_PROJECT_ORDER.index(slug) if slug in VISIBLE_PROJECT_ORDER else -1
-        next_slug = VISIBLE_PROJECT_ORDER[(visible_index + 1) % len(VISIBLE_PROJECT_ORDER)]
-        next_link = f'<a class="next-project" href="/work/{next_slug}.html"><span>继续浏览</span><strong>{escape(projects[next_slug]["title"])}</strong></a>'
-        if 'class="next-project"' in page:
-            page = re.sub(r'<a class="next-project".*?</a>', next_link, page, flags=re.S)
-        else:
-            page = page.replace('</main>', next_link + '</main>')
         if 'id="art-lightbox"' not in page:
             page = page.replace('</body>', image_preview() + '</body>')
         path.write_text(page)
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
-        path.write_text(apply_scrapbook_shell(path.read_text(), path.stem, path.parent.name == "work"))
+        page = re.sub(r'<a class="next-project".*?</a>', '', path.read_text(), flags=re.S)
+        path.write_text(apply_scrapbook_shell(page, path.stem, path.parent.name == "work"))
     sitemap = DIST / "sitemap.xml"
     routes = ['/', '/resume.html'] + [f'/work/{slug}.html' for slug in VISIBLE_PROJECT_ORDER]
     sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{origin}{route}</loc></url>' for route in routes) + '</urlset>')
