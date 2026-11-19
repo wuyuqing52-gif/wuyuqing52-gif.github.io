@@ -189,6 +189,19 @@ body.scrapbook-inner.e3-card-dark {
 .scrapbook-inner .outline-button:hover { background: #f4cb61; }
 .scrapbook-inner .primary-button { background: #171615; color: #fff; }
 .scrapbook-inner .primary-button:hover { background: #3c362f; color: #fff; }
+.scrapbook-inner.e3-review .case-chapter > .primary-button {
+  justify-content: center;
+  gap: .9em;
+  background: #171615;
+  min-height: 50px;
+  border-radius: 0;
+  padding: .57em 1.3em;
+  font-family: var(--title-font);
+  font-size: clamp(16px, 1.52vw, 26px);
+  font-weight: 700;
+  transition: background-color .2s ease, transform .2s ease;
+}
+.scrapbook-inner.e3-review .case-chapter > .primary-button:hover { background: #3c362f; transform: translateY(-2px); }
 .scrapbook-inner .button-bloom { display: none; }
 
 .scrapbook-inner .resume-page > h2 {
