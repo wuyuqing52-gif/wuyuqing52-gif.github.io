@@ -54,7 +54,7 @@ for p in P:
  page=head(p['title']+' · Yuki Design',p['summary'],'/work/'+p['slug']+'.html')+nav+f'''<main class="wrap detail" id="main"><a class="back-link" href="/#project-{p['slug']}">← 返回精选作品</a><div class="detail-top"><span class="eyebrow">{p.get('principle',p['type'])}</span><span class="case-status">{"详情待补充" if pending else ("完整案例" if p.get("full_case") else "项目概览")}</span></div><h1>{p['title']}<span class="lime">.</span></h1><p class="detail-meta">{' · '.join(p['tags'])}</p><p class="case-lead">{p['summary']}</p>{project_visual}{full_intro}</main><div class="wrap">'''+footer+'</div></body></html>'
  if p['slug']=='ai-game':
   page=page.replace(f'<p class="case-lead">{p["summary"]}</p>', '')
-  page=page.replace('</head>', '<link rel="stylesheet" href="/demos/card-effects/card-preview.css"></head>').replace('</body>', '<script src="/demos/card-effects/card-preview.js" defer></script></body>')
+  page=page.replace('</head>', '<link rel="stylesheet" href="/demos/card-effects/card-preview.css"></head>').replace('</body>', '<script src="/demos/card-effects/card-preview.js?v=20261119-results-hover" defer></script></body>')
  if p['slug']=='ai-review':
   page=page.replace('</head>', '<link rel="stylesheet" href="/demos/review-assistant/review-demo.css"></head>').replace('</body>', '<script src="/demos/review-assistant/review-demo.js" defer></script></body>')
  (root/'work'/f'{p["slug"]}.html').write_text(page)

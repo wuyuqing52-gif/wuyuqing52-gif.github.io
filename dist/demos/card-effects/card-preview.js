@@ -722,5 +722,9 @@ document.querySelectorAll('[data-solution]').forEach(button => {
   });
 });
 renderCards("lv3");
+document.querySelectorAll('.card-story-results .gallery-card').forEach((card, index) => {
+  const hoverStrength = index % 4 < 2 ? 0.8 : 0.55;
+  bindMotion(card, { hoverOnly: true, strength: hoverStrength });
+});
 
 })();
