@@ -1,6 +1,9 @@
 # Yuki Design
 
-吴雨晴的中文个人作品集。纯静态 HTML、CSS、JavaScript，Sites 托管。
+吴雨晴的中文个人作品集。纯静态 HTML、CSS、JavaScript，GitHub Pages 托管。
+
+
+发布使用 `python3 publish.py`。`redbook` 对应 `yuki52.com`，`website` 对应 `yuki52.com/website/`，旧 `edition-3` 入口跳转到极简版。
 
 ## 内容与维护
 

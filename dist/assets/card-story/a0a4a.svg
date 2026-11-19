@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="61.417" height="17.0244" viewBox="0 0 61.417 17.0244" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-3.47909" y="-3.47909" width="68.3752" height="23.9826"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(1.74px);clip-path:url(#bgblur_0_0_558_clip_path);height:100%;width:100%"></div></foreignObject><path id="Union" data-figma-bg-blur-radius="3.47909" d="M42.0166 4.48535H36.46C38.1493 9.87362 46.5131 15.754 61.417 17.0244H0C14.9757 15.754 23.3798 9.87365 25.0771 4.48535H19.4219L30.7197 0L42.0166 4.48535Z" fill="url(#paint0_linear_0_558)"/>
+<defs>
+<clipPath id="bgblur_0_0_558_clip_path" transform="translate(3.47909 3.47909)"><path d="M42.0166 4.48535H36.46C38.1493 9.87362 46.5131 15.754 61.417 17.0244H0C14.9757 15.754 23.3798 9.87365 25.0771 4.48535H19.4219L30.7197 0L42.0166 4.48535Z"/>
+</clipPath><linearGradient id="paint0_linear_0_558" x1="30.7085" y1="0" x2="30.7085" y2="17.0244" gradientUnits="userSpaceOnUse">
+<stop stop-color="#83DFC7"/>
+<stop offset="1" stop-color="#11362D" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

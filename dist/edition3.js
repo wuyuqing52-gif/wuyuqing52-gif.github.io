@@ -71,16 +71,27 @@ document.querySelectorAll('img[loading="lazy"]').forEach(image => {
     flower.addEventListener('click', () => startCycle(180));
   });
 
+  const cat = document.querySelector('.shelf-cat');
+  cat?.addEventListener('click', () => {
+    cat.setAttribute('aria-pressed', String(cat.getAttribute('aria-pressed') === 'false'));
+  });
+
+  const mobileMenu = document.querySelector('.shelf-mobile-menu');
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => { mobileMenu.open = false; });
+  });
+
   const copyButton = document.querySelector('[data-copy-email]');
   copyButton?.addEventListener('click', async () => {
     const status = document.querySelector('[data-copy-status]');
+    const label = copyButton.querySelector('strong') ?? copyButton;
     try {
       await navigator.clipboard.writeText('435456341@qq.com');
       status.textContent = '邮箱已复制';
-      copyButton.textContent = '已复制';
+      label.textContent = '已复制';
     } catch {
       status.textContent = '请长按或选中邮箱复制';
-      copyButton.textContent = '复制邮箱';
+      label.textContent = '复制邮箱';
     }
   });
 

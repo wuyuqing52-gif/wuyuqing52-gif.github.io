@@ -6,6 +6,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import re
 import shutil
+import struct
 import tempfile
 from urllib.parse import unquote, urlsplit
 
@@ -30,6 +31,7 @@ class FontTextParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.stack = []
         self.characters = {name: set() for name in FONT_FILES}
+        self.all_characters = set()
 
     def handle_starttag(self, tag, attributes):
         classes = set(dict(attributes).get("class", "").split())
@@ -55,21 +57,29 @@ class FontTextParser(HTMLParser):
                 break
 
     def handle_data(self, text):
+        if not any(tag in {"script", "style"} for tag, _, _ in self.stack):
+            self.all_characters.update(text)
         font = self.stack[-1][2] if self.stack else None
         if font:
             self.characters[font].update(text)
 
 
 def build_font_subsets(output, pages):
-    characters = {name: set() for name in FONT_FILES}
+    font_files = dict(FONT_FILES)
+    if (output / "scrapbook.css").is_file():
+        font_files.update(display="douyin-sans-bold.ttf", pixel="jersey-10.ttf")
+    elif (output / "folder-portfolio.css").is_file():
+        font_files = {"label": FONT_FILES["label"], "display": "douyin-sans-bold.ttf"}
+    characters = {name: set() for name in font_files}
     for page in pages:
         parser = FontTextParser()
         parser.feed(page.read_text(encoding="utf-8"))
         for name in characters:
-            characters[name].update(parser.characters[name])
+            text = parser.characters[name] if name in FONT_FILES else parser.all_characters
+            characters[name].update(text)
     urls = {}
     savings = 0
-    for name, filename in FONT_FILES.items():
+    for name, filename in font_files.items():
         source = output / "assets/fonts" / filename
         # Include Latin text and numbers, which may appear alongside Chinese titles.
         text = "".join(sorted(characters[name] | {chr(code) for code in range(32, 127)}))
@@ -79,6 +89,12 @@ def build_font_subsets(output, pages):
         original_codepoints = set(font.getBestCmap())
         options = subset.Options()
         options.flavor = "woff2"
+        if filename == "douyin-sans-bold.ttf" and "GSUB" in font:
+            try:
+                font["GSUB"]
+            except struct.error:
+                # Keep glyph outlines and metrics when the bundled substitution table is malformed.
+                options.drop_tables.append("GSUB")
         subsetter = subset.Subsetter(options=options)
         subsetter.populate(text=text)
         subsetter.subset(font)
@@ -90,8 +106,10 @@ def build_font_subsets(output, pages):
             if not required <= set(result.getBestCmap()):
                 raise RuntimeError(f"字体子集缺少页面文字：{filename}")
         url = "/" + target.relative_to(output).as_posix()
-        css = output / "edition3.css"
+        css = output / ("scrapbook.css" if name not in FONT_FILES and (output / "scrapbook.css").is_file() else "edition3.css")
         content = css.read_text().replace("/assets/fonts/" + filename, url)
+        if name not in FONT_FILES:
+            content = content.replace('format("truetype")', 'format("woff2")')
         css.write_text(content)
         urls[name] = url
         savings += source.stat().st_size - target.stat().st_size
@@ -139,6 +157,44 @@ def build_image_preview(output, source_url, cache):
         return "/" + target.relative_to(output).as_posix(), width, height, path.stat().st_size - target.stat().st_size
 
 
+def build_responsive_previews(output, source_url, cache):
+    location = urlsplit(source_url)
+    if location.scheme or location.netloc:
+        return None
+    path = (output / unquote(location.path).lstrip("/")).resolve()
+    if not path.is_relative_to(output.resolve()) or path.suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp"}:
+        return None
+    with Image.open(path) as original:
+        if getattr(original, "n_frames", 1) > 1 or original.width <= 320:
+            return None
+        width, height = original.size
+        image = ImageOps.exif_transpose(original).convert("RGBA" if "A" in original.getbands() or "transparency" in original.info else "RGB")
+        fingerprint = hashlib.sha256(path.read_bytes()).hexdigest()
+        candidates = []
+        for target_width in (320, 480, 640, 960, 1440, 1920):
+            if target_width >= min(width, MAX_IMAGE_WIDTH):
+                continue
+            digest = hashlib.sha256(f"responsive-v1-{fingerprint}-{target_width}-{IMAGE_QUALITY}".encode()).hexdigest()[:16]
+            filename = f"{path.stem}-{digest}.webp"
+            cached = cache / filename
+            if not cached.is_file():
+                resized = image.resize((target_width, max(1, round(image.height * target_width / image.width))), Image.Resampling.LANCZOS)
+                with tempfile.NamedTemporaryFile(dir=cache, suffix=".webp", delete=False) as temporary:
+                    temporary_path = Path(temporary.name)
+                try:
+                    resized.save(temporary_path, format="WEBP", quality=IMAGE_QUALITY, alpha_quality=100, method=6)
+                    temporary_path.replace(cached)
+                finally:
+                    temporary_path.unlink(missing_ok=True)
+            if cached.stat().st_size >= path.stat().st_size:
+                continue
+            target = output / "assets/optimized" / filename
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(cached, target)
+            candidates.append(("/" + target.relative_to(output).as_posix(), target_width))
+        return width, height, candidates
+
+
 def optimize_assets(output):
     output = Path(output)
     cache = Path.home() / ".cache/yuki52-publish/previews"
@@ -146,6 +202,7 @@ def optimize_assets(output):
     pages = sorted(output.rglob("*.html"))
     font_urls, font_savings = build_font_subsets(output, pages)
     previews = {}
+    responsive_previews = {}
     for page in pages:
         content = page.read_text(encoding="utf-8")
 
@@ -158,27 +215,63 @@ def optimize_assets(output):
             if source_url not in previews:
                 previews[source_url] = build_image_preview(output, source_url, cache)
             preview = previews[source_url]
-            if not preview:
-                return tag
-            url, width, height, _ = preview
-            tag = tag[:attribute.start(2)] + escape(url, quote=True) + tag[attribute.end(2):]
+            responsive = None
+            if preview:
+                url, width, height, _ = preview
+                tag = tag[:attribute.start(2)] + escape(url, quote=True) + tag[attribute.end(2):]
+            if "scrapbook.css" in content and not re.search(r"\ssrcset=", tag):
+                if source_url not in responsive_previews:
+                    responsive_previews[source_url] = build_responsive_previews(output, source_url, cache)
+                responsive = responsive_previews[source_url]
+                if responsive:
+                    width, height, candidates = responsive
+                    if candidates:
+                        fallback = SOURCE_ATTRIBUTE.search(tag).group(2)
+                        candidates = candidates + [(fallback, min(width, MAX_IMAGE_WIDTH) if preview else width)]
+                        srcset = ", ".join(f"{url} {size}w" for url, size in candidates)
+                        sizes = '(max-width: 720px) 100vw, 1120px'
+                        if 'loading="lazy"' in tag:
+                            sizes = "auto, " + sizes
+                        elif urlsplit(source_url).path in {"/assets/scrapbook/coast.webp", "/assets/scrapbook/plant.webp"}:
+                            sizes = '280px'
+                        tag = tag[:-1] + f' srcset="{escape(srcset, quote=True)}" sizes="{sizes}">'
             dimensions = ""
-            if not re.search(r"\swidth=", tag):
-                dimensions += f' width="{width}"'
-            if not re.search(r"\sheight=", tag):
-                dimensions += f' height="{height}"'
-            return tag[:-1] + dimensions + ">"
+            if preview or responsive:
+                if not re.search(r"\swidth=", tag):
+                    dimensions += f' width="{width}"'
+                if not re.search(r"\sheight=", tag):
+                    dimensions += f' height="{height}"'
+            tag = tag[:-1] + dimensions + ">"
+            if page == output / "index.html" and "scrapbook.css" in content and 'loading="lazy"' in tag:
+                fallback = tag
+                tag = re.sub(r"\ssrc=", " data-deferred-src=", tag)
+                tag = re.sub(r"\ssrcset=", " data-deferred-srcset=", tag)
+                tag += f"<noscript>{fallback}</noscript>"
+            return tag
 
         content = IMAGE_TAG.sub(replace_image, content)
-        if "edition3.css" in content:
-            preloads = [font_urls["title"]]
-            if page == output / "index.html":
-                preloads.append(font_urls["label"])
+        if "edition3.css" in content or "scrapbook.css" in content:
+            content = re.sub(r'<link\b(?=[^>]*\brel="preload")(?=[^>]*\bas="font")[^>]*>', "", content)
+            if "scrapbook.css" in content:
+                preloads = [font_urls["display"], font_urls["pixel"]]
+            elif "folder-portfolio.css" in content:
+                preloads = [] if page == output / "index.html" else [font_urls["display"]]
+            else:
+                preloads = [font_urls["title"]]
+                if page == output / "index.html":
+                    preloads.append(font_urls["label"])
             links = "".join(f'<link rel="preload" href="{url}" as="font" type="font/woff2" crossorigin>' for url in preloads)
             content = content.replace("</head>", links + "</head>")
         page.write_text(content, encoding="utf-8")
     changed = [preview for preview in previews.values() if preview]
     image_savings = sum(preview[3] for preview in changed)
+    version_page_assets(output)
+    print(f"已生成 {len(changed)} 个高质量预览，图片下载量合计减少 {image_savings / 1024 / 1024:.1f} MB，字体减少 {font_savings / 1024 / 1024:.2f} MB", flush=True)
+
+
+def version_page_assets(output):
+    output = Path(output)
+    pages = sorted(output.rglob("*.html"))
     # Content versions make new styles, scripts and font URLs take effect on the next visit.
     for page in pages:
         content = page.read_text(encoding="utf-8")
@@ -194,4 +287,3 @@ def optimize_assets(output):
 
         content = re.sub(r'(\b(?:src|href)=)"([^"]+)"', version_file, content)
         page.write_text(content, encoding="utf-8")
-    print(f"已生成 {len(changed)} 个高质量预览，图片下载量合计减少 {image_savings / 1024 / 1024:.1f} MB，字体减少 {font_savings / 1024 / 1024:.2f} MB", flush=True)

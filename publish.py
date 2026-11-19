@@ -1,6 +1,7 @@
 """Build the portfolio and publish it to yuki52.com with one command."""
 
 import argparse
+import hashlib
 import json
 import importlib.util
 import os
@@ -14,6 +15,7 @@ import time
 import venv
 import urllib.error
 import urllib.request
+from urllib.parse import urlsplit
 
 
 SOURCE = Path(__file__).resolve().parent
@@ -63,14 +65,69 @@ def ensure_build_dependencies():
     raise SystemExit(result.returncode)
 
 
-def build(directory):
-    print("正在构建网站", flush=True)
-    snapshot = directory / "source"
-    shutil.copytree(
-        SOURCE,
-        snapshot,
-        ignore=shutil.ignore_patterns(".git", "__pycache__", ".DS_Store"),
-    )
+def branch_revision(branch):
+    try:
+        return run(["git", "rev-parse", "--verify", "refs/heads/" + branch], SOURCE)
+    except subprocess.CalledProcessError:
+        return run(["git", "rev-parse", "--verify", "refs/remotes/origin/" + branch], SOURCE)
+
+
+def snapshot_version(directory, branch):
+    snapshot = directory / (branch + "-source")
+    checkout = None
+    checkouts = []
+    worktrees = run(["git", "worktree", "list", "--porcelain", "-z"], SOURCE)
+    for field in worktrees.split("\0"):
+        if field.startswith("worktree "):
+            checkout = Path(field.removeprefix("worktree "))
+        elif field == "branch refs/heads/" + branch:
+            checkouts.append(checkout)
+    if checkouts:
+        checkout = SOURCE if SOURCE in checkouts else checkouts[0]
+        shutil.copytree(
+            checkout,
+            snapshot,
+            ignore=shutil.ignore_patterns(".git", "__pycache__", ".DS_Store"),
+        )
+        return snapshot
+    archive = directory / (branch + ".tar")
+    revision = branch_revision(branch)
+    run(["git", "archive", "--format=tar", "--output=" + str(archive), revision], SOURCE)
+    snapshot.mkdir()
+    run(["tar", "-xf", str(archive), "-C", str(snapshot)], SOURCE)
+    return snapshot
+
+
+def add_version_prefix(output, prefix):
+    # Match real top-level routes, including runtime JS strings and CSS URLs.
+    roots = {path.name for path in output.iterdir()}
+    url_pattern = re.compile(r"([\"'`(])(/(?!/)[^\"'`<>\s)]*)")
+
+    def replace_url(match):
+        url = match.group(2)
+        path = urlsplit(url).path
+        if path == "/" or path.lstrip("/").split("/", 1)[0] in roots:
+            return match.group(1) + prefix + url
+        return match.group()
+
+    for path in output.rglob("*"):
+        if path.suffix.lower() not in {".html", ".css", ".js", ".json", ".xml", ".txt", ".svg"}:
+            continue
+        content = path.read_text(encoding="utf-8")
+        # Full URLs cover canonical metadata, sitemap entries and robots.txt.
+        content = content.replace(SITE_URL + "/", SITE_URL + prefix + "/")
+        def replace_srcset(match):
+            value = re.sub(r"(^|,\s*)(/[^,\s]+)", replace_url, match.group(3))
+            return match.group(1) + match.group(2) + value + match.group(2)
+
+        content = re.sub(r"((?:data-[\w-]+-)?srcset=)([\"'])(.*?)\2", replace_srcset, content, flags=re.I)
+        content = url_pattern.sub(replace_url, content)
+        path.write_text(content, encoding="utf-8")
+
+
+def build_version(directory, branch):
+    print("正在构建 " + branch, flush=True)
+    snapshot = snapshot_version(directory, branch)
     run([sys.executable, "build.py"], snapshot)
     output = snapshot / "dist"
     for path in output.rglob("*"):
@@ -80,10 +137,8 @@ def build(directory):
                 content = content.replace(origin, SITE_URL)
             content = re.sub(r"([\"'`(])/yuki-edition-3/", r"\1/", content)
             path.write_text(content, encoding="utf-8")
-    (output / "CNAME").write_text("yuki52.com\n", encoding="utf-8")
-    (output / ".nojekyll").touch()
     if not (output / "index.html").is_file():
-        raise RuntimeError("构建结果缺少 index.html")
+        raise RuntimeError("构建结果缺少 index.html：" + branch)
     card_script = (output / "demos/card-effects/card-preview.js").read_text()
     assets = set(re.findall(r"[\"'](/demos/[^\"'\s]+\.webp)[\"']", card_script))
     missing = sorted(asset for asset in assets if not (output / asset.lstrip("/")).is_file())
@@ -91,7 +146,54 @@ def build(directory):
         raise RuntimeError("卡牌素材缺失\n" + "\n".join(missing))
     from optimize_assets import optimize_assets
     optimize_assets(output)
-    print(f"构建完成，已检查 {len(assets)} 个卡牌素材，域名已配置", flush=True)
+    print(f"{branch} 构建完成，已检查 {len(assets)} 个卡牌素材", flush=True)
+    return output
+
+
+def build(directory):
+    output = build_version(directory, "redbook")
+    website = build_version(directory, "website")
+    favicon = website / "favicon-cat.webp"
+    shutil.copyfile(favicon, output / favicon.name)
+    add_version_prefix(website, "/website")
+    destination = output / "website"
+    if destination.exists():
+        shutil.rmtree(destination)
+    shutil.copytree(website, destination)
+    legacy = output / "edition-3"
+    if legacy.exists():
+        shutil.rmtree(legacy)
+    routes = run(["git", "ls-tree", "-r", "--name-only", branch_revision("edition-3"), "dist"], SOURCE)
+    for route in routes.splitlines():
+        relative = Path(route).relative_to("dist")
+        if relative.suffix != ".html":
+            continue
+        target = "/website/" if relative == Path("index.html") or not (website / relative).is_file() else "/website/" + relative.as_posix()
+        page = legacy / relative
+        page.parent.mkdir(parents=True, exist_ok=True)
+        page.write_text(
+            '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            '<title>Yuki · 页面已更新</title><link rel="canonical" href="' + SITE_URL + target + '">'
+            '<meta http-equiv="refresh" content="0;url=' + target + '"></head>'
+            '<body><a href="' + target + '">查看更新后的作品集</a><script>'
+            'location.replace(' + json.dumps(target) + '+location.search+location.hash);'
+            '</script></body></html>', encoding="utf-8",
+        )
+    digest = hashlib.sha256((output / favicon.name).read_bytes()).hexdigest()[:12]
+    icon = '<link rel="icon" href="/' + favicon.name + '?v=' + digest + '" type="image/webp">'
+    for page in output.rglob("*.html"):
+        content = page.read_text(encoding="utf-8")
+        content = re.sub(r'<link\b(?=[^>]*\brel=["\'](?:shortcut )?icon["\'])[^>]*>', "", content)
+        page.write_text(content.replace("</head>", icon + "</head>"), encoding="utf-8")
+    (output / "CNAME").write_text("yuki52.com\n", encoding="utf-8")
+    (output / ".nojekyll").touch()
+    robots = output / "robots.txt"
+    content = robots.read_text(encoding="utf-8") if robots.exists() else "User-agent: *\nAllow: /\n"
+    robots.write_text(content.rstrip() + "\nSitemap: " + SITE_URL + "/website/sitemap.xml\n", encoding="utf-8")
+    from optimize_assets import version_page_assets
+    version_page_assets(output)
+    print("双版本构建完成，redbook 为主站，website 发布在 /website/，旧版入口已添加跳转", flush=True)
     return output
 
 

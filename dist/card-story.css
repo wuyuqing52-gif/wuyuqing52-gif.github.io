@@ -1,0 +1,476 @@
+.e3-card-dark .card-story {
+  margin-top: 68px;
+  grid-template-columns: 195px minmax(0, 1fr);
+  gap: 45px;
+}
+
+.card-story .case-contents {
+  background: var(--paper);
+}
+
+.card-story .case-contents > .eyebrow {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.card-story .case-contents a {
+  font-size: 11px;
+}
+
+.card-story .case-contents a > span {
+  font-size: 8px;
+  color: var(--muted);
+}
+
+.card-story-article {
+  min-width: 0;
+}
+
+.card-story-continuation {
+  margin: 32px 0 0;
+  color: var(--muted);
+  font: 400 14px/1.8 var(--body-font);
+  text-align: center;
+}
+
+.card-story-chapter,
+.card-story-subchapter {
+  scroll-margin-top: 115px;
+  margin-bottom: 32px;
+}
+
+.card-story-chapter h2 {
+  font-size: 26px;
+  line-height: 39px;
+  font-weight: 500;
+  letter-spacing: -.3px;
+  color: var(--ink);
+  margin: 0;
+}
+
+.card-story-chapter > p,
+.card-story-subchapter > p {
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 28.7px;
+  margin: 23px 0 16px;
+}
+
+.card-story-accent {
+  color: #e9927d;
+}
+
+.card-story-chapter:first-child {
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.card-story-chapter:last-child {
+  margin-bottom: 0;
+}
+
+.card-story-figure {
+  margin: 0 0 16px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+  border-radius: 16px;
+}
+
+.card-story-canvas,
+.card-thesis-canvas {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.card-story-canvas {
+  aspect-ratio: 16 / 9;
+}
+
+.card-story-art {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.card-story-art :where(div, p, img) {
+  box-sizing: border-box;
+}
+
+.card-story-art p {
+  margin: 0;
+  max-width: none;
+}
+
+.card-story-art img {
+  margin: 0;
+  border: 0;
+}
+
+.card-progressive-blur {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.card-progressive-blur-layer {
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(calc(var(--blur-radius) * var(--blur-increment)));
+  backdrop-filter: blur(calc(var(--blur-radius) * var(--blur-increment)));
+  -webkit-mask-image: linear-gradient(var(--blur-angle), transparent var(--blur-from), #000 var(--blur-to));
+  mask-image: linear-gradient(var(--blur-angle), transparent var(--blur-from), #000 var(--blur-to));
+}
+
+.card-progressive-blur::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, .15) 60.338%, #0000 100%);
+  content: "";
+}
+
+.card-thesis {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  background: var(--ppt-deepgray-background, #1d1b1f);
+  border: .052045cqw solid var(--ppt-deepgray-border, #514b58);
+  border-radius: 1.818182cqw;
+  overflow: hidden;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.card-thesis-inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+#card-thesis .card-thesis,
+.card-worldview-reveal {
+  border: 0;
+}
+
+.card-story-results {
+  position: absolute;
+  inset: 6.39% 22.4% 6.47% 9.06%;
+  padding: 3.2cqw 6.2cqw;
+  background: #000;
+  border-radius: 1.71cqw;
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 1cqw;
+}
+
+.card-story-results .rarity-guide {
+  display: block;
+  margin: 0 0 .7cqw;
+}
+
+.card-story-results .rarity-guide > span,
+.card-story-results .solution-label,
+.card-story-results .solution-divider {
+  display: none;
+}
+
+.card-story-results .rarity-labels,
+.card-story-results .solution-cards {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .3cqw;
+}
+
+.card-story-results .rarity-label {
+  font-size: .86cqw;
+  line-height: 1.4;
+  color: #c7bbc8;
+}
+
+.card-story-results .solution-row {
+  display: block;
+  margin: 0;
+  min-width: 0;
+}
+
+.card-story-results .card-stack--static {
+  filter: none;
+}
+
+.card-story-results .gallery-card {
+  cursor: default;
+}
+
+.card-thesis-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transition: transform .7s cubic-bezier(.22, .8, .24, 1);
+}
+
+.card-thesis-face > .card-story-art {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.card-thesis-back {
+  transform: translateY(100%);
+}
+
+.card-thesis.is-showing-answer .card-thesis-front {
+  transform: translateY(-100%);
+}
+
+.card-thesis.is-showing-answer .card-thesis-back {
+  transform: translateY(0);
+}
+
+.card-thesis-hint {
+  position: absolute;
+  bottom: 6%;
+  right: 6%;
+  padding: 6px 12px;
+  border: 2px solid #118b4e;
+  border-radius: 5px 30px 30px 30px;
+  background: #15b765;
+  color: #e3f8e8;
+  box-shadow: 0 5px 18px #15b76526;
+  font-size: clamp(10px, 1.3cqw, 12px);
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .25s ease;
+  animation: card-hint-drift 3.6s ease-in-out infinite;
+}
+
+.card-thesis.is-hint-ready .card-thesis-hint {
+  visibility: visible;
+  opacity: 1;
+}
+
+.card-thesis-hint-cursor {
+  position: absolute;
+  width: 17px;
+  height: 19px;
+  top: -19px;
+  left: -17px;
+  filter: drop-shadow(0 2px 3px #0003);
+}
+
+.card-thesis:focus-visible {
+  outline: 2px solid #83dfc7;
+  outline-offset: 5px;
+  border-radius: 16px;
+}
+
+.card-story.has-case-motion [data-case-enter]:not(.is-entered) .worldbook-keyword,
+.card-story.has-case-motion [data-case-enter]:not(.is-entered) .challenge-module {
+  opacity: 0;
+}
+
+.card-story.has-case-motion .is-entered .worldbook-keyword {
+  animation: worldbook-expand .75s cubic-bezier(.18, .8, .24, 1) both;
+}
+
+.card-story.has-case-motion .is-entered .challenge-module {
+  animation: challenge-enter .65s cubic-bezier(.18, .8, .24, 1) var(--enter-delay) both;
+}
+
+@keyframes card-hint-drift {
+  0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+  50% { transform: translate(-7px, -4px) rotate(1deg); }
+}
+
+@keyframes worldbook-expand {
+  from { opacity: 0; transform: translate(var(--enter-x), var(--enter-y)) scale(.8); }
+  to { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes challenge-enter {
+  from { opacity: 0; translate: -20px 8px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+.card-story .card-story-subcontents {
+  margin: 0 0 8px;
+  padding-left: 18px;
+}
+
+.card-story .card-story-subcontents a {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.card-worldview-reveal .card-reveal-message {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: transform .7s cubic-bezier(.22, .8, .24, 1);
+}
+
+.card-worldview-reveal .card-reveal-answer {
+  transform: translateY(100%);
+}
+
+.card-worldview-reveal.is-showing-answer .card-reveal-question {
+  transform: translateY(-100%);
+}
+
+.card-worldview-reveal.is-showing-answer .card-reveal-answer {
+  transform: translateY(0);
+}
+
+.card-worldview-initial-shade,
+.card-worldview-answer-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity .7s ease;
+}
+
+.card-worldview-answer-shade {
+  opacity: 0;
+}
+
+.card-worldview-reveal.is-showing-answer .card-worldview-initial-shade {
+  opacity: 0;
+}
+
+.card-worldview-reveal.is-showing-answer .card-worldview-answer-shade {
+  opacity: 1;
+}
+
+.card-worldview-reveal > .card-thesis-hint {
+  z-index: 4;
+}
+
+.card-source-preview {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.card-source-preview img {
+  pointer-events: auto !important;
+  cursor: zoom-in;
+}
+
+.card-source-preview:focus-visible img {
+  outline: 2px solid #83dfc7;
+  outline-offset: -2px;
+}
+
+.card-story.has-case-motion [data-case-enter]:not(.is-entered) :is(.card-wipe-down, .card-wipe-right) {
+  clip-path: inset(0 0 100% 0);
+}
+
+.card-story.has-case-motion [data-case-enter]:not(.is-entered) .card-wipe-right {
+  clip-path: inset(0 100% 0 0);
+}
+
+.card-story.has-case-motion .is-entered .card-wipe-down {
+  animation: card-wipe-down .8s cubic-bezier(.22, .8, .24, 1) var(--enter-delay, 0ms) both;
+}
+
+.card-story.has-case-motion .is-entered .card-wipe-right {
+  animation: card-wipe-right .85s cubic-bezier(.22, .8, .24, 1) var(--enter-delay, 0ms) both;
+}
+
+@keyframes card-wipe-down {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0); }
+}
+
+@keyframes card-wipe-right {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}
+
+.card-story.has-case-motion [data-case-enter].is-static :is(.worldbook-keyword, .challenge-module, .card-wipe-down, .card-wipe-right) {
+  opacity: 1;
+  clip-path: none;
+  animation: none;
+}
+
+@media (max-width: 1000px) {
+  .e3-card-dark .card-story {
+    grid-template-columns: 145px minmax(0, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 760px) {
+  .e3-card-dark .card-story {
+    display: block;
+    margin-top: 40px;
+  }
+
+  .card-story .case-contents {
+    position: static;
+    max-height: none;
+    padding: 0 0 20px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .card-story .case-contents ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 20px;
+    margin-bottom: 0;
+  }
+
+  .card-story .case-contents li {
+    margin: 0;
+  }
+
+  .card-story-canvas,
+  .card-reveal-canvas {
+    min-width: 640px;
+  }
+
+  .card-story-chapter h2 {
+    font-size: 22px;
+  }
+
+  .card-story-chapter > p,
+  .card-story-subchapter > p {
+    font-size: 13px;
+    line-height: 1.95;
+  }
+
+  .card-thesis-hint {
+    padding: 6px 10px;
+    border-width: 2px;
+    font-size: 10px;
+    right: calc(50% - 78px);
+  }
+
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-thesis-face,
+  .card-reveal-message,
+  .card-worldview-initial-shade,
+  .card-worldview-answer-shade {
+    transition: none;
+  }
+  .card-thesis-hint { animation: none; transition: none; }
+  .card-story.has-case-motion .worldbook-keyword,
+  .card-story.has-case-motion .challenge-module,
+  .card-story.has-case-motion .card-wipe-down,
+  .card-story.has-case-motion .card-wipe-right {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+  }
+}
