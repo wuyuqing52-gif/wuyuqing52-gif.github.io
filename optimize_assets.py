@@ -68,6 +68,8 @@ def build_font_subsets(output, pages):
     font_files = dict(FONT_FILES)
     if (output / "scrapbook.css").is_file():
         font_files.update(display="douyin-sans-bold.ttf", pixel="jersey-10.ttf")
+    elif (output / "folder-portfolio.css").is_file():
+        font_files = {"label": FONT_FILES["label"], "display": "douyin-sans-bold.ttf"}
     characters = {name: set() for name in font_files}
     for page in pages:
         parser = FontTextParser()
@@ -104,7 +106,7 @@ def build_font_subsets(output, pages):
             if not required <= set(result.getBestCmap()):
                 raise RuntimeError(f"字体子集缺少页面文字：{filename}")
         url = "/" + target.relative_to(output).as_posix()
-        css = output / ("edition3.css" if name in FONT_FILES else "scrapbook.css")
+        css = output / ("scrapbook.css" if name not in FONT_FILES and (output / "scrapbook.css").is_file() else "edition3.css")
         content = css.read_text().replace("/assets/fonts/" + filename, url)
         if name not in FONT_FILES:
             content = content.replace('format("truetype")', 'format("woff2")')
@@ -250,9 +252,14 @@ def optimize_assets(output):
         content = IMAGE_TAG.sub(replace_image, content)
         if "edition3.css" in content or "scrapbook.css" in content:
             content = re.sub(r'<link\b(?=[^>]*\brel="preload")(?=[^>]*\bas="font")[^>]*>', "", content)
-            preloads = [font_urls["display"], font_urls["pixel"]] if "scrapbook.css" in content else [font_urls["title"]]
-            if page == output / "index.html" and "scrapbook.css" not in content:
-                preloads.append(font_urls["label"])
+            if "scrapbook.css" in content:
+                preloads = [font_urls["display"], font_urls["pixel"]]
+            elif "folder-portfolio.css" in content:
+                preloads = [] if page == output / "index.html" else [font_urls["display"]]
+            else:
+                preloads = [font_urls["title"]]
+                if page == output / "index.html":
+                    preloads.append(font_urls["label"])
             links = "".join(f'<link rel="preload" href="{url}" as="font" type="font/woff2" crossorigin>' for url in preloads)
             content = content.replace("</head>", links + "</head>")
         page.write_text(content, encoding="utf-8")

@@ -116,7 +116,7 @@ def render_scrapbook(origin):
   <meta property="og:url" content="{origin}/">
   <meta property="og:image" content="{origin}/assets/ai-card-cover.png">
   <link rel="canonical" href="{origin}/">
-  <link rel="icon" href="/favicon-flower.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-cat.webp" type="image/webp">
   <link rel="preload" href="/assets/fonts/jersey-10.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="{asset_url('scrapbook.css')}">
   <script src="{asset_url('scrapbook.js')}" defer></script>

@@ -91,12 +91,11 @@ def build_edition3():
     projects = selected_projects(content)
     assets = json.loads((ROOT / "edition3-assets.json").read_text())
     figma_boards = json.loads((ROOT / "edition3-figma.json").read_text())
-    (DIST / "favicon-flower.svg").write_text(flower_shape("blue", "#0636ce", "#ffd23c"))
     (DIST / "index.html").write_text(render_scrapbook(origin))
     # Case demos keep their original scripts and receive the third-edition shell.
     for path in [*sorted((DIST / "work").glob("*.html")), DIST / "resume.html", DIST / "404.html"]:
         page = path.read_text().replace('content="#101210"', 'content="#f7f5ef"')
-        page = page.replace('href="/favicon.svg"', 'href="/favicon-flower.svg"')
+        page = page.replace('href="/favicon.svg" type="image/svg+xml"', 'href="/favicon-cat.webp" type="image/webp"')
         page = re.sub(r'<link rel="stylesheet" href="/edition3\.css(?:\?[^"]*)?">', "", page)
         page = re.sub(r'<script src="/edition3\.js(?:\?[^"]*)?" defer></script>', "", page)
         page = page.replace('<body id="top">', '<body id="top" class="edition-three e3-case">')
