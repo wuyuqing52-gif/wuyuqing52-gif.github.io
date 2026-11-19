@@ -83,6 +83,24 @@ def render_footer(*, home=False):
     return f'<footer class="site-footer"><div class="wrap"><span>© 2026 YUKI</span>{end}</div></footer>'
 
 
+def selection_controls():
+    handles = "".join(
+        f'<button class="frame-handle" type="button" data-resize="{direction}" '
+        f'aria-label="{label}缩放文字" title="拖动缩放"></button>'
+        for direction, label in (
+            ("nw", "左上角"), ("n", "上边"), ("ne", "右上角"),
+            ("w", "左边"), ("e", "右边"), ("sw", "左下角"),
+            ("s", "下边"), ("se", "右下角"),
+        )
+    )
+    corners = "".join(
+        f'<button class="frame-rotate frame-rotate-{direction}" type="button" '
+        f'data-rotate aria-label="{label}旋转文字" title="拖动旋转"></button>'
+        for direction, label in (("nw", "左上角"), ("ne", "右上角"), ("sw", "左下角"), ("se", "右下角"))
+    )
+    return f'<span class="frame-handles">{handles}{corners}</span>'
+
+
 def render_scrapbook(origin):
     cards = "".join(project_card(item) for item in FEATURED)
     return f'''<!doctype html>
@@ -112,8 +130,8 @@ def render_scrapbook(origin):
         {photo("coast", "Creative", "站在船边的 Yuki", True)}
         {photo("plant", "Design Life", "阳光下手中举起的银杏叶", True)}
         <div class="hero-notes"><span>HELLO, I’M</span><span>UI / PRODUCT DESIGNER</span></div>
-        <div class="wordmark">
-          <span class="frame-handles" aria-hidden="true">{'<i></i>' * 8}</span>
+        <div class="wordmark selection-frame" data-selection-frame>
+          {selection_controls()}
           <h1 id="hero-title">YUKI</h1>
         </div>
         <div class="hero-stickers"><span>用设计</span><span>连接想象</span></div>
@@ -152,7 +170,10 @@ def render_scrapbook(origin):
     </section>
     <section class="contact section" id="contact" aria-labelledby="contact-title">
       <h2 class="section-title" id="contact-title">联系我</h2>
-      <p class="contact-wordmark" aria-hidden="true">CONTACT</p>
+      <div class="contact-frame selection-frame" data-selection-frame>
+        {selection_controls()}
+        <p class="contact-wordmark" aria-hidden="true">CONTACT</p>
+      </div>
       <p class="contact-line">一起把想法变成现实。</p>
       <a class="button contact-button" href="mailto:{EMAIL}">发送消息 {icon("arrow")}</a>
       <button class="copy-email" type="button" data-copy-email="{EMAIL}" hidden>复制邮箱 {icon("copy")}</button>

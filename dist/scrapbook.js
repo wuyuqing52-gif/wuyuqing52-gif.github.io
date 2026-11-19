@@ -49,6 +49,129 @@ window.addEventListener("scroll", updateNavigation, { passive: true });
 window.addEventListener("resize", updateNavigation);
 updateNavigation();
 
+function setupSelectionFrame(frame) {
+  const state = { scaleX: 1, scaleY: 1, angle: 0 };
+  let gesture;
+  let resetTimer;
+
+  function renderTransform() {
+    frame.style.setProperty("--frame-scale-x", state.scaleX);
+    frame.style.setProperty("--frame-scale-y", state.scaleY);
+    frame.style.setProperty("--frame-angle", `${state.angle}deg`);
+  }
+
+  function scheduleReset() {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      Object.assign(state, { scaleX: 1, scaleY: 1, angle: 0 });
+      renderTransform();
+    }, 3000);
+  }
+
+  const clampScale = (scale) => Math.min(1.2, Math.max(.8, scale));
+  const clampAngle = (angle) => Math.min(25, Math.max(-25, angle));
+
+  frame.addEventListener("pointerdown", (event) => {
+    const control = event.target.closest(".frame-handle, .frame-rotate");
+    if (!control || !event.isPrimary || event.button !== 0 || gesture) return;
+
+    event.preventDefault();
+    clearTimeout(resetTimer);
+    // Continue from the visible position, including a reset animation in progress.
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(frame).transform);
+    Object.assign(state, {
+      scaleX: Math.hypot(matrix.a, matrix.b),
+      scaleY: Math.hypot(matrix.c, matrix.d),
+      angle: Math.atan2(matrix.b, matrix.a) * 180 / Math.PI,
+    });
+    frame.setAttribute("data-dragging", "");
+    renderTransform();
+    const bounds = frame.getBoundingClientRect();
+    const centerX = bounds.left + bounds.width / 2;
+    const centerY = bounds.top + bounds.height / 2;
+    gesture = {
+      pointerId: event.pointerId,
+      control,
+      direction: control.dataset.resize,
+      startX: event.clientX,
+      startY: event.clientY,
+      centerX,
+      centerY,
+      width: frame.offsetWidth,
+      height: frame.offsetHeight,
+      scaleX: state.scaleX,
+      scaleY: state.scaleY,
+      angle: state.angle,
+      pointerAngle: Math.atan2(event.clientY - centerY, event.clientX - centerX),
+    };
+    control.setPointerCapture(event.pointerId);
+  });
+
+  frame.addEventListener("pointermove", (event) => {
+    if (gesture?.pointerId !== event.pointerId) return;
+
+    const { direction, angle, scaleX, scaleY, width, height } = gesture;
+    if (!direction) {
+      const pointerAngle = Math.atan2(event.clientY - gesture.centerY, event.clientX - gesture.centerX);
+      const delta = pointerAngle - gesture.pointerAngle;
+      state.angle = clampAngle(angle + Math.atan2(Math.sin(delta), Math.cos(delta)) * 180 / Math.PI);
+    } else {
+      // Measure resizing along the frame's local axes after rotation.
+      const radians = angle * Math.PI / 180;
+      const deltaX = event.clientX - gesture.startX;
+      const deltaY = event.clientY - gesture.startY;
+      const localX = deltaX * Math.cos(radians) + deltaY * Math.sin(radians);
+      const localY = deltaY * Math.cos(radians) - deltaX * Math.sin(radians);
+      const horizontal = Number(direction.includes("e")) - Number(direction.includes("w"));
+      const vertical = Number(direction.includes("s")) - Number(direction.includes("n"));
+
+      if (horizontal && vertical) {
+        const scaledWidth = width * scaleX;
+        const scaledHeight = height * scaleY;
+        const factor = 1 + 2 * (localX * horizontal * scaledWidth + localY * vertical * scaledHeight)
+          / (scaledWidth ** 2 + scaledHeight ** 2);
+        const boundedFactor = Math.min(1.2 / Math.max(scaleX, scaleY), Math.max(.8 / Math.min(scaleX, scaleY), factor));
+        state.scaleX = scaleX * boundedFactor;
+        state.scaleY = scaleY * boundedFactor;
+      } else {
+        state.scaleX = clampScale(scaleX + 2 * localX * horizontal / width);
+        state.scaleY = clampScale(scaleY + 2 * localY * vertical / height);
+      }
+    }
+    renderTransform();
+  });
+
+  function finishGesture(event) {
+    if (gesture?.pointerId !== event.pointerId) return;
+    const { control, pointerId } = gesture;
+    gesture = null;
+    frame.removeAttribute("data-dragging");
+    if (control.hasPointerCapture(pointerId)) control.releasePointerCapture(pointerId);
+    scheduleReset();
+  }
+
+  frame.addEventListener("pointerup", finishGesture);
+  frame.addEventListener("pointercancel", finishGesture);
+  frame.addEventListener("lostpointercapture", finishGesture);
+  frame.addEventListener("keydown", (event) => {
+    const control = event.target.closest(".frame-handle, .frame-rotate");
+    if (!control || !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key) || gesture) return;
+    event.preventDefault();
+    const step = ["ArrowRight", "ArrowUp"].includes(event.key) ? 1 : -1;
+    if (control.hasAttribute("data-rotate")) {
+      state.angle = clampAngle(state.angle + step * 2);
+    } else {
+      const direction = control.dataset.resize;
+      if (direction !== "n" && direction !== "s") state.scaleX = clampScale(state.scaleX + step * .02);
+      if (direction !== "w" && direction !== "e") state.scaleY = clampScale(state.scaleY + step * .02);
+    }
+    renderTransform();
+    scheduleReset();
+  });
+}
+
+document.querySelectorAll("[data-selection-frame]").forEach(setupSelectionFrame);
+
 const workSlide = document.querySelector(".work-slide");
 const slideHandle = workSlide.querySelector(".work-slide-handle");
 let slideGesture;
