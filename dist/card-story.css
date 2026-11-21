@@ -454,3 +454,64 @@
     clip-path: none;
   }
 }
+
+.card-story-canvas.card-draw-canvas {
+  aspect-ratio: 880 / 495;
+}
+
+.draw-loop-media {
+  display: contents;
+}
+
+.card-story.has-case-motion .draw-flow:not(.is-entered) .draw-flow-arrow,
+.card-story.has-case-motion .draw-flow:not(.is-entered) .draw-flow-result,
+.card-story.has-case-motion .draw-concept:not(.is-entered) .draw-concept-group,
+.card-story.has-case-motion .draw-highlight {
+  opacity: 0;
+}
+
+.card-story.has-case-motion .draw-flow.is-entered .draw-flow-arrow {
+  animation: draw-wipe-up .8s cubic-bezier(.22, .8, .24, 1) both;
+}
+
+.card-story.has-case-motion .draw-flow.is-entered .draw-flow-result {
+  animation: draw-wipe-right .8s cubic-bezier(.22, .8, .24, 1) .15s both;
+}
+
+.card-story.has-case-motion .draw-concept.is-entered .draw-concept-group {
+  animation: draw-wipe-right .7s cubic-bezier(.22, .8, .24, 1) var(--enter-delay, 0s) both;
+}
+
+.card-story.has-case-motion .draw-collection.is-entered .draw-highlight {
+  animation: draw-highlight-pulse 1s ease-in-out var(--highlight-delay) both;
+}
+
+@keyframes draw-wipe-up {
+  from { opacity: 0; clip-path: inset(100% 0 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+
+@keyframes draw-wipe-right {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+
+@keyframes draw-highlight-pulse {
+  0%, 100% { opacity: 0; }
+  15%, 75% { opacity: 1; }
+}
+
+
+.card-story.has-case-motion [data-case-enter].is-static :is(.draw-flow-arrow, .draw-flow-result, .draw-concept-group, .draw-highlight) {
+  animation: none;
+  opacity: 1;
+  clip-path: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-story.has-case-motion :is(.draw-flow-arrow, .draw-flow-result, .draw-concept-group, .draw-highlight) {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+  }
+}
