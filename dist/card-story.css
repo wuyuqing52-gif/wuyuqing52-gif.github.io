@@ -515,3 +515,11 @@
     clip-path: none;
   }
 }
+
+.card-story .card-story-outro {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 39px;
+  letter-spacing: -.3px;
+  margin: 32px 0;
+}
